@@ -4,8 +4,8 @@ Set-Location (Split-Path $PSScriptRoot)
 [Console]::TreatControlCAsInput = $true
 
 $action = {
-  $changeType = [String] $Event.SourceEventArgs.ChangeType
-  Write-Host "'$($Event.SourceEventArgs.Name)' was $($changeType.ToLower()): starting a new build..." 
+  $changeType = [String] $EventArgs.ChangeType
+  Write-Host "'$($EventArgs.Name)' was $($changeType.ToLower()): starting a new build..." 
   $timeSpan = Measure-Command { haxe build.hxml }
   Write-Host "> Finished the build after $($timeSpan.TotalSeconds) seconds."
 }
