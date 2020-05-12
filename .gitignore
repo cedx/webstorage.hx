@@ -1,0 +1,17 @@
+/.*/
+!/.github/
+!/.vscode/
+
+/build/
+/doc/api/
+/node_modules/
+/var/
+/vendor/
+/www/
+
+/*.code-workspace
+/*.iml
+/**/.DS_Store
+/composer.lock
+/npm-debug.log
+/package-lock.json
