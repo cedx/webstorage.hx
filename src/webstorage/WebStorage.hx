@@ -1,13 +1,12 @@
 package webstorage;
 
-import js.Syntax;
 import haxe.DynamicAccess;
 import haxe.Json;
-import js.html.CustomEvent;
+import js.Browser;
+import js.Syntax;
 import js.html.EventTarget;
 import js.html.Storage;
 import js.html.StorageEvent;
-import js.lib.Map;
 import js.lib.Object;
 import js.lib.Symbol;
 
@@ -16,7 +15,7 @@ import js.lib.Symbol;
 class WebStorage extends EventTarget {
 
   /** An event that is triggered when a storage value is changed (added, modified, or removed). **/
-  public static final eventChanges = 'changes';
+  public static final eventChange = 'changes';
 
   /** The keys of this storage. **/
   public var keys(get, never): Array<String>;
@@ -37,12 +36,7 @@ class WebStorage extends EventTarget {
 
     if (options == null || !options.listenToStorageEvents) listener = null;
     else {
-      listener = function(event) {
-        if (event.key == null || event.storageArea != backend) return;
-        final changes = new Map<String, SimpleChange>().set(event.key, new SimpleChange(event.oldValue, event.newValue));
-        dispatchEvent(new CustomEvent(eventChanges, {detail: changes}));
-      };
-      
+      listener = event -> if (event.storageArea == backend) emit(event.key, event.oldValue, event.newValue, event.url);
       addEventListener('storage', listener);
     }
   }
@@ -57,10 +51,8 @@ class WebStorage extends EventTarget {
 
   /** Removes all entries from this storage. **/
   public function clear(): Void {
-    final changes = new Map<String, SimpleChange>();
-    for (key => value in this) changes.set(key, new SimpleChange(value, null));
     backend.clear();
-    dispatchEvent(new CustomEvent(eventChanges, {detail: changes}));
+    emit(null, null, null);
   }
 
   /** Cancels the subscription to the storage events. **/
@@ -126,11 +118,10 @@ class WebStorage extends EventTarget {
     Returns the value associated with the `key` before it was removed.
   **/
   public function remove(key: String): Null<String> {
-    final previousValue = get(key);
-    final changes = new Map<String, SimpleChange>().set(key, new SimpleChange(previousValue, null));
+    final oldValue = get(key);
     backend.removeItem(key);
-    dispatchEvent(new CustomEvent(eventChanges, {detail: changes}));
-    return previousValue;
+    emit(key, oldValue, null);
+    return oldValue;
   }
 
   /**
@@ -138,9 +129,9 @@ class WebStorage extends EventTarget {
     Returns this instance.
   **/
   @:arrayAccess public function set(key: String, value: String): WebStorage {
-    final changes = new Map<String, SimpleChange>().set(key, new SimpleChange(get(key), value));
+    final oldValue = get(key);
     backend.setItem(key, value);
-    dispatchEvent(new CustomEvent(eventChanges, {detail: changes}));
+    emit(key, oldValue, value);
     return this;
   }
 
@@ -157,6 +148,16 @@ class WebStorage extends EventTarget {
     for (key => value in this) map[key] = value;
     return map;
   }
+
+  /** Emits a new storage event. **/
+  private function emit(key: Null<String>, oldValue: Null<String>, newValue: Null<String>, ?url: String): Void
+    dispatchEvent(new StorageEvent(eventChange, {
+      key: key,
+      newValue: newValue,
+      oldValue: oldValue,
+      storageArea: backend,
+      url: url != null ? url : Browser.location.href
+    }));
   
   /** Initializes the class prototype. **/
   private static function __init__(): Void {
