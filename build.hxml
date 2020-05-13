@@ -1,0 +1,11 @@
+--class-path src
+--define analyzer-optimize
+--define doc-gen
+--define js-es=6
+--js lib/webstorage.cjs
+--library yield
+--xml var/api.xml
+
+webstorage.LocalStorage
+webstorage.SessionStorage
+webstorage.WebStorage
