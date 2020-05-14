@@ -3,7 +3,6 @@ declare type Json = null | boolean | number | string | Json[] | {
 };
 
 declare abstract class WebStorage extends EventTarget implements Iterable<[string, string]> {
-  static readonly eventChange: string;
   protected constructor(backend: Storage, options?: StorageOptions);
   get keys(): string[];
   get length(): number;
