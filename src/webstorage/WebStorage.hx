@@ -30,7 +30,7 @@ class WebStorage extends EventTarget {
   private final listener: Null<StorageEvent -> Void>;
   
   /** Creates a new storage service. **/
-  private function new(backend: Storage, ?options: WebStorageOptions) {
+  private function new(backend: Storage, ?options: StorageOptions) {
     super();
     this.backend = backend;
 
