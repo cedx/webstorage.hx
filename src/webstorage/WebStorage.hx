@@ -13,9 +13,6 @@ import js.lib.Symbol;
 /** Provides access to the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage). **/
 class WebStorage extends EventTarget {
 
-  /** An event that is triggered when a storage value is changed (added, modified, or removed). **/
-  public static final eventChange = 'change';
-
   /** The keys of this storage. **/
   public var keys(get, never): Array<String>;
 
@@ -26,7 +23,7 @@ class WebStorage extends EventTarget {
   private final backend: Storage;
 
   /** The function that listens for storage events. **/
-  private final listener: Null<StorageEvent -> Void>;
+  private final listener: Null<StorageEvent> -> Void;
   
   /** Creates a new storage service. **/
   private function new(backend: Storage, ?options: StorageOptions) {
@@ -150,7 +147,7 @@ class WebStorage extends EventTarget {
 
   /** Emits a new storage event. **/
   private function emit(key: Null<String>, oldValue: Null<String>, newValue: Null<String>, ?url: String): Void
-    dispatchEvent(new StorageEvent(eventChange, {
+    dispatchEvent(new StorageEvent('change', {
       key: key,
       newValue: newValue,
       oldValue: oldValue,
@@ -159,7 +156,7 @@ class WebStorage extends EventTarget {
     }));
   
   /** Initializes the class prototype. **/
-  private static function __init__(): Void {
+  static function __init__(): Void {
     var proto = Syntax.field(WebStorage, 'prototype');
     Object.defineProperty(proto, Syntax.field(Symbol, 'iterator'), {
       value: Syntax.code('function *() { for (const key of this.keys) yield [key, this.get(key)]; }')

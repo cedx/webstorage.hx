@@ -2,5 +2,5 @@
 Set-StrictMode -Version Latest
 Set-Location (Split-Path $PSScriptRoot)
 
-haxe build.hxml
+haxe test.hxml
 node_modules/.bin/karma start etc/karma.js
