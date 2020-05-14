@@ -1,0 +1,34 @@
+name: build
+on:
+  pull_request:
+  push:
+  schedule:
+    - cron: '0 0 1 * *'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Haxe
+        uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.1.0
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Check environment
+        run: |
+          haxe --version
+          haxelib version
+          node --version
+          npm --version
+      - name: Fetch sources
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          haxelib install all --always
+          npm install --ignore-scripts
+      - name: Run tests
+        run: |
+          haxe test.hxml
+          node_modules/.bin/karma start etc/karma.js
