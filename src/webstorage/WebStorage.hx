@@ -14,7 +14,7 @@ import js.lib.Symbol;
 class WebStorage extends EventTarget {
 
   /** An event that is triggered when a storage value is changed (added, modified, or removed). **/
-  public static final eventChange = 'changes';
+  public static final eventChange = 'change';
 
   /** The keys of this storage. **/
   public var keys(get, never): Array<String>;
@@ -42,7 +42,7 @@ class WebStorage extends EventTarget {
 
   /** Gets the keys of this storage. **/
   function get_keys(): Array<String>
-    return [for (index in 0...backend.length - 1) backend.key(index)];
+    return [for (index in 0...backend.length) backend.key(index)];
 
   /** Gets the number of entries in this storage. **/
   function get_length(): Int
@@ -77,7 +77,7 @@ class WebStorage extends EventTarget {
       return value != null ? Json.parse(value) : defaultValue;
     }
 
-    catch (err: Any) { // TODO remove when Haxe 4.1.0 is fixed!
+    catch (err) {
       return defaultValue;
     }
   }
