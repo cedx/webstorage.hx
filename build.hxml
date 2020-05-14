@@ -1,9 +1,7 @@
 --class-path src
 --define analyzer-optimize
---define doc-gen
 --define js-es=6
 --js lib/webstorage.cjs
---xml var/api.xml
 
 webstorage.LocalStorage
 webstorage.SessionStorage
