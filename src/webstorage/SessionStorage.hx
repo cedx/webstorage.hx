@@ -6,7 +6,6 @@ import js.Browser;
 @:expose class SessionStorage extends WebStorage {
   
   /** Creates a new session storage service. **/
-  public function new(?options: StorageOptions) {
+  public function new(?options: StorageOptions)
     super(Browser.window.sessionStorage, options);
-  }
 }

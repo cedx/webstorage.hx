@@ -182,9 +182,8 @@ private class StorageIterator {
   private var index: Int = 0;
 
   /** Creates a new storage iterator. **/
-  public function new(backend: Storage) {
+  public function new(backend: Storage)
     this.backend = backend;
-  }
 
   /** Returns a value indicating whether the iteration is complete. **/
   public function hasNext(): Bool
