@@ -15,7 +15,9 @@
   },
   "devDependencies": {
     "@cedx/coveralls": "^10.0.0",
+    "chai": "^4.2.0",
     "karma": "^5.0.5",
+    "karma-chai": "^0.1.0",
     "karma-coverage-istanbul-instrumenter": "^1.0.2",
     "karma-coverage-istanbul-reporter": "^3.0.2",
     "karma-firefox-launcher": "^1.3.0",
