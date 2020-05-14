@@ -14,12 +14,7 @@
     "url": "https://belin.io"
   },
   "devDependencies": {
-    "@cedx/coveralls": "^10.0.0",
-    "chai": "^4.2.0",
     "karma": "^5.0.5",
-    "karma-chai": "^0.1.0",
-    "karma-coverage-istanbul-instrumenter": "^1.0.2",
-    "karma-coverage-istanbul-reporter": "^3.0.2",
     "karma-firefox-launcher": "^1.3.0",
     "karma-mocha": "^2.0.1",
     "mocha": "^7.1.2",
@@ -52,7 +47,6 @@
     "url": "https://git.belin.io/cedx/webstorage.hx.git"
   },
   "scripts": {
-    "coverage": "coveralls var/lcov.info",
     "test": "karma start etc/karma.js"
   }
 }
