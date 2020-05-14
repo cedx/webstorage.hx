@@ -1,7 +1,6 @@
 {
   "classPath": "src/",
   "contributors": ["cedx"],
-  "dependencies": {"yield": "3.0.0"},
   "description": "Services for interacting with the Web Storage. An event-based API to manage storage changes.",
   "license": "MIT",
   "name": "webstorage",

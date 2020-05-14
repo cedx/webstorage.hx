@@ -11,7 +11,6 @@ import js.lib.Object;
 import js.lib.Symbol;
 
 /** Provides access to the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage). **/
-@:yield
 class WebStorage extends EventTarget {
 
   /** An event that is triggered when a storage value is changed (added, modified, or removed). **/
@@ -78,7 +77,7 @@ class WebStorage extends EventTarget {
       return value != null ? Json.parse(value) : defaultValue;
     }
 
-    catch (e: Any) {
+    catch (err: Any) { // TODO remove when Haxe 4.1.0 is fixed!
       return defaultValue;
     }
   }
@@ -89,7 +88,7 @@ class WebStorage extends EventTarget {
 
   /** Returns a new iterator that allows iterating the entries of this storage. **/
   public function keyValueIterator(): KeyValueIterator<String, String>
-    for (key in keys) @yield return {key: key, value: get(key)}
+    return new StorageIterator(backend);
 
   /**
     Looks up the value of the specified `key`, or add a new value if it isn't there.
@@ -173,9 +172,27 @@ class WebStorage extends EventTarget {
   }
 }
 
-/** Defines the options of a `WebStorage` instance. **/
-typedef WebStorageOptions = {
+/** Permits iteration over elements of a `WebStorage` instance. **/
+private class StorageIterator {
 
-  /** Value indicating whether to listen to the global storage events. **/
-  var listenToStorageEvents: Bool;
+  /** The iterated data store. **/
+  private final backend: Storage;
+
+  /** The current index. **/
+  private var index: Int = 0;
+
+  /** Creates a new storage iterator. **/
+  public function new(backend: Storage) {
+    this.backend = backend;
+  }
+
+  /** Returns a value indicating whether the iteration is complete. **/
+  public function hasNext(): Bool
+    return index < backend.length;
+
+  /** Returns the current item of the iterator and advances to the next one. **/
+  public function next(): {key: String, value: String} {
+    final key = backend.key(index++);
+    return {key: key, value: backend.getItem(key)};
+  }
 }

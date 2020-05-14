@@ -4,7 +4,7 @@ declare type Json = null | boolean | number | string | Json[] | {
 
 declare abstract class WebStorage extends EventTarget implements Iterable<[string, string]> {
   static readonly eventChange: string;
-  protected constructor(backend: Storage, options?: WebStorageOptions);
+  protected constructor(backend: Storage, options?: StorageOptions);
   get keys(): string[];
   get length(): number;
   [Symbol.iterator](): IterableIterator<[string, string]>;
@@ -21,14 +21,14 @@ declare abstract class WebStorage extends EventTarget implements Iterable<[strin
   toJSON(): Record<string, Json>;
 }
 
-export interface WebStorageOptions {
+export interface StorageOptions {
   listenToStorageEvents: boolean;
 }
 
 export declare class LocalStorage extends WebStorage {
-  constructor(options?: WebStorageOptions);
+  constructor(options?: StorageOptions);
 }
 
 export declare class SessionStorage extends WebStorage {
-  constructor(options?: WebStorageOptions);
+  constructor(options?: StorageOptions);
 }
