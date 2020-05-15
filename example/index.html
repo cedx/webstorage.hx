@@ -12,46 +12,49 @@
 
     <script>
       const {LocalStorage} = window.webstorage;
-      const storage = new LocalStorage;
+      const service = new LocalStorage;
 
       // Query the storage.
-      console.log(storage.has('foo')); // false
-      console.log(storage.has('baz')); // false
-      console.log(storage.length); // 0
-      console.log(storage.keys); // []
+      console.log(service.has('foo')); // false
+      console.log(service.has('baz')); // false
+      console.log(service.length); // 0
+      console.log(service.keys); // []
 
       // Write to the storage.
-      storage.set('foo', 'bar');
-      console.log(storage.has('foo')); // true
-      console.log(storage.length); // 1
-      console.log(storage.keys); // ["foo"]
+      service.set('foo', 'bar');
+      console.log(service.has('foo')); // true
+      console.log(service.length); // 1
+      console.log(service.keys); // ["foo"]
 
-      storage.setObject('baz', {qux: 123});
-      console.log(storage.has('baz')); // true
-      console.log(storage.length); // 2
-      console.log(storage.keys); // ["foo", "baz"]
+      service.setObject('baz', {qux: 123});
+      console.log(service.has('baz')); // true
+      console.log(service.length); // 2
+      console.log(service.keys); // ["foo", "baz"]
 
       // Read the storage.
-      console.log(storage.get('foo').constructor.name); // "String"
-      console.log(storage.get('foo')); // "bar"
+      console.log(service.get('foo').constructor.name); // "String"
+      console.log(service.get('foo')); // "bar"
 
-      console.log(storage.getObject('baz').constructor.name); // "Object"
-      console.log(storage.getObject('baz')); // {qux: 123}
-      console.log(storage.getObject('baz').qux); // 123
+      console.log(service.getObject('baz').constructor.name); // "Object"
+      console.log(service.getObject('baz')); // {qux: 123}
+      console.log(service.getObject('baz').qux); // 123
+
+      // Iterate the storage.
+      for (const [key, value] of service) console.log(`${key} => ${value}`);
 
       // Delete from the storage.
-      storage.remove('foo');
-      console.log(storage.has('foo')); // false
-      console.log(storage.length); // 1
-      console.log(storage.keys); // ["baz"]
+      service.remove('foo');
+      console.log(service.has('foo')); // false
+      console.log(service.length); // 1
+      console.log(service.keys); // ["baz"]
 
-      storage.clear();
-      console.log(storage.has('baz')); // false
-      console.log(storage.length); // 0
-      console.log(storage.keys); // []
+      service.clear();
+      console.log(service.has('baz')); // false
+      console.log(service.length); // 0
+      console.log(service.keys); // []
 
       // Release the event listeners.
-      storage.destroy();
+      service.destroy();
     </script>
   </body>
 </html>
