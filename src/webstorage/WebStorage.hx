@@ -60,7 +60,7 @@ class WebStorage extends EventTarget {
     Gets the value associated to the specified `key`.
     Returns the `defaultValue` if the item does not exist.
   **/
-  @:arrayAccess public function get(key: String, ?defaultValue: String): Null<String> {
+  public function get(key: String, ?defaultValue: String): Null<String> {
     final value = backend.getItem(key);
     return value != null ? value : defaultValue;
   }
@@ -125,7 +125,7 @@ class WebStorage extends EventTarget {
     Associates a given `value` to the specified `key`.
     Returns this instance.
   **/
-  @:arrayAccess public function set(key: String, value: String): WebStorage {
+  public function set(key: String, value: String): WebStorage {
     final oldValue = get(key);
     backend.setItem(key, value);
     emit(key, oldValue, value);

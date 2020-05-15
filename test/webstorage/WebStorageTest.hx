@@ -165,7 +165,6 @@ class WebStorageTest {
     Mocha.it('should properly get the deserialized storage entries', () -> {
       final service = new SessionStorage();
       Assert.isNull(service.getObject('foo'));
-      Assert.same({key: 'value'}, service.getObject('foo', {key: 'value'}));
 
       sessionStorage.setItem('foo', '123');
       Assert.equals(123, service.getObject('foo'));
