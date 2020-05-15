@@ -70,7 +70,7 @@ class WebStorageTest {
         Assert.equals('foo', event.key);
         Assert.isNull(event.oldValue);
         Assert.equals('bar', event.newValue);
-        done(null);
+        done();
       };
 
       final service = new SessionStorage();
@@ -86,7 +86,7 @@ class WebStorageTest {
         Assert.equals('foo', event.key);
         Assert.equals('bar', event.oldValue);
         Assert.equals('baz', event.newValue);
-        done(null);
+        done();
       };
 
       final service = new SessionStorage();
@@ -102,7 +102,7 @@ class WebStorageTest {
         Assert.equals('foo', event.key);
         Assert.equals('bar', event.oldValue);
         Assert.isNull(event.newValue);
-        done(null);
+        done();
       };
 
       final service = new SessionStorage();
@@ -119,7 +119,7 @@ class WebStorageTest {
         Assert.isNull(event.key);
         Assert.isNull(event.oldValue);
         Assert.isNull(event.newValue);
-        done(null);
+        done();
       };
 
       final service = new SessionStorage();

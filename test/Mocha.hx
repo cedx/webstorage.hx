@@ -1,28 +1,56 @@
-import haxe.ds.Either;
+import haxe.extern.EitherType;
 import js.lib.Error;
-import js.lib.Promise;
 
 /** The Mocha test runner. **/
 @:native('')
+@:require(js)
 extern class Mocha {
 
+  /** Method invoked once after the last test. **/
+  @:overload(function(description: String, callback: Callback): Void {})
+  public static function after(callback: Callback): Void;
+  
+  /** Method invoked after each test. **/
+  @:overload(function(description: String, callback: Callback): Void {})
+  public static function afterEach(callback: Callback): Void;
+
+  /** Method invoked once before the first test. **/
+  @:overload(function(description: String, callback: Callback): Void {})
+  public static function before(callback: Callback): Void;
+  
   /** Method invoked before each test. **/
+  @:overload(function(description: String, callback: Callback): Void {})
   public static function beforeEach(callback: Callback): Void;
 
-  /** TODO **/
-  public static function describe(description: String, callback: Callback): Void;
+  /** Defines a test suite. **/
+  public static function describe(description: String, callback: VoidCallback): Void;
 
-  /** TODO **/
-  @:overload(function(specification: String, callback: AsyncCallback): Void {})
-  @:overload(function(specification: String, callback: PromiseCallback): Void {})
+  /** Defines an exclusive test suite. **/
+  @:native('describe.only')
+  public static function describeOnly(description: String, callback: VoidCallback): Void;
+
+  /** Defines an inclusive test suite. **/
+  @:native('describe.skip')
+  public static function describeSkip(description: String, callback: VoidCallback): Void;
+
+  /** Defines a test case. **/
+  @:overload(function(specification: String): Void {})
   public static function it(specification: String, callback: Callback): Void;
+
+  /** Defines an exclusive test case. **/
+  @:native('it.only')
+  public static function itOnly(specification: String, callback: Callback): Void;
+
+  /** Defines an inclusive test case. **/
+  @:native('it.skip')
+  public static function itSkip(specification: String, callback: Callback): Void;
 }
 
-/** TODO **/
-typedef AsyncCallback = (Either<Void, Error> -> Void) -> Void;
+/** Callback function used for tests and hooks. **/
+typedef Callback = EitherType<DoneCallback, VoidCallback>;
 
-/** TODO **/
-typedef Callback = () -> Void;
+/** Asynchronous callback function used for tests and hooks. **/
+typedef DoneCallback = EitherType<() -> Void, Error -> Void> -> Void;
 
-/** Defines a function returning a `Promise`. **/
-typedef PromiseCallback = () -> Promise<Any>;
+/** A callback function. **/
+typedef VoidCallback = () -> Void;
