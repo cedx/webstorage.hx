@@ -47,6 +47,7 @@
     "url": "https://git.belin.io/cedx/webstorage.hx.git"
   },
   "scripts": {
+    "prepack": "pwsh tool/dist.ps1",
     "test": "karma start etc/karma.js"
   }
 }

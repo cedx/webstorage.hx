@@ -29,7 +29,7 @@ extern class Mocha {
   @:native('describe.only')
   public static function describeOnly(description: String, callback: VoidCallback): Void;
 
-  /** Defines an inclusive test suite. **/
+  /** Defines a skipped test suite. **/
   @:native('describe.skip')
   public static function describeSkip(description: String, callback: VoidCallback): Void;
 
@@ -41,7 +41,7 @@ extern class Mocha {
   @:native('it.only')
   public static function itOnly(specification: String, callback: Callback): Void;
 
-  /** Defines an inclusive test case. **/
+  /** Defines a skipped test case. **/
   @:native('it.skip')
   public static function itSkip(specification: String, callback: Callback): Void;
 }
@@ -49,7 +49,7 @@ extern class Mocha {
 /** Callback function used for tests and hooks. **/
 typedef Callback = EitherType<DoneCallback, VoidCallback>;
 
-/** Asynchronous callback function used for tests and hooks. **/
+/** An error-first callback function. **/
 typedef DoneCallback = EitherType<() -> Void, Error -> Void> -> Void;
 
 /** A callback function. **/
