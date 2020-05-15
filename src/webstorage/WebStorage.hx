@@ -11,6 +11,7 @@ import js.lib.Object;
 import js.lib.Symbol;
 
 /** Provides access to the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage). **/
+@:require(js)
 class WebStorage extends EventTarget {
 
   /** The keys of this storage. **/
@@ -139,7 +140,7 @@ class WebStorage extends EventTarget {
     return set(key, Json.stringify(value));
 
   /** Converts this object to a map in JSON format. **/
-  public function toJSON() {
+  public function toJSON(): DynamicAccess<String> {
     final map: DynamicAccess<String> = {};
     for (key => value in this) map[key] = value;
     return map;
