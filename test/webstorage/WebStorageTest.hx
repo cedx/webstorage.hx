@@ -1,5 +1,6 @@
 package webstorage;
 
+import Mocha.*;
 import js.Browser;
 import js.html.Storage;
 import utest.Assert;
@@ -16,30 +17,30 @@ class WebStorageTest {
 
   /** Runs the tests. **/
   public function run(): Void {
-    Mocha.beforeEach(() -> sessionStorage.clear());
-    Mocha.describe('.keys', testKeys);
-    Mocha.describe('.length', testLength);
-    Mocha.describe('.addEventListener("change")', testAddEventListener);
-    Mocha.describe('.clear()', testLength);
-    Mocha.describe('.get()', testGet);
-    Mocha.describe('.getObject()', testGetObject);
-    Mocha.describe('.has()', testHas);
-    Mocha.describe('.keyValueIterator()', testKeyValueIterator);
-    Mocha.describe('.putIfAbsent()', testPutIfAbsent);
-    Mocha.describe('.putObjectIfAbsent()', testPutObjectIfAbsent);
-    Mocha.describe('.remove()', testRemove);
-    Mocha.describe('.set()', testSet);
-    Mocha.describe('.setObject()', testSetObject);
-    Mocha.describe('.toJSON()', testToJSON);
+    beforeEach(() -> sessionStorage.clear());
+    describe('.keys', testKeys);
+    describe('.length', testLength);
+    describe('.addEventListener("change")', testAddEventListener);
+    describe('.clear()', testLength);
+    describe('.get()', testGet);
+    describe('.getObject()', testGetObject);
+    describe('.has()', testHas);
+    describe('.keyValueIterator()', testKeyValueIterator);
+    describe('.putIfAbsent()', testPutIfAbsent);
+    describe('.putObjectIfAbsent()', testPutObjectIfAbsent);
+    describe('.remove()', testRemove);
+    describe('.set()', testSet);
+    describe('.setObject()', testSetObject);
+    describe('.toJSON()', testToJSON);
   }
 
   /** Tests the `keys` property. **/
   function testKeys(): Void {
-    Mocha.it('should return an empty array for an empty storage', () -> {
+    it('should return an empty array for an empty storage', () -> {
       Assert.equals(0, new SessionStorage().keys);
     });
 
-    Mocha.it('should return the list of keys for a non-empty storage', () -> {
+    it('should return the list of keys for a non-empty storage', () -> {
       sessionStorage.setItem('foo', 'bar');
       sessionStorage.setItem('bar', 'baz');
   
@@ -52,11 +53,11 @@ class WebStorageTest {
 
   /** Tests the `length` property. **/
   function testLength(): Void {
-    Mocha.it('should return zero for an empty storage', () -> {
+    it('should return zero for an empty storage', () -> {
       Assert.equals(0, new SessionStorage().length);
     });
 
-    Mocha.it('should return the number of entries for a non-empty storage', () -> {
+    it('should return the number of entries for a non-empty storage', () -> {
       sessionStorage.setItem('foo', 'bar');
       sessionStorage.setItem('bar', 'baz');
       Assert.equals(2, new SessionStorage().length);
@@ -65,7 +66,7 @@ class WebStorageTest {
 
   /** Tests the `addEventListener("change")` method. **/
   function testAddEventListener(): Void {
-    Mocha.it('should trigger an event when a value is added', done -> {
+    it('should trigger an event when a value is added', done -> {
       final listener = event -> {
         Assert.equals('foo', event.key);
         Assert.isNull(event.oldValue);
@@ -79,7 +80,7 @@ class WebStorageTest {
       service.removeEventListener('change', listener);
     });
 
-    Mocha.it('should trigger an event when a value is updated', done -> {
+    it('should trigger an event when a value is updated', done -> {
       sessionStorage.setItem('foo', 'bar');
 
       final listener = event -> {
@@ -95,7 +96,7 @@ class WebStorageTest {
       service.removeEventListener('change', listener);
     });
 
-    Mocha.it('should trigger an event when a value is removed', done -> {
+    it('should trigger an event when a value is removed', done -> {
       sessionStorage.setItem('foo', 'bar');
 
       final listener = event -> {
@@ -111,7 +112,7 @@ class WebStorageTest {
       service.removeEventListener('change', listener);
     });
 
-    Mocha.it('should trigger an event when the storage is cleared', done -> {
+    it('should trigger an event when the storage is cleared', done -> {
       sessionStorage.setItem('foo', 'bar');
       sessionStorage.setItem('bar', 'baz');
 
@@ -131,7 +132,7 @@ class WebStorageTest {
 
   /** Tests the `clear()` method. **/
   function testClear(): Void {
-    Mocha.it('should remove all storage entries', () -> {
+    it('should remove all storage entries', () -> {
       sessionStorage.setItem('foo', 'bar');
       sessionStorage.setItem('bar', 'baz');
 
@@ -144,7 +145,7 @@ class WebStorageTest {
 
   /** Tests the `get()` method. **/
   function testGet(): Void {
-    Mocha.it('should properly get the storage entries', () -> {
+    it('should properly get the storage entries', () -> {
       final service = new SessionStorage();
       Assert.isNull(service.get('foo'));
 
@@ -155,14 +156,14 @@ class WebStorageTest {
       Assert.equals('123', service.get('foo'));
     });
 
-    Mocha.it('should return the given default value if the key is not found', () -> {
+    it('should return the given default value if the key is not found', () -> {
       Assert.equals('123', new SessionStorage().get('bar', '123'));
     });
   }
 
   /** Tests the `getObject()` method. **/
   function testGetObject(): Void {
-    Mocha.it('should properly get the deserialized storage entries', () -> {
+    it('should properly get the deserialized storage entries', () -> {
       final service = new SessionStorage();
       Assert.isNull(service.getObject('foo'));
 
@@ -176,7 +177,7 @@ class WebStorageTest {
       Assert.same({key: 'value'}, service.getObject('foo'));
     });
 
-    Mocha.it('should return the default value if the value can\'t be deserialized', () -> {
+    it('should return the default value if the value can\'t be deserialized', () -> {
       sessionStorage.setItem('foo', 'bar');
       Assert.equals('defaultValue', new SessionStorage().getObject('foo', 'defaultValue'));
     });
@@ -184,11 +185,11 @@ class WebStorageTest {
 
   /** Tests the `has()` method. **/
   function testHas(): Void {
-    Mocha.it('should return `false` if the specified key is not contained', () -> {
+    it('should return `false` if the specified key is not contained', () -> {
       Assert.isFalse(new SessionStorage().has('foo'));
     });
 
-    Mocha.it('should return `true` if the specified key is contained', () -> {
+    it('should return `true` if the specified key is contained', () -> {
       final service = new SessionStorage();
       sessionStorage.setItem('foo', 'bar');
       Assert.isTrue(service.has('foo'));
@@ -198,12 +199,12 @@ class WebStorageTest {
 
   /** Tests the `keyValueIterator()` method. **/
   function testKeyValueIterator(): Void {
-    Mocha.it('should end iteration immediately if storage is empty', () -> {
+    it('should end iteration immediately if storage is empty', () -> {
       final iterator = new SessionStorage().keyValueIterator();
       Assert.isFalse(iterator.hasNext());
     });
 
-    Mocha.it('should iterate over the values if storage is not empty', () -> {
+    it('should iterate over the values if storage is not empty', () -> {
       sessionStorage.setItem('foo', 'bar');
       sessionStorage.setItem('bar', 'baz');
 
@@ -218,14 +219,14 @@ class WebStorageTest {
 
   /** Tests the `putIfAbsent()` method. **/
   function testPutIfAbsent(): Void {
-    Mocha.it('should add a new entry if it does not exist', () -> {
+    it('should add a new entry if it does not exist', () -> {
       final service = new SessionStorage();
       Assert.isNull(sessionStorage.getItem('foo'));
       Assert.equals('bar', service.putIfAbsent('foo', () -> 'bar'));
       Assert.equals('bar', sessionStorage.getItem('foo'));
     });
 
-    Mocha.it('should not add a new entry if it already exists', () -> {
+    it('should not add a new entry if it already exists', () -> {
       final service = new SessionStorage();
       sessionStorage.setItem('foo', 'bar');
       Assert.equals('bar', service.putIfAbsent('foo', () -> 'qux'));
@@ -235,14 +236,14 @@ class WebStorageTest {
 
   /** Tests the `putObjectIfAbsent()` method. **/
   function testPutObjectIfAbsent(): Void {
-    Mocha.it('should add a new entry if it does not exist', () -> {
+    it('should add a new entry if it does not exist', () -> {
       final service = new SessionStorage();
       Assert.isNull(sessionStorage.getItem('foo'));
       Assert.equals(123, service.putObjectIfAbsent('foo', () -> 123));
       Assert.equals('123', sessionStorage.getItem('foo'));
     });
 
-    Mocha.it('should not add a new entry if it already exists', () -> {
+    it('should not add a new entry if it already exists', () -> {
       final service = new SessionStorage();
       sessionStorage.setItem('foo', '123');
       Assert.equals(123, service.putObjectIfAbsent('foo', () -> 456));
@@ -252,7 +253,7 @@ class WebStorageTest {
 
   /** Tests the `remove()` method. **/
   function testRemove(): Void {
-    Mocha.it('should properly remove the storage entries', () -> {
+    it('should properly remove the storage entries', () -> {
       final service = new SessionStorage();
       sessionStorage.setItem('foo', 'bar');
       sessionStorage.setItem('bar', 'baz');
@@ -269,7 +270,7 @@ class WebStorageTest {
 
   /** Tests the `set()` method. **/
   function testSet(): Void {
-    Mocha.it('should properly set the storage entries', () -> {
+    it('should properly set the storage entries', () -> {
       final service = new SessionStorage();
       Assert.isNull(sessionStorage.getItem('foo'));
       service.set('foo', 'bar');
@@ -281,7 +282,7 @@ class WebStorageTest {
 
   /** Tests the `setObject()` method. **/
   function testSetObject(): Void {
-    Mocha.it('should properly serialize and set the storage entries', () -> {
+    it('should properly serialize and set the storage entries', () -> {
       final service = new SessionStorage();
       Assert.isNull(sessionStorage.getItem('foo'));
       service.setObject('foo', 123);
@@ -295,11 +296,11 @@ class WebStorageTest {
 
   /** Tests the `toJSON()` method. **/
   function testToJSON(): Void {
-    Mocha.it('should return an empty map for an empty storage', () -> {
+    it('should return an empty map for an empty storage', () -> {
       Assert.same({}, new SessionStorage().toJSON());
     });
 
-    Mocha.it('should return a non-empty map for a non-empty storage', () -> {
+    it('should return a non-empty map for a non-empty storage', () -> {
       final service = new SessionStorage();
       service.set('foo', 'bar').set('baz', 'qux');
       Assert.same({baz: 'qux', foo: 'bar'}, service.toJSON());
