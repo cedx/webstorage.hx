@@ -87,7 +87,7 @@ class WebStorage extends EventTarget {
 
   /** Returns a new iterator that allows iterating the entries of this storage. **/
   public function keyValueIterator(): KeyValueIterator<String, String>
-    return new StorageIterator(backend);
+    return new WebStorageIterator(backend);
 
   /**
     Looks up the value of the specified `key`, or add a new value if it isn't there.
@@ -172,26 +172,26 @@ class WebStorage extends EventTarget {
 }
 
 /** Permits iteration over elements of a `WebStorage` instance. **/
-private class StorageIterator {
-
-  /** The iterated data store. **/
-  private final backend: Storage;
+private class WebStorageIterator {
 
   /** The current index. **/
   private var index: Int = 0;
 
+  /** The instance to iterate. **/
+  private final storage: Storage;
+
   /** Creates a new storage iterator. **/
-  public function new(backend: Storage)
-    this.backend = backend;
+  public function new(storage: Storage)
+    this.storage = storage;
 
   /** Returns a value indicating whether the iteration is complete. **/
   public function hasNext(): Bool
-    return index < backend.length;
+    return index < storage.length;
 
   /** Returns the current item of the iterator and advances to the next one. **/
   public function next(): {key: String, value: String} {
-    final key = backend.key(index++);
-    return {key: key, value: backend.getItem(key)};
+    final key = storage.key(index++);
+    return {key: key, value: storage.getItem(key)};
   }
 }
 

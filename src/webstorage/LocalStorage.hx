@@ -8,6 +8,6 @@ import js.Browser;
 class LocalStorage extends WebStorage {
   
   /** Creates a new local storage service. **/
-  public function new(?options: StorageOptions)
+  public function new(?options: WebStorage.WebStorageOptions)
     super(Browser.window.localStorage, options);
 }
