@@ -59,7 +59,7 @@ class WebStorage extends EventTarget {
 
   /**
     Gets the value associated to the specified `key`.
-    Returns the `defaultValue` if the item does not exist.
+    Returns the given `defaultValue` if the item does not exist.
   **/
   public function get(key: String, ?defaultValue: String): Null<String> {
     final value = backend.getItem(key);
@@ -68,11 +68,11 @@ class WebStorage extends EventTarget {
 
   /**
     Gets the deserialized value associated to the specified `key`.
-    Returns the `defaultValue` if the item does not exist.
+    Returns the given `defaultValue` if the item does not exist.
   **/
   public function getObject(key: String, ?defaultValue: Any): Null<Dynamic> {
     try {
-      final value = backend.getItem(key);
+      final value = get(key);
       return value != null ? Json.parse(value) : defaultValue;
     }
 
