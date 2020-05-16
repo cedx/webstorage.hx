@@ -3,7 +3,7 @@ declare type Json = null | boolean | number | string | Json[] | {
 };
 
 export declare abstract class WebStorage extends EventTarget implements Iterable<[string, string]> {
-  protected constructor(backend: Storage, options?: StorageOptions);
+  protected constructor(backend: Storage, options?: WebStorageOptions);
   get keys(): string[];
   get length(): number;
   [Symbol.iterator](): IterableIterator<[string, string]>;
@@ -20,14 +20,14 @@ export declare abstract class WebStorage extends EventTarget implements Iterable
   toJSON(): Record<string, Json>;
 }
 
-export interface StorageOptions {
+export interface WebStorageOptions {
   listenToStorageEvents: boolean;
 }
 
 export declare class LocalStorage extends WebStorage {
-  constructor(options?: StorageOptions);
+  constructor(options?: WebStorageOptions);
 }
 
 export declare class SessionStorage extends WebStorage {
-  constructor(options?: StorageOptions);
+  constructor(options?: WebStorageOptions);
 }

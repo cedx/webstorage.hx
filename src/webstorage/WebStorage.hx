@@ -28,7 +28,7 @@ class WebStorage extends EventTarget {
   private final listener: Null<StorageEvent> -> Void;
   
   /** Creates a new storage service. **/
-  private function new(backend: Storage, ?options: StorageOptions) {
+  private function new(backend: Storage, ?options: WebStorageOptions) {
     super();
     this.backend = backend;
 
@@ -193,4 +193,11 @@ private class StorageIterator {
     final key = backend.key(index++);
     return {key: key, value: backend.getItem(key)};
   }
+}
+
+/** Defines the options of a `WebStorage` instance. **/
+typedef WebStorageOptions = {
+
+  /** Value indicating whether to listen to the global storage events. **/
+  var listenToStorageEvents: Bool;
 }
