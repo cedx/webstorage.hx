@@ -5,5 +5,4 @@
 
 webstorage.LocalStorage
 webstorage.SessionStorage
-webstorage.StorageOptions
 webstorage.WebStorage
