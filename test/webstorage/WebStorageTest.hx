@@ -22,9 +22,9 @@ class WebStorageTest {
 		describe(".length", testLength);
 		describe(".addEventListener('change')", testAddEventListener);
 		describe(".clear()", testLength);
+		describe(".exists()", testExists);
 		describe(".get()", testGet);
 		describe(".getObject()", testGetObject);
-		describe(".has()", testHas);
 		describe(".keyValueIterator()", testKeyValueIterator);
 		describe(".putIfAbsent()", testPutIfAbsent);
 		describe(".putObjectIfAbsent()", testPutObjectIfAbsent);
@@ -143,6 +143,20 @@ class WebStorageTest {
 		});
 	}
 
+	/** Tests the `exists()` method. **/
+	function testHas(): Void {
+		it("should return `false` if the specified key is not contained", () -> {
+			Assert.isFalse(new SessionStorage().exists("foo"));
+		});
+
+		it("should return `true` if the specified key is contained", () -> {
+			final service = new SessionStorage();
+			sessionStorage.setItem("foo", "bar");
+			Assert.isTrue(service.exists("foo"));
+			Assert.isFalse(service.exists("bar"));
+		});
+	}
+
 	/** Tests the `get()` method. **/
 	function testGet(): Void {
 		it("should properly get the storage entries", () -> {
@@ -180,20 +194,6 @@ class WebStorageTest {
 		it("should return the default value if the value can't be deserialized", () -> {
 			sessionStorage.setItem("foo", "bar");
 			Assert.equals("defaultValue", new SessionStorage().getObject("foo", "defaultValue"));
-		});
-	}
-
-	/** Tests the `has()` method. **/
-	function testHas(): Void {
-		it("should return `false` if the specified key is not contained", () -> {
-			Assert.isFalse(new SessionStorage().has("foo"));
-		});
-
-		it("should return `true` if the specified key is contained", () -> {
-			final service = new SessionStorage();
-			sessionStorage.setItem("foo", "bar");
-			Assert.isTrue(service.has("foo"));
-			Assert.isFalse(service.has("bar"));
 		});
 	}
 

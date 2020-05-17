@@ -57,6 +57,10 @@ class WebStorage extends EventTarget {
 	public function destroy(): Void
 		if (listener != null) removeEventListener("storage", listener);
 
+	/** Gets a value indicating whether this storage contains the specified `key`. **/
+	public function exists(key: String): Bool
+		return keys.indexOf(key) >= 0;
+
 	/**
 		Gets the value associated to the specified `key`.
 		Returns the given `defaultValue` if the item does not exist.
@@ -70,7 +74,7 @@ class WebStorage extends EventTarget {
 		Gets the deserialized value associated to the specified `key`.
 		Returns the given `defaultValue` if the item does not exist.
 	**/
-	public function getObject(key: String, ?defaultValue: Any): Null<Dynamic> {
+	public function getObject(key: String, ?defaultValue: Any): Dynamic {
 		try {
 			final value = get(key);
 			return value != null ? Json.parse(value) : defaultValue;
@@ -80,10 +84,6 @@ class WebStorage extends EventTarget {
 			return defaultValue;
 		}
 	}
-
-	/** Gets a value indicating whether this storage contains the specified `key`. **/
-	public function has(key: String): Bool
-		return keys.indexOf(key) >= 0;
 
 	/** Returns a new iterator that allows iterating the entries of this storage. **/
 	public function keyValueIterator(): KeyValueIterator<String, String>

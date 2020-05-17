@@ -12,39 +12,47 @@ edit_uri: ""
 
 copyright: Copyright &copy; 2020 Cédric Belin
 extra:
-	social:
-		- icon: fontawesome/solid/globe
-			link: "https://belin.io"
-		- icon: fontawesome/brands/github
-			link: "https://github.com/cedx"
-		- icon: fontawesome/brands/twitter
-			link: "https://twitter.com/cedxbelin"
-		- icon: fontawesome/brands/linkedin
-			link: "https://linkedin.com/in/cedxbelin"
+  social:
+    - icon: fontawesome/solid/globe
+      link: "https://belin.io"
+      name: Belin.io
+    - icon: fontawesome/brands/github
+      link: "https://github.com/cedx"
+      name: GitHub
+    - icon: fontawesome/brands/twitter
+      link: "https://twitter.com/cedxbelin"
+      name: Twitter
+    - icon: fontawesome/brands/linkedin
+      link: "https://linkedin.com/in/cedxbelin"
+      name: LinkedIn
 
 markdown_extensions:
-	- admonition
-	- codehilite
-	- meta
-	- toc:
-			permalink: true
+  - admonition
+  - codehilite
+  - meta
+  - pymdownx.tabbed
+  - toc:
+      permalink: true
 
 nav:
-	- Overview: index.md
-	- Installation: installation.md
-	- Usage: usage.md
-	- About:
-			- License: about/license.md
-			- See also: about/see_also.md
+  - Overview: index.md
+  - Installation: installation.md
+  - Usage:
+      - Programming interface: usage/api.md
+      - Iteration: usage/iteration.md
+      - Events: usage/events.md
+  - About:
+      - License: about/license.md
+      - See also: about/see_also.md
 
 theme:
-	favicon: img/favicon.ico
-	features:
-		- instant
-	icon:
-		logo: fontawesome/solid/book-reader
-		repo: fontawesome/brands/git-alt
-	name: material
-	palette:
-		accent: amber
-		primary: amber
+  favicon: img/favicon.ico
+  features:
+    - instant
+  icon:
+    logo: fontawesome/solid/book-reader
+    repo: fontawesome/brands/git-alt
+  name: material
+  palette:
+    accent: amber
+    primary: amber

@@ -7,7 +7,7 @@ import webstorage.*;
 class TestAll {
 
 	/** Application entry point. **/
-	public static function main(): Void {
+	static function main(): Void {
 		Assert.results = new List();
 		describe("WebStorage", new WebStorageTest().run);
 	}

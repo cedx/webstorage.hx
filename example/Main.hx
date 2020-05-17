@@ -6,7 +6,7 @@ import webstorage.LocalStorage;
 class Main {
 	
 	/** Application entry point. **/
-	public static function main(): Void {
+	static function main(): Void {
 		final service = new LocalStorage();
 
 		// Query the storage.
