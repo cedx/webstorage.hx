@@ -1,60 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>WebStorage.hx</title>
-    <script src="https://cdn.jsdelivr.net/npm/@ungap/event-target/min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@cedx/webstorage.hx/build/webstorage.min.js"></script>
-  </head>
+	<head>
+		<meta charset="UTF-8">
+		<title>WebStorage.hx</title>
+		<script src="https://cdn.jsdelivr.net/npm/@ungap/event-target/min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@cedx/webstorage.hx/build/webstorage.min.js"></script>
+	</head>
 
-  <body>
-    <p>Open the console provided by the development tools of your browser...</p>
+	<body>
+		<p>Open the console provided by the development tools of your browser...</p>
 
-    <script>
-      const {LocalStorage} = window.webstorage;
-      const service = new LocalStorage;
+		<script>
+			const {LocalStorage} = window.webstorage;
+			const service = new LocalStorage;
 
-      // Query the storage.
-      console.log(service.has('foo')); // false
-      console.log(service.has('baz')); // false
-      console.log(service.length); // 0
-      console.log(service.keys); // []
+			// Query the storage.
+			console.log(service.has("foo")); // false
+			console.log(service.has("baz")); // false
+			console.log(service.length); // 0
+			console.log(service.keys); // []
 
-      // Write to the storage.
-      service.set('foo', 'bar');
-      console.log(service.has('foo')); // true
-      console.log(service.length); // 1
-      console.log(service.keys); // ["foo"]
+			// Write to the storage.
+			service.set("foo", "bar");
+			console.log(service.has("foo")); // true
+			console.log(service.length); // 1
+			console.log(service.keys); // ["foo"]
 
-      service.setObject('baz', {qux: 123});
-      console.log(service.has('baz')); // true
-      console.log(service.length); // 2
-      console.log(service.keys); // ["foo", "baz"]
+			service.setObject("baz", {qux: 123});
+			console.log(service.has("baz")); // true
+			console.log(service.length); // 2
+			console.log(service.keys); // ["foo", "baz"]
 
-      // Read the storage.
-      console.log(service.get('foo').constructor.name); // "String"
-      console.log(service.get('foo')); // "bar"
+			// Read the storage.
+			console.log(service.get("foo").constructor.name); // "String"
+			console.log(service.get("foo")); // "bar"
 
-      console.log(service.getObject('baz').constructor.name); // "Object"
-      console.log(service.getObject('baz')); // {qux: 123}
-      console.log(service.getObject('baz').qux); // 123
+			console.log(service.getObject("baz").constructor.name); // "Object"
+			console.log(service.getObject("baz")); // {qux: 123}
+			console.log(service.getObject("baz").qux); // 123
 
-      // Iterate the storage.
-      for (const [key, value] of service) console.log(`${key} => ${value}`);
+			// Iterate the storage.
+			for (const [key, value] of service) console.log(`${key} => ${value}`);
 
-      // Delete from the storage.
-      service.remove('foo');
-      console.log(service.has('foo')); // false
-      console.log(service.length); // 1
-      console.log(service.keys); // ["baz"]
+			// Delete from the storage.
+			service.remove("foo");
+			console.log(service.has("foo")); // false
+			console.log(service.length); // 1
+			console.log(service.keys); // ["baz"]
 
-      service.clear();
-      console.log(service.has('baz')); // false
-      console.log(service.length); // 0
-      console.log(service.keys); // []
+			service.clear();
+			console.log(service.has("baz")); // false
+			console.log(service.length); // 0
+			console.log(service.keys); // []
 
-      // Release the event listeners.
-      service.destroy();
-    </script>
-  </body>
+			// Release the event listeners.
+			service.destroy();
+		</script>
+	</body>
 </html>

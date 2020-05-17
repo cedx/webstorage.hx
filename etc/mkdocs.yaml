@@ -8,43 +8,43 @@ site_dir: ../www
 
 repo_name: git.belin.io
 repo_url: https://git.belin.io/cedx/webstorage.hx
-edit_uri: ''
+edit_uri: ""
 
 copyright: Copyright &copy; 2020 Cédric Belin
 extra:
-  social:
-    - icon: fontawesome/solid/globe
-      link: 'https://belin.io'
-    - icon: fontawesome/brands/github
-      link: 'https://github.com/cedx'
-    - icon: fontawesome/brands/twitter
-      link: 'https://twitter.com/cedxbelin'
-    - icon: fontawesome/brands/linkedin
-      link: 'https://linkedin.com/in/cedxbelin'
+	social:
+		- icon: fontawesome/solid/globe
+			link: "https://belin.io"
+		- icon: fontawesome/brands/github
+			link: "https://github.com/cedx"
+		- icon: fontawesome/brands/twitter
+			link: "https://twitter.com/cedxbelin"
+		- icon: fontawesome/brands/linkedin
+			link: "https://linkedin.com/in/cedxbelin"
 
 markdown_extensions:
-  - admonition
-  - codehilite
-  - meta
-  - toc:
-      permalink: true
+	- admonition
+	- codehilite
+	- meta
+	- toc:
+			permalink: true
 
 nav:
-  - Overview: index.md
-  - Installation: installation.md
-  - Usage: usage.md
-  - About:
-      - License: about/license.md
-      - See also: about/see_also.md
+	- Overview: index.md
+	- Installation: installation.md
+	- Usage: usage.md
+	- About:
+			- License: about/license.md
+			- See also: about/see_also.md
 
 theme:
-  favicon: img/favicon.ico
-  features:
-    - instant
-  icon:
-    logo: fontawesome/solid/book-reader
-    repo: fontawesome/brands/git-alt
-  name: material
-  palette:
-    accent: amber
-    primary: amber
+	favicon: img/favicon.ico
+	features:
+		- instant
+	icon:
+		logo: fontawesome/solid/book-reader
+		repo: fontawesome/brands/git-alt
+	name: material
+	palette:
+		accent: amber
+		primary: amber
