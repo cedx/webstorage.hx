@@ -22,13 +22,13 @@ class WebStorage extends EventTarget {
   public var length(get, never): Int;
 
   /** The underlying data store. **/
-  private final backend: Storage;
+  final backend: Storage;
 
   /** The function that listens for storage events. **/
-  private final listener: Null<StorageEvent> -> Void;
+  final listener: Null<StorageEvent> -> Void;
   
   /** Creates a new storage service. **/
-  private function new(backend: Storage, ?options: WebStorageOptions) {
+  function new(backend: Storage, ?options: WebStorageOptions) {
     super();
     this.backend = backend;
 
@@ -148,7 +148,7 @@ class WebStorage extends EventTarget {
   }
 
   /** Emits a new storage event. **/
-  private function emit(key: Null<String>, oldValue: Null<String>, newValue: Null<String>, ?url: String): Void
+  function emit(key: Null<String>, oldValue: Null<String>, newValue: Null<String>, ?url: String): Void
     dispatchEvent(new StorageEvent('change', {
       key: key,
       newValue: newValue,
@@ -175,10 +175,10 @@ class WebStorage extends EventTarget {
 private class WebStorageIterator {
 
   /** The current index. **/
-  private var index: Int = 0;
+  var index: Int = 0;
 
   /** The instance to iterate. **/
-  private final storage: Storage;
+  final storage: Storage;
 
   /** Creates a new storage iterator. **/
   public function new(storage: Storage)
