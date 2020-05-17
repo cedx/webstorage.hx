@@ -271,10 +271,10 @@ Returns the value associated to the key, if there is one. Otherwise calls `ifAbs
 		class Main {
 			static function main(): Void {
 				final service = new LocalStorage();
-				trace(service.has("foo")); // false
+				trace(service.exists("foo")); // false
 
 				var value = service.putIfAbsent("foo", () -> "bar");
-				trace(service.has("foo")); // true
+				trace(service.exists("foo")); // true
 				trace(value); // "bar"
 
 				value = service.putIfAbsent("foo", () -> "qux");
@@ -288,10 +288,10 @@ Returns the value associated to the key, if there is one. Otherwise calls `ifAbs
 
 		function main() {
 			const service = new LocalStorage;
-			console.log(service.has("foo")); // false
+			console.log(service.exists("foo")); // false
 
 			let value = service.putIfAbsent("foo", () => "bar");
-			console.log(service.has("foo")); // true
+			console.log(service.exists("foo")); // true
 			console.log(value); // "bar"
 
 			value = service.putIfAbsent("foo", () => "qux");
@@ -310,10 +310,10 @@ Returns the deserialized value associated to the key, if there is one. Otherwise
 		class Main {
 			static function main(): Void {
 				final service = new LocalStorage();
-				trace(service.has("foo")); // false
+				trace(service.exists("foo")); // false
 
 				var value = service.putObjectIfAbsent("foo", () -> 123);
-				trace(service.has("foo")); // true
+				trace(service.exists("foo")); // true
 				trace(value); // 123
 
 				value = service.putObjectIfAbsent("foo", () -> 456);
@@ -327,10 +327,10 @@ Returns the deserialized value associated to the key, if there is one. Otherwise
 
 		function main() {
 			const service = new LocalStorage;
-			console.log(service.has("foo")); // false
+			console.log(service.exists("foo")); // false
 
 			let value = service.putObjectIfAbsent("foo", () => 123);
-			console.log(service.has("foo")); // true
+			console.log(service.exists("foo")); // true
 			console.log(value); // 123
 
 			value = service.putObjectIfAbsent("foo", () => 456);
@@ -352,10 +352,10 @@ Removes the value associated to the specified key:
 				final service = new LocalStorage();
 
 				service.set("foo", "bar");
-				trace(service.has("foo")); // true
+				trace(service.exists("foo")); // true
 
 				console.log(service.remove("foo")); // "bar"
-				trace(service.has("foo")); // false
+				trace(service.exists("foo")); // false
 			}
 		}
 
@@ -367,10 +367,10 @@ Removes the value associated to the specified key:
 			const service = new LocalStorage;
 
 			service.set("foo", "bar");
-			console.log(service.has("foo")); // true
+			console.log(service.exists("foo")); // true
 				
 			console.log(service.remove("foo")); // "bar"
-			console.log(service.has("foo")); // false
+			console.log(service.exists("foo")); // false
 		}
 
 Returns the value associated with the specified key before it was removed.

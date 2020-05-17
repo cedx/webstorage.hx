@@ -10,19 +10,19 @@ class Main {
 		final service = new LocalStorage();
 
 		// Query the storage.
-		console.log(service.has("foo")); // false
-		console.log(service.has("baz")); // false
+		console.log(service.exists("foo")); // false
+		console.log(service.exists("baz")); // false
 		console.log(service.length); // 0
 		console.log(service.keys); // []
 
 		// Write to the storage.
 		service.set("foo", "bar");
-		console.log(service.has("foo")); // true
+		console.log(service.exists("foo")); // true
 		console.log(service.length); // 1
 		console.log(service.keys); // ["foo"]
 
 		service.setObject("baz", {qux: 123});
-		console.log(service.has("baz")); // true
+		console.log(service.exists("baz")); // true
 		console.log(service.length); // 2
 		console.log(service.keys); // ["foo", "baz"]
 
@@ -35,16 +35,16 @@ class Main {
 		console.log(service.getObject("baz").qux); // 123
 
 		// Iterate the storage.
-		for (key => value in service) console.log("$key => $value");
+		for (key => value in service) console.log('$key => $value');
 
 		// Delete from the storage.
 		service.remove("foo");
-		console.log(service.has("foo")); // false
+		console.log(service.exists("foo")); // false
 		console.log(service.length); // 1
 		console.log(service.keys); // ["baz"]
 
 		service.clear();
-		console.log(service.has("baz")); // false
+		console.log(service.exists("baz")); // false
 		console.log(service.length); // 0
 		console.log(service.keys); // []
 

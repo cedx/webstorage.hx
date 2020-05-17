@@ -26,6 +26,9 @@ extra:
       link: "https://linkedin.com/in/cedxbelin"
       name: LinkedIn
 
+extra_css:
+  - css/mkdocs.css
+
 markdown_extensions:
   - admonition
   - codehilite
