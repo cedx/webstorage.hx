@@ -140,7 +140,7 @@ When you have done using the service instance, you should call the `destroy()` m
 		class Main {
 			static function main(): Void {
 				// Work with the service...
-				final service = new LocalStorage({listenToStorageEvents: true});
+				final service = new LocalStorage({listenToGlobalEvents: true});
 
 				// Later, cancel the subscription to the storage events.
 				service.destroy();
@@ -153,7 +153,7 @@ When you have done using the service instance, you should call the `destroy()` m
 
 		function main() {
 			// Work with the service...
-			const service = new LocalStorage({listenToStorageEvents: true});
+			const service = new LocalStorage({listenToGlobalEvents: true});
 
 			// Later, cancel the subscription to the storage events.
 			service.destroy();
@@ -255,7 +255,7 @@ Deserializes and returns the value associated to the specified key:
 		}
 
 !!! info
-		The value is deserialized using the [`JSON.parse`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse) method.
+	The value is deserialized using the [`JSON.parse`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse) method.
 
 Returns `null` (`undefined` in JavaScript) or the given default value if the key is not found.
 
@@ -338,7 +338,7 @@ Returns the deserialized value associated to the key, if there is one. Otherwise
 		}
 
 !!! info
-		The value is serialized using the [`JSON.stringify`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) method, and deserialized using the [`JSON.parse`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse) method.
+	The value is serialized using the [`JSON.stringify`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) method, and deserialized using the [`JSON.parse`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse) method.
 
 ## **remove**(key: String): Null&lt;String&gt;
 Removes the value associated to the specified key:
@@ -434,4 +434,4 @@ Serializes and associates a given value to the specified key:
 		}
 
 !!! info
-		The value is serialized using the [`JSON.stringify`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) method.
+	The value is serialized using the [`JSON.stringify`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) method.

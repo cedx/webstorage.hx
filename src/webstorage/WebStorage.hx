@@ -32,7 +32,7 @@ class WebStorage extends EventTarget {
 		super();
 		this.backend = backend;
 
-		if (options == null || !options.listenToStorageEvents) listener = null;
+		if (options == null || !options.listenToGlobalEvents) listener = null;
 		else {
 			listener = event -> if (event.storageArea == backend) emit(event.key, event.oldValue, event.newValue, event.url);
 			addEventListener("storage", listener);
@@ -96,7 +96,7 @@ class WebStorage extends EventTarget {
 		Otherwise calls `ifAbsent` to get a new value, associates `key` to that value, and then returns the new value.
 	**/
 	public function putIfAbsent(key: String, ifAbsent: () -> String): String {
-		if (!has(key)) set(key, ifAbsent());
+		if (!exists(key)) set(key, ifAbsent());
 		return get(key);
 	}
 
@@ -107,7 +107,7 @@ class WebStorage extends EventTarget {
 		Otherwise calls `ifAbsent` to get a new value, serializes and associates `key` to that value, and then returns the new value.
 	**/
 	public function putObjectIfAbsent(key: String, ifAbsent: () -> Any): Dynamic {
-		if (!has(key)) setObject(key, ifAbsent());
+		if (!exists(key)) setObject(key, ifAbsent());
 		return getObject(key);
 	}
 
@@ -199,5 +199,5 @@ private class WebStorageIterator {
 typedef WebStorageOptions = {
 
 	/** Value indicating whether to listen to the global storage events. **/
-	var listenToStorageEvents: Bool;
+	var listenToGlobalEvents: Bool;
 }

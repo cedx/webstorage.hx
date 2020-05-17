@@ -29,9 +29,9 @@ You can go through all key/value pairs contained using a `for` loop:
 			service.set("foo", "bar");
 			service.set("anotherKey", "anotherValue");
 
-			for (const entry of service) {
-				console.log(entry);
-				// Round 1: ["foo", "bar"]
-				// Round 2: ["anotherKey", "anotherValue"]
+			for (const [key, value] of service) {
+				console.log(`${key} => ${value}`);
+				// Round 1: "foo => bar"
+				// Round 2: "anotherKey => anotherValue"
 			}
 		}
