@@ -36,11 +36,11 @@ class WebStorageTest {
 
 	/** Tests the `keys` property. **/
 	function testKeys(): Void {
-		it("should return an empty array for an empty storage", () -> {
+		it("should return an empty array for an empty storage", function() {
 			Assert.equals(0, new SessionStorage().keys);
 		});
 
-		it("should return the list of keys for a non-empty storage", () -> {
+		it("should return the list of keys for a non-empty storage", function() {
 			sessionStorage.setItem("foo", "bar");
 			sessionStorage.setItem("bar", "baz");
 	
@@ -53,11 +53,11 @@ class WebStorageTest {
 
 	/** Tests the `length` property. **/
 	function testLength(): Void {
-		it("should return zero for an empty storage", () -> {
+		it("should return zero for an empty storage", function() {
 			Assert.equals(0, new SessionStorage().length);
 		});
 
-		it("should return the number of entries for a non-empty storage", () -> {
+		it("should return the number of entries for a non-empty storage", function() {
 			sessionStorage.setItem("foo", "bar");
 			sessionStorage.setItem("bar", "baz");
 			Assert.equals(2, new SessionStorage().length);
@@ -66,7 +66,7 @@ class WebStorageTest {
 
 	/** Tests the `addEventListener("change")` method. **/
 	function testAddEventListener(): Void {
-		it("should trigger an event when a value is added", done -> {
+		it("should trigger an event when a value is added", function(done) {
 			final listener = event -> {
 				Assert.equals("foo", event.key);
 				Assert.isNull(event.oldValue);
@@ -80,7 +80,7 @@ class WebStorageTest {
 			service.removeEventListener("change", listener);
 		});
 
-		it("should trigger an event when a value is updated", done -> {
+		it("should trigger an event when a value is updated", function(done) {
 			sessionStorage.setItem("foo", "bar");
 
 			final listener = event -> {
@@ -96,7 +96,7 @@ class WebStorageTest {
 			service.removeEventListener("change", listener);
 		});
 
-		it("should trigger an event when a value is removed", done -> {
+		it("should trigger an event when a value is removed", function(done) {
 			sessionStorage.setItem("foo", "bar");
 
 			final listener = event -> {
@@ -112,7 +112,7 @@ class WebStorageTest {
 			service.removeEventListener("change", listener);
 		});
 
-		it("should trigger an event when the storage is cleared", done -> {
+		it("should trigger an event when the storage is cleared", function(done) {
 			sessionStorage.setItem("foo", "bar");
 			sessionStorage.setItem("bar", "baz");
 
@@ -132,7 +132,7 @@ class WebStorageTest {
 
 	/** Tests the `clear()` method. **/
 	function testClear(): Void {
-		it("should remove all storage entries", () -> {
+		it("should remove all storage entries", function() {
 			sessionStorage.setItem("foo", "bar");
 			sessionStorage.setItem("bar", "baz");
 
@@ -145,11 +145,11 @@ class WebStorageTest {
 
 	/** Tests the `exists()` method. **/
 	function testExists(): Void {
-		it("should return `false` if the specified key is not contained", () -> {
+		it("should return `false` if the specified key is not contained", function() {
 			Assert.isFalse(new SessionStorage().exists("foo"));
 		});
 
-		it("should return `true` if the specified key is contained", () -> {
+		it("should return `true` if the specified key is contained", function() {
 			final service = new SessionStorage();
 			sessionStorage.setItem("foo", "bar");
 			Assert.isTrue(service.exists("foo"));
@@ -159,7 +159,7 @@ class WebStorageTest {
 
 	/** Tests the `get()` method. **/
 	function testGet(): Void {
-		it("should properly get the storage entries", () -> {
+		it("should properly get the storage entries", function() {
 			final service = new SessionStorage();
 			Assert.isNull(service.get("foo"));
 
@@ -170,14 +170,14 @@ class WebStorageTest {
 			Assert.equals("123", service.get("foo"));
 		});
 
-		it("should return the given default value if the key is not found", () -> {
+		it("should return the given default value if the key is not found", function() {
 			Assert.equals("123", new SessionStorage().get("bar", "123"));
 		});
 	}
 
 	/** Tests the `getObject()` method. **/
 	function testGetObject(): Void {
-		it("should properly get the deserialized storage entries", () -> {
+		it("should properly get the deserialized storage entries", function() {
 			final service = new SessionStorage();
 			Assert.isNull(service.getObject("foo"));
 
@@ -191,7 +191,7 @@ class WebStorageTest {
 			Assert.same({key: "value"}, service.getObject("foo"));
 		});
 
-		it("should return the default value if the value can't be deserialized", () -> {
+		it("should return the default value if the value can't be deserialized", function() {
 			sessionStorage.setItem("foo", "bar");
 			Assert.equals("defaultValue", new SessionStorage().getObject("foo", "defaultValue"));
 		});
@@ -199,12 +199,12 @@ class WebStorageTest {
 
 	/** Tests the `keyValueIterator()` method. **/
 	function testKeyValueIterator(): Void {
-		it("should end iteration immediately if storage is empty", () -> {
+		it("should end iteration immediately if storage is empty", function() {
 			final iterator = new SessionStorage().keyValueIterator();
 			Assert.isFalse(iterator.hasNext());
 		});
 
-		it("should iterate over the values if storage is not empty", () -> {
+		it("should iterate over the values if storage is not empty", function() {
 			sessionStorage.setItem("foo", "bar");
 			sessionStorage.setItem("bar", "baz");
 
@@ -219,14 +219,14 @@ class WebStorageTest {
 
 	/** Tests the `putIfAbsent()` method. **/
 	function testPutIfAbsent(): Void {
-		it("should add a new entry if it does not exist", () -> {
+		it("should add a new entry if it does not exist", function() {
 			final service = new SessionStorage();
 			Assert.isNull(sessionStorage.getItem("foo"));
 			Assert.equals("bar", service.putIfAbsent("foo", () -> "bar"));
 			Assert.equals("bar", sessionStorage.getItem("foo"));
 		});
 
-		it("should not add a new entry if it already exists", () -> {
+		it("should not add a new entry if it already exists", function() {
 			final service = new SessionStorage();
 			sessionStorage.setItem("foo", "bar");
 			Assert.equals("bar", service.putIfAbsent("foo", () -> "qux"));
@@ -236,14 +236,14 @@ class WebStorageTest {
 
 	/** Tests the `putObjectIfAbsent()` method. **/
 	function testPutObjectIfAbsent(): Void {
-		it("should add a new entry if it does not exist", () -> {
+		it("should add a new entry if it does not exist", function() {
 			final service = new SessionStorage();
 			Assert.isNull(sessionStorage.getItem("foo"));
 			Assert.equals(123, service.putObjectIfAbsent("foo", () -> 123));
 			Assert.equals("123", sessionStorage.getItem("foo"));
 		});
 
-		it("should not add a new entry if it already exists", () -> {
+		it("should not add a new entry if it already exists", function() {
 			final service = new SessionStorage();
 			sessionStorage.setItem("foo", "123");
 			Assert.equals(123, service.putObjectIfAbsent("foo", () -> 456));
@@ -253,7 +253,7 @@ class WebStorageTest {
 
 	/** Tests the `remove()` method. **/
 	function testRemove(): Void {
-		it("should properly remove the storage entries", () -> {
+		it("should properly remove the storage entries", function() {
 			final service = new SessionStorage();
 			sessionStorage.setItem("foo", "bar");
 			sessionStorage.setItem("bar", "baz");
@@ -270,7 +270,7 @@ class WebStorageTest {
 
 	/** Tests the `set()` method. **/
 	function testSet(): Void {
-		it("should properly set the storage entries", () -> {
+		it("should properly set the storage entries", function() {
 			final service = new SessionStorage();
 			Assert.isNull(sessionStorage.getItem("foo"));
 			service.set("foo", "bar");
@@ -282,7 +282,7 @@ class WebStorageTest {
 
 	/** Tests the `setObject()` method. **/
 	function testSetObject(): Void {
-		it("should properly serialize and set the storage entries", () -> {
+		it("should properly serialize and set the storage entries", function() {
 			final service = new SessionStorage();
 			Assert.isNull(sessionStorage.getItem("foo"));
 			service.setObject("foo", 123);
@@ -296,11 +296,11 @@ class WebStorageTest {
 
 	/** Tests the `toJSON()` method. **/
 	function testToJSON(): Void {
-		it("should return an empty map for an empty storage", () -> {
+		it("should return an empty map for an empty storage", function() {
 			Assert.same({}, new SessionStorage().toJSON());
 		});
 
-		it("should return a non-empty map for a non-empty storage", () -> {
+		it("should return a non-empty map for a non-empty storage", function() {
 			final service = new SessionStorage();
 			service.set("foo", "bar").set("baz", "qux");
 			Assert.same({baz: "qux", foo: "bar"}, service.toJSON());
