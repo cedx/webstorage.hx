@@ -144,7 +144,7 @@ class WebStorageTest {
 	}
 
 	/** Tests the `exists()` method. **/
-	function testHas(): Void {
+	function testExists(): Void {
 		it("should return `false` if the specified key is not contained", () -> {
 			Assert.isFalse(new SessionStorage().exists("foo"));
 		});
