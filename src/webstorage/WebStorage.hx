@@ -175,7 +175,7 @@ class WebStorage extends EventTarget {
 private class WebStorageIterator {
 
 	/** The current index. **/
-	var index: Int = 0;
+	var index = 0;
 
 	/** The instance to iterate. **/
 	final storage: Storage;

@@ -37,7 +37,7 @@ class WebStorageTest {
 	/** Tests the `keys` property. **/
 	function testKeys(): Void {
 		it("should return an empty array for an empty storage", function() {
-			Assert.equals(0, new SessionStorage().keys);
+			Assert.equals(0, new SessionStorage().keys.length);
 		});
 
 		it("should return the list of keys for a non-empty storage", function() {
