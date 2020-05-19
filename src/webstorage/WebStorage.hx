@@ -11,9 +11,7 @@ import js.lib.Object;
 import js.lib.Symbol;
 
 /** Provides access to the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage). **/
-@:expose
-@:require(js)
-class WebStorage extends EventTarget {
+@:expose class WebStorage extends EventTarget {
 
 	/** The keys of this storage. **/
 	public var keys(get, never): Array<String>;
