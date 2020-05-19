@@ -7,7 +7,7 @@
 	"name": "@cedx/webstorage.hx",
 	"type": "commonjs",
 	"types": "lib/index.d.ts",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"author": {
 		"email": "cedric@belin.io",
 		"name": "Cédric Belin",
