@@ -2,7 +2,7 @@
 Set-StrictMode -Version Latest
 Set-Location (Split-Path $PSScriptRoot)
 
-foreach ($item in "build", "doc/api", "lib/webstorage.*", "www") {
+foreach ($item in ".temp", "build", "doc/api", "lib/webstorage.*", "www") {
 	if (Test-Path $item) { Remove-Item $item -Recurse }
 }
 
