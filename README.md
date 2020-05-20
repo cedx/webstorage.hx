@@ -10,10 +10,12 @@ in [Haxe](https://haxe.org) and [JavaScript](https://developer.mozilla.org/en-US
 - [User guide](https://docs.belin.io/webstorage.hx)
 - [API reference](https://api.belin.io/webstorage.hx)
 
+## Packages
+- Haxe: [Haxelib](https://lib.haxe.org/p/webstorage)
+- JavaScript: [npm](https://www.npmjs.com/package/@cedx/webstorage.hx)
+
 ## Development
 - [Git repository](https://git.belin.io/cedx/webstorage.hx)
-- [Haxelib package](https://lib.haxe.org/p/webstorage)
-- [npm package](https://www.npmjs.com/package/@cedx/webstorage.hx)
 - [Submit an issue](https://git.belin.io/cedx/webstorage.hx/issues)
 
 ## License
