@@ -26,38 +26,34 @@ You can verify if you're already good to go with the following commands:
 	If you plan to play with the package sources, you will also need
 	[PowerShell](https://docs.microsoft.com/en-us/powershell) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material).
 
-## Installing with Haxelib package manager
+## Installing with a package manager
 
-### 1. Install it
-From a command prompt, run:
+=== "Haxe"
+	### 1. Install it
+	From a command prompt, run:
 
-``` shell
-haxelib install webstorage
-```
+		:::shell
+		haxelib install webstorage
 
-### 2. Import it
-Now in your [Haxe](https://haxe.org) code, you can use:
+	### 2. Import it
+	Now in your [Haxe](https://haxe.org) code, you can use:
 
-``` haxe
-import webstorage.LocalStorage;
-import webstorage.SessionStorage;
-```
+		:::haxe
+		import webstorage.LocalStorage;
+		import webstorage.SessionStorage;
 
-## Installing with npm package manager
+=== "JavaScript"
+	### 1. Install it
+	From a command prompt, run:
 
-### 1. Install it
-From a command prompt, run:
+		:::shell
+		npm install @cedx/webstorage.hx
 
-``` shell
-npm install @cedx/webstorage.hx
-```
+	### 2. Import it
+	Now in your [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) code, you can use:
 
-### 2. Import it
-Now in your [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) code, you can use:
-
-``` js
-import {LocalStorage, SessionStorage} from "@cedx/webstorage.hx";
-```
+		:::js
+		import {LocalStorage, SessionStorage} from "@cedx/webstorage.hx";
 
 ## Installing from a content delivery network
 This library is also available as a ready-made bundle.
