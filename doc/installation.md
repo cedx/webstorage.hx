@@ -17,10 +17,10 @@ You can verify if you're already good to go with the following commands:
 === "JavaScript"
 		:::shell
 		node --version
-		# v14.2.0
+		# v14.3.0
 
 		npm --version
-		# 6.14.4
+		# 6.14.5
 
 !!! info
 	If you plan to play with the package sources, you will also need
@@ -53,11 +53,15 @@ You can verify if you're already good to go with the following commands:
 	Now in your [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) code, you can use:
 
 		:::js
+		// CommonJS module.
+		const {LocalStorage, SessionStorage} = require("@cedx/webstorage.hx");
+
+		// ECMAScript module.
 		import {LocalStorage, SessionStorage} from "@cedx/webstorage.hx";
 
 ## Installing from a content delivery network
-This library is also available as a ready-made bundle.
-To install it, add this code snippet to the `<head>` of your HTML document:
+This library is also available as a ready-made JavaScript bundle.
+To install it, add one of these code snippets to the `<head>` of your HTML document:
 
 ``` html
 <!-- jsDelivr -->
