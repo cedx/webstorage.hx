@@ -42,8 +42,7 @@ import js.lib.Symbol;
 		return [for (index in 0...backend.length) backend.key(index)];
 
 	/** Gets the number of entries in this storage. **/
-	function get_length(): Int
-		return backend.length;
+	function get_length() return backend.length;
 
 	/** Removes all entries from this storage. **/
 	public function clear(): Void {
@@ -134,8 +133,7 @@ import js.lib.Symbol;
 		Serializes and associates a given `value` to the specified `key`.
 		Returns this instance.
 	**/
-	public function setObject(key: String, value: Any): WebStorage
-		return set(key, Json.stringify(value));
+	public function setObject(key: String, value: Any) return set(key, Json.stringify(value));
 
 	/** Converts this object to a map in JSON format. **/
 	public function toJSON(): DynamicAccess<String> {
@@ -182,8 +180,7 @@ private class WebStorageIterator {
 		this.storage = storage;
 
 	/** Returns a value indicating whether the iteration is complete. **/
-	public function hasNext(): Bool
-		return index < storage.length;
+	public function hasNext() return index < storage.length;
 
 	/** Returns the current item of the iterator and advances to the next one. **/
 	public function next(): {key: String, value: String} {
