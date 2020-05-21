@@ -56,8 +56,7 @@ import js.lib.Symbol;
 		if (listener != null) removeEventListener("storage", listener);
 
 	/** Gets a value indicating whether this storage contains the specified `key`. **/
-	public function exists(key: String): Bool
-		return keys.indexOf(key) >= 0;
+	public function exists(key: String) return keys.contains(key);
 
 	/**
 		Gets the value associated to the specified `key`.
