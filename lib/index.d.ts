@@ -1,7 +1,3 @@
-declare type Json = null | boolean | number | string | Json[] | {
-	[property: string]: Json;
-};
-
 export declare abstract class WebStorage extends EventTarget implements Iterable<[string, string]> {
 	protected constructor(backend: Storage, options?: WebStorageOptions);
 	readonly keys: string[];
@@ -17,7 +13,7 @@ export declare abstract class WebStorage extends EventTarget implements Iterable
 	remove(key: string): string|undefined;
 	set(key: string, value: string): this;
 	setObject(key: string, value: any): this;
-	toJSON(): Record<string, Json>;
+	toJSON(): Record<string, string>;
 }
 
 export interface WebStorageOptions {
