@@ -4,8 +4,8 @@
 	"description": "Services for interacting with the Web Storage. An event-based API to manage storage changes.",
 	"license": "MIT",
 	"name": "webstorage",
-	"releasenote": "Fixed the Haxelib badges.",
+	"releasenote": "Fixed the npm packaging, updated the documentation.",
 	"tags": ["browser", "events", "html", "js", "service", "storage"],
 	"url": "https://docs.belin.io/webstorage.hx",
-	"version": "1.0.2"
+	"version": "1.0.3"
 }
