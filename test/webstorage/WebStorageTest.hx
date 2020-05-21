@@ -1,6 +1,7 @@
 package webstorage;
 
 import Mocha.*;
+import haxe.Json;
 import js.Browser;
 import js.html.Storage;
 import utest.Assert;
@@ -297,13 +298,18 @@ class WebStorageTest {
 	/** Tests the `toJSON()` method. **/
 	function testToJSON(): Void {
 		it("should return an empty map for an empty storage", function() {
-			Assert.same({}, new SessionStorage().toJSON());
+			final service = new SessionStorage();
+			Assert.same({}, service.toJSON());
+			Assert.equals("{}", Json.stringify(service));
 		});
 
 		it("should return a non-empty map for a non-empty storage", function() {
-			final service = new SessionStorage();
-			service.set("foo", "bar").set("baz", "qux");
+			final service = new SessionStorage().set("foo", "bar").set("baz", "qux");
 			Assert.same({baz: "qux", foo: "bar"}, service.toJSON());
+
+			final json = Json.stringify(service);
+			Assert.stringContains('"foo":"bar"', json);
+			Assert.stringContains('"baz":"qux"', json);
 		});
 	}
 }
