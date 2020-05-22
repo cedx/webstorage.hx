@@ -152,7 +152,7 @@ import js.lib.Symbol;
 			url: url != null ? url : Browser.location.href
 		}));
 	
-	/** Initializes the class prototype. **/
+	/** Initializes the class. **/
 	static function __init__(): Void {
 		var proto = Syntax.field(WebStorage, "prototype");
 		Object.defineProperty(proto, Syntax.field(Symbol, "iterator"), {
