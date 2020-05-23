@@ -11,8 +11,8 @@ in [Haxe](https://haxe.org) and [JavaScript](https://developer.mozilla.org/en-US
 - [API reference](https://api.belin.io/webstorage.hx)
 
 ## Packages
-- Haxe: [Haxelib](https://lib.haxe.org/p/webstorage)
-- JavaScript: [npm](https://www.npmjs.com/package/@cedx/webstorage.hx)
+- Haxe: `webstorage` on [Haxelib](https://lib.haxe.org/p/webstorage)
+- JavaScript: `@cedx/webstorage.hx` on [npm](https://www.npmjs.com/package/@cedx/webstorage.hx)
 
 ## Development
 - [Git repository](https://git.belin.io/cedx/webstorage.hx)
