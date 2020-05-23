@@ -10,7 +10,7 @@ import utest.Assert;
 class WebStorageTest {
 
 	/** The native session storage. **/
-	var sessionStorage: Storage;
+	final sessionStorage: Storage;
 
 	/** Creates a new test suite. **/
 	public function new()
