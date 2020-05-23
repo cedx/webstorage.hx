@@ -7,12 +7,12 @@ export declare abstract class WebStorage extends EventTarget implements Iterable
 	destroy(): void;
 	exists(key: string): boolean;
 	get(key: string, defaultValue?: string): string|undefined;
-	getObject(key: string, defaultValue?: any): any;
+	getObject(key: string, defaultValue?: unknown): any;
 	putIfAbsent(key: string, ifAbsent: () => string): string;
-	putObjectIfAbsent(key: string, ifAbsent: () => any): any;
+	putObjectIfAbsent(key: string, ifAbsent: () => unknown): any;
 	remove(key: string): string|undefined;
 	set(key: string, value: string): this;
-	setObject(key: string, value: any): this;
+	setObject(key: string, value: unknown): this;
 	toJSON(): Record<string, string>;
 }
 
