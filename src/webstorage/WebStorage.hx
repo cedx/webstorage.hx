@@ -76,7 +76,7 @@ import js.lib.Symbol;
 			return value != null ? Json.parse(value) : defaultValue;
 		}
 
-		catch (err) {
+		catch (e) {
 			return defaultValue;
 		}
 	}
