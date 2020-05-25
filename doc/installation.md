@@ -29,13 +29,11 @@ You can verify if you're already good to go with the following commands:
 ## Installing with a package manager
 
 === "Haxe"
-	### 1. Install it
 	From a command prompt, run:
 
 		:::shell
 		haxelib install webstorage
 
-	### 2. Import it
 	Now in your [Haxe](https://haxe.org) code, you can use:
 
 		:::haxe
@@ -43,13 +41,11 @@ You can verify if you're already good to go with the following commands:
 		import webstorage.SessionStorage;
 
 === "JavaScript"
-	### 1. Install it
 	From a command prompt, run:
 
 		:::shell
 		npm install @cedx/webstorage.hx
 
-	### 2. Import it
 	Now in your [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) code, you can use:
 
 		:::js
