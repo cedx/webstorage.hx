@@ -3,18 +3,16 @@ package webstorage;
 import Mocha.*;
 import haxe.Json;
 import js.Browser;
-import js.html.Storage;
 import utest.Assert;
 
 /** Tests the features of the `WebStorage` class. **/
 class WebStorageTest {
 
 	/** The native session storage. **/
-	final sessionStorage: Storage;
+	final sessionStorage = Browser.window.sessionStorage;
 
 	/** Creates a new test suite. **/
-	public function new()
-		sessionStorage = Browser.window.sessionStorage;
+	public function new() {}
 
 	/** Runs the tests. **/
 	public function run(): Void {
