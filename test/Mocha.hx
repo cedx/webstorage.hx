@@ -8,7 +8,7 @@ extern class Mocha {
 	/** Method invoked once after the last test. **/
 	@:overload(function(description: String, callback: Callback): Void {})
 	static function after(callback: Callback): Void;
-	
+
 	/** Method invoked after each test. **/
 	@:overload(function(description: String, callback: Callback): Void {})
 	static function afterEach(callback: Callback): Void;
@@ -16,7 +16,7 @@ extern class Mocha {
 	/** Method invoked once before the first test. **/
 	@:overload(function(description: String, callback: Callback): Void {})
 	static function before(callback: Callback): Void;
-	
+
 	/** Method invoked before each test. **/
 	@:overload(function(description: String, callback: Callback): Void {})
 	static function beforeEach(callback: Callback): Void;

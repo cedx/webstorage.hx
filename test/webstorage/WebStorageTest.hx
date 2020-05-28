@@ -42,7 +42,7 @@ class WebStorageTest {
 		it("should return the list of keys for a non-empty storage", function() {
 			sessionStorage.setItem("foo", "bar");
 			sessionStorage.setItem("bar", "baz");
-	
+
 			final keys = new SessionStorage().keys;
 			Assert.equals(2, keys.length);
 			Assert.equals("foo", keys[0]);

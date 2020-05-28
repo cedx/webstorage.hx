@@ -24,7 +24,7 @@ import js.lib.Symbol;
 
 	/** The function that listens for storage events. **/
 	final listener: Null<StorageEvent> -> Void;
-	
+
 	/** Creates a new storage service. **/
 	function new(backend: Storage, ?options: WebStorageOptions) {
 		super();
@@ -151,7 +151,7 @@ import js.lib.Symbol;
 			storageArea: backend,
 			url: url != null ? url : Browser.location.href
 		}));
-	
+
 	/** Initializes the class. **/
 	static function __init__(): Void {
 		final proto = Syntax.field(WebStorage, "prototype");
