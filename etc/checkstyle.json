@@ -10,7 +10,7 @@
 		{"type": "DefaultComesLast"},
 		{"type": "HiddenField"},
 		{"type": "MultipleVariableDeclarations"},
-		{"type": "NestedControlFlow", "props": {"max": 5}},
+		{"type": "NestedControlFlow"},
 		{"type": "NestedForDepth"},
 		{"type": "NestedIfDepth"},
 		{"type": "NestedTryDepth"},
@@ -56,7 +56,7 @@
 		{"type": "FileLength"},
 		{"type": "LineLength"},
 		{"type": "MethodCount"},
-		{"type": "MethodLength", "props": {"max": 100}},
+		{"type": "MethodLength"},
 		{"type": "ParameterNumber"},
 
 		{"type": "Anonymous"},
