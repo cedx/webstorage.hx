@@ -154,14 +154,14 @@ import js.lib.Symbol;
 
 	/** Initializes the class. **/
 	static function __init__(): Void {
-		final proto = Syntax.field(WebStorage, "prototype");
-		Object.defineProperty(proto, Syntax.field(Symbol, "iterator"), {
+		final webStorageProto = Syntax.field(WebStorage, "prototype");
+		Object.defineProperty(webStorageProto, Syntax.field(Symbol, "iterator"), {
 			value: Syntax.code("function *() { for (const key of this.keys) yield [key, this.get(key)]; }")
 		});
 
-		Object.defineProperties(proto, {
-			keys: {get: proto.get_keys},
-			length: {get: proto.get_length}
+		Object.defineProperties(webStorageProto, {
+			keys: {get: webStorageProto.get_keys},
+			length: {get: webStorageProto.get_length}
 		});
 	}
 }
