@@ -71,7 +71,7 @@ The class constructors have an optional `listenToGlobalEvents` parameter that al
 				// Also occurs when the local storage is changed in another document.
 				service.addEventListener("change", event -> { /* ... */ });
 
-				// Later, cancel the subscription to the storage events.
+				// Later, cancel the subscription to the global storage events.
 				service.destroy();
 			}
 		}

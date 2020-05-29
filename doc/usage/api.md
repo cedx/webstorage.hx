@@ -39,7 +39,7 @@ This package provides two services dedicated to the Web Storage: the `LocalStora
 Each class extends from the `WebStorage` abstract class that has the following API:
 
 ## **keys**: Array&lt;String&gt;
-Returns the keys of the the associated storage:
+Returns the keys of the associated storage:
 
 === "Haxe"
 		:::haxe
@@ -262,7 +262,8 @@ Returns `null` (`undefined` in JavaScript) or the given default value if the key
 ## **putIfAbsent**(key: String, ifAbsent: () -> String): String
 Looks up the value of the specified key, or add a new value if it isn't there.
 
-Returns the value associated to the key, if there is one. Otherwise calls `ifAbsent` to get a new value, associates the key to that value, and then returns the new value:
+Returns the value associated to the key, if there is one.
+Otherwise calls `ifAbsent` to get a new value, associates the key to that value, and then returns the new value:
 
 === "Haxe"
 		:::haxe
@@ -301,7 +302,8 @@ Returns the value associated to the key, if there is one. Otherwise calls `ifAbs
 ## **putObjectIfAbsent**(key: String, ifAbsent: () -> Any): Dynamic
 Looks up the value of the specified key, or add a new value if it isn't there.
 
-Returns the deserialized value associated to the key, if there is one. Otherwise calls `ifAbsent` to get a new value, serializes and associates the key to that value, and then returns the new value:
+Returns the deserialized value associated to the key, if there is one.
+Otherwise calls `ifAbsent` to get a new value, serializes it and associates the key to that value, and then returns the new value:
 
 === "Haxe"
 		:::haxe
@@ -338,7 +340,8 @@ Returns the deserialized value associated to the key, if there is one. Otherwise
 		}
 
 !!! info
-	The value is serialized using the [`JSON.stringify`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) method, and deserialized using the [`JSON.parse`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse) method.
+	The value is serialized using the [`JSON.stringify`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) method,
+	and deserialized using the [`JSON.parse`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse) method.
 
 ## **remove**(key: String): Null&lt;String&gt;
 Removes the value associated to the specified key:
