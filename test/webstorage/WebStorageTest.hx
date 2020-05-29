@@ -17,6 +17,7 @@ class WebStorageTest {
 	/** Runs the tests. **/
 	public function run(): Void {
 		beforeEach(() -> sessionStorage.clear());
+
 		describe(".keys", testKeys);
 		describe(".length", testLength);
 		describe(".addEventListener('change')", testAddEventListener);
@@ -199,12 +200,12 @@ class WebStorageTest {
 
 	/** Tests the `keyValueIterator()` method. **/
 	function testKeyValueIterator(): Void {
-		it("should end iteration immediately if storage is empty", function() {
+		it("should end iteration immediately if the storage is empty", function() {
 			final iterator = new SessionStorage().keyValueIterator();
 			Assert.isFalse(iterator.hasNext());
 		});
 
-		it("should iterate over the values if storage is not empty", function() {
+		it("should iterate over the values if the storage is not empty", function() {
 			sessionStorage.setItem("foo", "bar");
 			sessionStorage.setItem("bar", "baz");
 

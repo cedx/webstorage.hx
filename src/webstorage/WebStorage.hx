@@ -55,7 +55,7 @@ import js.lib.Symbol;
 		if (listener != null) removeEventListener("storage", listener);
 
 	/** Gets a value indicating whether this storage contains the specified `key`. **/
-	public function exists(key: String) return keys.contains(key);
+	public function exists(key: String) return backend.getItem(key) != null;
 
 	/**
 		Gets the value associated to the specified `key`.
@@ -72,7 +72,7 @@ import js.lib.Symbol;
 	**/
 	public function getObject(key: String, ?defaultValue: Any): Dynamic {
 		try {
-			final value = get(key);
+			final value = backend.getItem(key);
 			return value != null ? Json.parse(value) : defaultValue;
 		}
 
@@ -118,10 +118,7 @@ import js.lib.Symbol;
 		return oldValue;
 	}
 
-	/**
-		Associates a given `value` to the specified `key`.
-		Returns this instance.
-	**/
+	/** Associates a given `value` to the specified `key`. **/
 	public function set(key: String, value: String): WebStorage {
 		final oldValue = get(key);
 		backend.setItem(key, value);
@@ -129,10 +126,7 @@ import js.lib.Symbol;
 		return this;
 	}
 
-	/**
-		Serializes and associates a given `value` to the specified `key`.
-		Returns this instance.
-	**/
+	/** Serializes and associates a given `value` to the specified `key`. **/
 	public function setObject(key: String, value: Any) return set(key, Json.stringify(value));
 
 	/** Converts this object to a map in JSON format. **/
