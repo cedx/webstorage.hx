@@ -70,16 +70,11 @@ import js.lib.Symbol;
 		Gets the deserialized value associated to the specified `key`.
 		Returns the given `defaultValue` if the item does not exist.
 	**/
-	public function getObject(key: String, ?defaultValue: Any): Dynamic {
-		try {
+	public function getObject(key: String, ?defaultValue: Any): Dynamic
+		return try {
 			final value = backend.getItem(key);
-			return value != null ? Json.parse(value) : defaultValue;
-		}
-
-		catch (e) {
-			return defaultValue;
-		}
-	}
+			value != null ? Json.parse(value) : defaultValue;
+		} catch (e) defaultValue;
 
 	/** Returns a new iterator that allows iterating the entries of this storage. **/
 	public function keyValueIterator(): KeyValueIterator<String, String>
