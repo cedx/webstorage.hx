@@ -8,12 +8,12 @@ class TestAll {
 
 	/** The test cases. **/
 	static final tests = [
-		"WebStorage" => new WebStorageTest()
+		"WebStorage" => new WebStorageTest().run
 	];
 
 	/** Application entry point. **/
 	static function main(): Void {
 		Assert.results = new List();
-		for (description => test in tests) describe(description, test.run);
+		for (description => callback in tests) describe(description, callback);
 	}
 }
