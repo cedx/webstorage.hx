@@ -47,7 +47,7 @@ import js.lib.Symbol;
 	/** Removes all entries from this storage. **/
 	public function clear(): Void {
 		backend.clear();
-		emit(null, null, null);
+		emit(null);
 	}
 
 	/** Cancels the subscription to the storage events. **/
@@ -109,7 +109,7 @@ import js.lib.Symbol;
 	public function remove(key: String): Null<String> {
 		final oldValue = get(key);
 		backend.removeItem(key);
-		emit(key, oldValue, null);
+		emit(key, oldValue);
 		return oldValue;
 	}
 
@@ -132,7 +132,7 @@ import js.lib.Symbol;
 	}
 
 	/** Emits a new storage event. **/
-	function emit(key: Null<String>, oldValue: Null<String>, newValue: Null<String>, ?url: String): Void
+	function emit(key: Null<String>, ?oldValue: String, ?newValue: String, ?url: String): Void
 		dispatchEvent(new StorageEvent("change", {
 			key: key,
 			newValue: newValue,
