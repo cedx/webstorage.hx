@@ -6,6 +6,4 @@ foreach ($item in ".temp", "build", "doc/api", "lib/webstorage.*", "www") {
 	if (Test-Path $item) { Remove-Item $item -Force -Recurse }
 }
 
-foreach ($item in Get-ChildItem var -Exclude .gitkeep) {
-	Remove-Item $item -Recurse
-}
+Get-ChildItem var -Exclude .gitkeep | Remove-Item -Recurse
