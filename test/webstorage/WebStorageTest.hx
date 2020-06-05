@@ -63,7 +63,6 @@ class WebStorageTest extends Test {
 	}
 
 	/** Tests the `addEventListener("change")` method. **/
-	@SuppressWarnings("checkstyle:MethodLength")
 	function testAddEventListener(): Void {
 		it("should trigger an event when a value is added", function(done) {
 			final listener = event -> {
