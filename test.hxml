@@ -1,5 +1,6 @@
 --class-path src
 --class-path test
+--debug
 --define js-es=6
 --define UTEST_FAILURE_THROW
 --js var/tests.js
