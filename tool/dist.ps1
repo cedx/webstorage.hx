@@ -4,7 +4,7 @@ Set-Location (Split-Path $PSScriptRoot)
 
 tool/clean.ps1
 tool/version.ps1
-haxe --no-traces build.hxml
+haxe build.hxml
 
 if (-not (Test-Path build)) { New-Item build -ItemType Directory | Out-Null }
 Copy-Item lib/webstorage.js build/webstorage.js
