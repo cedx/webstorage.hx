@@ -38,8 +38,7 @@ import js.lib.Symbol;
 	}
 
 	/** Gets the keys of this storage. **/
-	function get_keys(): Array<String>
-		return [for (index in 0...backend.length) backend.key(index)];
+	function get_keys() return [for (index in 0...backend.length) backend.key(index)];
 
 	/** Gets the number of entries in this storage. **/
 	function get_length() return backend.length;
@@ -142,7 +141,7 @@ import js.lib.Symbol;
 		}));
 
 	/** Initializes the class. **/
-	static function __init__(): Void {
+	static function __init__() {
 		final webStorageProto = Syntax.field(WebStorage, "prototype");
 		Object.defineProperty(webStorageProto, Syntax.field(Symbol, "iterator"), {
 			value: Syntax.code("function *() { for (const key of this.keys) yield [key, this.get(key)]; }")

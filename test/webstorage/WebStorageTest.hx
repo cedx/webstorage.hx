@@ -13,7 +13,7 @@ class WebStorageTest extends Test {
 	final sessionStorage = Browser.window.sessionStorage;
 
 	/** Runs the tests. **/
-	public function run(): Void {
+	public function run() {
 		beforeEach(() -> sessionStorage.clear());
 
 		describe(".keys", testKeys);
@@ -33,7 +33,7 @@ class WebStorageTest extends Test {
 	}
 
 	/** Tests the `keys` property. **/
-	function testKeys(): Void {
+	function testKeys() {
 		it("should return an empty array for an empty storage", function() {
 			Assert.equals(0, new SessionStorage().keys.length);
 		});
@@ -50,7 +50,7 @@ class WebStorageTest extends Test {
 	}
 
 	/** Tests the `length` property. **/
-	function testLength(): Void {
+	function testLength() {
 		it("should return zero for an empty storage", function() {
 			Assert.equals(0, new SessionStorage().length);
 		});
@@ -63,7 +63,7 @@ class WebStorageTest extends Test {
 	}
 
 	/** Tests the `addEventListener("change")` method. **/
-	function testAddEventListener(): Void {
+	function testAddEventListener() {
 		it("should trigger an event when a value is added", function(done) {
 			final listener = event -> {
 				Assert.equals("foo", event.key);
@@ -129,7 +129,7 @@ class WebStorageTest extends Test {
 	}
 
 	/** Tests the `clear()` method. **/
-	function testClear(): Void {
+	function testClear() {
 		it("should remove all storage entries", function() {
 			sessionStorage.setItem("foo", "bar");
 			sessionStorage.setItem("bar", "baz");
@@ -142,7 +142,7 @@ class WebStorageTest extends Test {
 	}
 
 	/** Tests the `exists()` method. **/
-	function testExists(): Void {
+	function testExists() {
 		it("should return `false` if the specified key is not contained", function() {
 			Assert.isFalse(new SessionStorage().exists("foo"));
 		});
@@ -156,7 +156,7 @@ class WebStorageTest extends Test {
 	}
 
 	/** Tests the `get()` method. **/
-	function testGet(): Void {
+	function testGet() {
 		it("should properly get the storage entries", function() {
 			final service = new SessionStorage();
 			Assert.isNull(service.get("foo"));
@@ -174,7 +174,7 @@ class WebStorageTest extends Test {
 	}
 
 	/** Tests the `getObject()` method. **/
-	function testGetObject(): Void {
+	function testGetObject() {
 		it("should properly get the deserialized storage entries", function() {
 			final service = new SessionStorage();
 			Assert.isNull(service.getObject("foo"));
@@ -196,7 +196,7 @@ class WebStorageTest extends Test {
 	}
 
 	/** Tests the `keyValueIterator()` method. **/
-	function testKeyValueIterator(): Void {
+	function testKeyValueIterator() {
 		it("should end iteration immediately if the storage is empty", function() {
 			final iterator = new SessionStorage().keyValueIterator();
 			Assert.isFalse(iterator.hasNext());
@@ -216,7 +216,7 @@ class WebStorageTest extends Test {
 	}
 
 	/** Tests the `putIfAbsent()` method. **/
-	function testPutIfAbsent(): Void {
+	function testPutIfAbsent() {
 		it("should add a new entry if it does not exist", function() {
 			final service = new SessionStorage();
 			Assert.isNull(sessionStorage.getItem("foo"));
@@ -233,7 +233,7 @@ class WebStorageTest extends Test {
 	}
 
 	/** Tests the `putObjectIfAbsent()` method. **/
-	function testPutObjectIfAbsent(): Void {
+	function testPutObjectIfAbsent() {
 		it("should add a new entry if it does not exist", function() {
 			final service = new SessionStorage();
 			Assert.isNull(sessionStorage.getItem("foo"));
@@ -250,7 +250,7 @@ class WebStorageTest extends Test {
 	}
 
 	/** Tests the `remove()` method. **/
-	function testRemove(): Void {
+	function testRemove() {
 		it("should properly remove the storage entries", function() {
 			final service = new SessionStorage();
 			sessionStorage.setItem("foo", "bar");
@@ -267,7 +267,7 @@ class WebStorageTest extends Test {
 	}
 
 	/** Tests the `set()` method. **/
-	function testSet(): Void {
+	function testSet() {
 		it("should properly set the storage entries", function() {
 			final service = new SessionStorage();
 			Assert.isNull(sessionStorage.getItem("foo"));
@@ -279,7 +279,7 @@ class WebStorageTest extends Test {
 	}
 
 	/** Tests the `setObject()` method. **/
-	function testSetObject(): Void {
+	function testSetObject() {
 		it("should properly serialize and set the storage entries", function() {
 			final service = new SessionStorage();
 			Assert.isNull(sessionStorage.getItem("foo"));
@@ -293,7 +293,7 @@ class WebStorageTest extends Test {
 	}
 
 	/** Tests the `toJSON()` method. **/
-	function testToJSON(): Void {
+	function testToJSON() {
 		it("should return an empty map for an empty storage", function() {
 			final service = new SessionStorage();
 			Assert.same({}, service.toJSON());

@@ -12,7 +12,7 @@ class TestAll {
 	];
 
 	/** Application entry point. **/
-	static function main(): Void {
+	static function main() {
 		Assert.results = new List();
 		for (description => callback in tests) describe(description, callback);
 	}
