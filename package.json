@@ -47,6 +47,7 @@
 		"url": "https://git.belin.io/cedx/webstorage.hx.git"
 	},
 	"scripts": {
+		"dist": "terser --config-file=etc/terser.json --output=build/webstorage.min.js build/webstorage.js",
 		"prepack": "pwsh tool/dist.ps1",
 		"test": "karma start etc/karma.js"
 	}
