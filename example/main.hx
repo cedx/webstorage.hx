@@ -2,8 +2,8 @@ import js.Browser.console;
 import js.lib.Object;
 import webstorage.LocalStorage;
 
-/** The main class. **/
-class Main {
+/** A sample class. **/
+class Example {
 
 	/** Application entry point. **/
 	static function main() {
