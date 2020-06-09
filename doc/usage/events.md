@@ -12,7 +12,7 @@ You can subscribe to these `change` events using the `addEventListener()` method
 		import webstorage.LocalStorage;
 
 		class Main {
-			static function main(): Void {
+			static function main() {
 				final service = new LocalStorage();
 				service.addEventListener("change", event -> {
 					trace('${event.key}: ${event.oldValue} => ${event.newValue}');
@@ -64,7 +64,7 @@ The class constructors have an optional `listenToGlobalEvents` parameter that al
 		import webstorage.LocalStorage;
 
 		class Main {
-			static function main(): Void {
+			static function main() {
 				// Enable the subscription to the global events of the local storage.
 				final service = new LocalStorage({listenToGlobalEvents: true});
 

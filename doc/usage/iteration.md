@@ -7,7 +7,7 @@ You can go through all key/value pairs contained using a `for` loop:
 		import webstorage.LocalStorage;
 
 		class Main {
-			static function main(): Void {
+			static function main() {
 				final service = new LocalStorage();
 				service.set("foo", "bar");
 				service.set("anotherKey", "anotherValue");

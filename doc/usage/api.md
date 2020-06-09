@@ -11,7 +11,7 @@ This package provides two services dedicated to the Web Storage: the `LocalStora
 		import webstorage.LocalStorage;
 
 		class Main {
-			static function main(): Void {
+			static function main() {
 				final service = new LocalStorage();
 
 				service.set("foo", "bar");
@@ -46,7 +46,7 @@ Returns the keys of the associated storage:
 		import webstorage.LocalStorage;
 
 		class Main {
-			static function main(): Void {
+			static function main() {
 				final service = new LocalStorage();
 				trace(service.keys); // []
 					
@@ -75,7 +75,7 @@ Returns the number of entries in the associated storage:
 		import webstorage.LocalStorage;
 
 		class Main {
-			static function main(): Void {
+			static function main() {
 				final service = new LocalStorage();
 				trace(service.length); // 0
 					
@@ -104,7 +104,7 @@ Removes all entries from the associated storage:
 		import webstorage.LocalStorage;
 
 		class Main {
-			static function main(): Void {
+			static function main() {
 				final service = new LocalStorage();
 
 				service.set("foo", "bar");
@@ -138,7 +138,7 @@ When you have done using the service instance, you should call the `destroy()` m
 		import webstorage.LocalStorage;
 
 		class Main {
-			static function main(): Void {
+			static function main() {
 				// Work with the service...
 				final service = new LocalStorage({listenToGlobalEvents: true});
 
@@ -169,7 +169,7 @@ Returns a boolean value indicating whether the associated storage contains the s
 		import webstorage.LocalStorage;
 
 		class Main {
-			static function main(): Void {
+			static function main() {
 				final service = new LocalStorage();
 				trace(service.exists("foo")); // false
 					
@@ -198,7 +198,7 @@ Returns the value associated to the specified key:
 		import webstorage.LocalStorage;
 
 		class Main {
-			static function main(): Void {
+			static function main() {
 				final service = new LocalStorage();
 				trace(service.get("foo")); // null
 				trace(service.get("foo", "qux")); // "qux"
@@ -231,7 +231,7 @@ Deserializes and returns the value associated to the specified key:
 		import webstorage.LocalStorage;
 
 		class Main {
-			static function main(): Void {
+			static function main() {
 				final service = new LocalStorage();
 				trace(service.getObject("foo")); // null
 				trace(service.getObject("foo", "qux")); // "qux"
@@ -270,7 +270,7 @@ Otherwise calls `ifAbsent` to get a new value, associates the key to that value,
 		import webstorage.LocalStorage;
 
 		class Main {
-			static function main(): Void {
+			static function main() {
 				final service = new LocalStorage();
 				trace(service.exists("foo")); // false
 
@@ -310,7 +310,7 @@ Otherwise calls `ifAbsent` to get a new value, serializes it and associates the 
 		import webstorage.LocalStorage;
 
 		class Main {
-			static function main(): Void {
+			static function main() {
 				final service = new LocalStorage();
 				trace(service.exists("foo")); // false
 
@@ -351,7 +351,7 @@ Removes the value associated to the specified key:
 		import webstorage.LocalStorage;
 
 		class Main {
-			static function main(): Void {
+			static function main() {
 				final service = new LocalStorage();
 
 				service.set("foo", "bar");
@@ -386,7 +386,7 @@ Associates a given value to the specified key:
 		import webstorage.LocalStorage;
 
 		class Main {
-			static function main(): Void {
+			static function main() {
 				final service = new LocalStorage();
 				trace(service.get("foo")); // null
 
@@ -415,7 +415,7 @@ Serializes and associates a given value to the specified key:
 		import webstorage.LocalStorage;
 
 		class Main {
-			static function main(): Void {
+			static function main() {
 				final service = new LocalStorage();
 				trace(service.getObject("foo")); // null
 
