@@ -50,5 +50,5 @@ class Example {
 
 		// Release the event listeners.
 		service.destroy();
-}
+	}
 }
