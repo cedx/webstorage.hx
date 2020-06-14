@@ -1,4 +1,4 @@
-import Mocha.*;
+import Mocha;
 import haxe.ds.List;
 import utest.Assert;
 import webstorage.*;
@@ -14,6 +14,6 @@ class TestAll {
 	/** Application entry point. **/
 	static function main() {
 		Assert.results = new List();
-		for (description => callback in tests) describe(description, callback);
+		for (description => callback in tests) Mocha.describe(description, callback);
 	}
 }
