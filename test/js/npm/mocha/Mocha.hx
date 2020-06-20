@@ -35,8 +35,7 @@ extern class Mocha {
 	static function describeSkip(description: String, callback: VoidCallback): Void;
 
 	/** Defines a test case. **/
-	@:overload(function(specification: String): Void {})
-	static function it(specification: String, callback: Callback): Void;
+	static function it(specification: String, ?callback: Callback): Void;
 
 	/** Defines an exclusive test case. **/
 	@:native("it.only")
