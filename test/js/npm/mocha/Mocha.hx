@@ -1,3 +1,5 @@
+package js.npm.mocha;
+
 import haxe.extern.EitherType;
 import js.lib.Error;
 

@@ -1,8 +1,8 @@
 package webstorage;
 
-import Mocha.*;
 import haxe.Json;
 import js.Browser;
+import js.npm.mocha.Mocha.*;
 import utest.Assert;
 import utest.Test;
 
