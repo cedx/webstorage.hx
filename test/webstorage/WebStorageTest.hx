@@ -2,7 +2,7 @@ package webstorage;
 
 import haxe.Json;
 import js.Browser;
-import js.npm.mocha.Mocha.*;
+import js.npm.Mocha.*;
 import utest.Assert;
 import utest.Test;
 
