@@ -299,7 +299,7 @@ Otherwise calls `ifAbsent` to get a new value, associates the key to that value,
 			console.log(value); // "bar"
 		}
 
-## **putObjectIfAbsent**(key: String, ifAbsent: () -> Any): Dynamic
+## **putObjectIfAbsent**(key: String, ifAbsent: () -> Dynamic): Dynamic
 Looks up the value of the specified key, or add a new value if it isn't there.
 
 Returns the deserialized value associated to the key, if there is one.

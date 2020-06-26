@@ -9,7 +9,7 @@ export declare abstract class WebStorage extends EventTarget implements Iterable
 	get(key: string, defaultValue?: string): string|undefined;
 	getObject(key: string, defaultValue?: unknown): any;
 	putIfAbsent(key: string, ifAbsent: () => string): string;
-	putObjectIfAbsent(key: string, ifAbsent: () => unknown): any;
+	putObjectIfAbsent(key: string, ifAbsent: () => any): any;
 	remove(key: string): string|undefined;
 	set(key: string, value: string): this;
 	setObject(key: string, value: unknown): this;
