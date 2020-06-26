@@ -3,7 +3,7 @@ import js.lib.Object;
 import webstorage.LocalStorage;
 
 /** A sample class. **/
-class Example {
+class Main {
 
 	/** Application entry point. **/
 	static function main() {
