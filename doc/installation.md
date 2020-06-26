@@ -9,7 +9,7 @@ You can verify if you're already good to go with the following commands:
 === "Haxe"
 		:::shell
 		haxe --version
-		# 4.1.1
+		# 4.1.2
 
 		haxelib version
 		# 4.0.2
