@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: |
           haxelib install all --always
-          npm install --ignore-scripts
+          npm install
       - name: Run tests
         run: |
           haxe test.hxml
