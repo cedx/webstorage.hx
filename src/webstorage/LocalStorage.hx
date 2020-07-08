@@ -7,5 +7,5 @@ import js.Browser;
 
 	/** Creates a new local storage service. **/
 	public function new(?options: WebStorage.WebStorageOptions)
-		super(Browser.window.localStorage, options);
+		super(Browser.getLocalStorage(), options);
 }

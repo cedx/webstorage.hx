@@ -7,5 +7,5 @@ import js.Browser;
 
 	/** Creates a new session storage service. **/
 	public function new(?options: WebStorage.WebStorageOptions)
-		super(Browser.window.sessionStorage, options);
+		super(Browser.getSessionStorage(), options);
 }
