@@ -9,7 +9,7 @@ You can verify if you're already good to go with the following commands:
 === "Haxe"
 		:::shell
 		haxe --version
-		# 4.1.2
+		# 4.1.3
 
 		haxelib version
 		# 4.0.2
@@ -20,7 +20,7 @@ You can verify if you're already good to go with the following commands:
 		# v14.5.0
 
 		npm --version
-		# 6.14.5
+		# 6.14.6
 
 !!! info
 	If you plan to play with the package sources, you will also need
