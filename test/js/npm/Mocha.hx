@@ -4,13 +4,13 @@ import haxe.extern.EitherType;
 import js.lib.Error;
 
 /** Callback function used for tests and hooks. **/
-typedef Callback = EitherType<DoneCallback, VoidCallback>;
+typedef Callback = EitherType<AsyncCallback, SyncCallback>;
 
-/** An error-first callback function. **/
-typedef DoneCallback = EitherType<() -> Void, Error -> Void> -> Void;
+/** An asynchronous callback function. **/
+typedef AsyncCallback = EitherType<() -> Void, Error -> Void> -> Void;
 
-/** A callback function. **/
-typedef VoidCallback = () -> Void;
+/** A synchronous callback function. **/
+typedef SyncCallback = () -> Void;
 
 /** The Mocha test runner. **/
 @:native("window")
