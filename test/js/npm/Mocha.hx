@@ -4,7 +4,7 @@ import haxe.extern.EitherType;
 import js.lib.Error;
 
 /** The Mocha test runner. **/
-@:native("")
+@:native("window")
 extern class Mocha {
 
 	/** Method invoked once after the last test. **/
