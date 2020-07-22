@@ -33,15 +33,15 @@ extern class Mocha {
 	static function beforeEach(callback: Callback): Void;
 
 	/** Defines a test suite. **/
-	static function describe(description: String, callback: VoidCallback): Void;
+	static function describe(description: String, callback: SyncCallback): Void;
 
 	/** Defines an exclusive test suite. **/
 	@:native("describe.only")
-	static function describeOnly(description: String, callback: VoidCallback): Void;
+	static function describeOnly(description: String, callback: SyncCallback): Void;
 
 	/** Defines a skipped test suite. **/
 	@:native("describe.skip")
-	static function describeSkip(description: String, callback: VoidCallback): Void;
+	static function describeSkip(description: String, callback: SyncCallback): Void;
 
 	/** Defines a test case. **/
 	static function it(specification: String, ?callback: Callback): Void;
