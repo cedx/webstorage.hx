@@ -13,7 +13,7 @@ typedef AsyncCallback = EitherType<() -> Void, Error -> Void> -> Void;
 typedef SyncCallback = () -> Void;
 
 /** The Mocha test runner. **/
-@:native("window")
+@:native("")
 extern class Mocha {
 
 	/** Method invoked once after the last test. **/
