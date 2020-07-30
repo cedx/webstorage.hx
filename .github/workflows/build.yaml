@@ -31,4 +31,4 @@ jobs:
       - name: Run tests
         run: |
           haxe test.hxml
-          npm run test
+          npm test
