@@ -3,5 +3,5 @@
 --define js-es=6
 --define UTEST_FAILURE_THROW
 --js var/tests.js
---library utest:1.13.0
+--library utest:1.13.1
 --main TestAll
