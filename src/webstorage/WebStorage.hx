@@ -96,7 +96,7 @@ import js.lib.Symbol;
 		Returns the deserialized value associated to `key`, if there is one.
 		Otherwise calls `ifAbsent` to get a new value, serializes and associates `key` to that value, and then returns the new value.
 	**/
-	public function putObjectIfAbsent(key: String, ifAbsent: () -> Dynamic): Dynamic {
+	public function putObjectIfAbsent<T>(key: String, ifAbsent: () -> T): Null<T> {
 		if (!exists(key)) setObject(key, ifAbsent());
 		return getObject(key);
 	}
