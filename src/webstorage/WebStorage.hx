@@ -69,7 +69,7 @@ import js.lib.Symbol;
 		Gets the deserialized value associated to the specified `key`.
 		Returns the given `defaultValue` if the item does not exist.
 	**/
-	public function getObject(key: String, ?defaultValue: Any): Dynamic
+	public function getObject<T>(key: String, ?defaultValue: T): Null<T>
 		return try {
 			final value = backend.getItem(key);
 			value != null ? Json.parse(value) : defaultValue;

@@ -223,7 +223,7 @@ Returns the value associated to the specified key:
 
 Returns `null` (`undefined` in JavaScript) or the given default value if the key is not found.
 
-## **getObject**(key: String, ?defaultValue: Any): Dynamic
+## **getObject**&lt;T&gt;(key: String, ?defaultValue: T): Null&lt;T&gt;
 Deserializes and returns the value associated to the specified key:
 
 === "Haxe"
