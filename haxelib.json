@@ -4,8 +4,8 @@
 	"description": "Services for interacting with the Web Storage. An event-based API to manage storage changes.",
 	"license": "MIT",
 	"name": "webstorage",
-	"releasenote": "Fixed the npm packaging, updated the documentation.",
+	"releasenote": "The `getObject()` and `putObjectIfAbsent()` methods of the `WebStorage` class are now generic.",
 	"tags": ["browser", "events", "html", "js", "service", "storage"],
 	"url": "https://docs.belin.io/webstorage.hx",
-	"version": "1.0.3"
+	"version": "1.0.4"
 }

@@ -10,7 +10,7 @@ import utest.Test;
 class WebStorageTest extends Test {
 
 	/** The native session storage. **/
-	final sessionStorage = Browser.window.sessionStorage;
+	final sessionStorage = Browser.getSessionStorage();
 
 	/** Runs the tests. **/
 	public function run() {
