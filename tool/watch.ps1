@@ -5,7 +5,7 @@ Set-Location (Split-Path $PSScriptRoot)
 
 $action = {
 	$changeType = [String] $EventArgs.ChangeType
-	Write-Host "'$($EventArgs.Name)' was $($changeType.ToLower()): starting a new build..." 
+	Write-Host "'$($EventArgs.Name)' was $($changeType.ToLower()): starting a new build..."
 	$timeSpan = Measure-Command { haxe build.hxml 2>&1 | Out-Host }
 	Write-Host "> Finished the build after $($timeSpan.TotalSeconds) seconds."
 }
@@ -24,4 +24,4 @@ while ($true) {
 	Start-Sleep -Milliseconds 200
 }
 
-Get-EventSubscriber | Unregister-Event
+Get-EventSubscriber | Unregister-Event -Force
