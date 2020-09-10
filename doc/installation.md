@@ -17,10 +17,10 @@ You can verify if you're already good to go with the following commands:
 === "JavaScript"
 		:::shell
 		node --version
-		# v14.8.0
+		# v14.10.0
 
 		npm --version
-		# 6.14.7
+		# 6.14.8
 
 !!! info
 	If you plan to play with the package sources, you will also need
