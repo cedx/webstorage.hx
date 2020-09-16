@@ -21,7 +21,7 @@
 		"terser": "^5.3.0"
 	},
 	"engines": {
-		"node": ">=14.10.0"
+		"node": ">=14.11.0"
 	},
 	"exports": {
 		"import": "./lib/index.mjs",
