@@ -17,7 +17,7 @@ You can verify if you're already good to go with the following commands:
 === "JavaScript"
 		:::shell
 		node --version
-		# v14.12.0
+		# v14.13.0
 
 		npm --version
 		# 6.14.8
