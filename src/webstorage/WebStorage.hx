@@ -23,7 +23,7 @@ import js.lib.Symbol;
 	final backend: Storage;
 
 	/** The function that listens for storage events. **/
-	final listener: Null<StorageEvent> -> Void;
+	final listener: Null<StorageEvent -> Void>;
 
 	/** Creates a new storage service. **/
 	function new(backend: Storage, ?options: WebStorageOptions) {
