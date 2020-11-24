@@ -2,9 +2,6 @@ package webstorage;
 
 import haxe.Json;
 import js.Browser;
-import js.npm.Mocha.*;
-import utest.Assert;
-import utest.Test;
 
 /** Tests the features of the `WebStorage` class. **/
 class WebStorageTest extends Test {
