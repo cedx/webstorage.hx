@@ -3,8 +3,8 @@
 ![Node.js](https://badgen.net/npm/node/@cedx/webstorage.hx) ![npm](https://badgen.net/npm/v/@cedx/webstorage.hx) ![Types](https://badgen.net/npm/types/@cedx/webstorage.hx) ![Downloads](https://badgen.net/npm/dt/@cedx/webstorage.hx)  
 ![License](https://badgen.net/badge/license/MIT/blue) ![Build](https://badgen.net/github/checks/cedx/webstorage.hx/main)
 
-Services for interacting with the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage),
-in [Haxe](https://haxe.org) and [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
+> Services for interacting with the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage),
+> in [Haxe](https://haxe.org) and [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
 
 ## Documentation
 - [User guide](https://docs.belin.io/webstorage.hx)
