@@ -25,6 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           haxelib install all --always
+          haxelib set tink_core 1.27.1 --always
           npm install
       - name: Run tests
         run: |
