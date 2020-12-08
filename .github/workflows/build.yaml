@@ -6,6 +6,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Fetch sources
+        uses: actions/checkout@v2
       - name: Set up Haxe
         uses: krdlab/setup-haxe@v1
         with:
@@ -17,11 +19,7 @@ jobs:
       - name: Check environment
         run: |
           haxe --version
-          haxelib version
           node --version
-          npm --version
-      - name: Fetch sources
-        uses: actions/checkout@v2
       - name: Install dependencies
         run: |
           haxelib install all --always
