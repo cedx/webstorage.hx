@@ -2,7 +2,7 @@
 --dce full
 --define analyzer-optimize
 --define js-es=6
---js lib/webstorage.js
+--js lib/bundle.js
 
 webstorage.LocalStorage
 webstorage.SessionStorage

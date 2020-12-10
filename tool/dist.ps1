@@ -7,5 +7,5 @@ tool/version.ps1
 haxe build.hxml
 
 if (-not (Test-Path build)) { New-Item build -ItemType Directory | Out-Null }
-Copy-Item lib/webstorage.js build/webstorage.js
+Copy-Item lib/bundle.js build/webstorage.js
 npm run dist
