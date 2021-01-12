@@ -9,7 +9,7 @@ haxelib run dox `
 	--define source-path "https://git.belin.io/cedx/webstorage.hx/src/branch/main/src" `
 	--define themeColor 0xffc105 `
 	--define version $version `
-	--define website "https://belin.io" `
+	--define website "https://docs.belin.io/webstorage.hx" `
 	--input-path var `
 	--output-path docs/api `
 	--title "WebStorage.hx" `
