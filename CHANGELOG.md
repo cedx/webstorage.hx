@@ -1,5 +1,9 @@
 # Changelog
 
+## Version [1.0.5](https://git.belin.io/cedx/webstorage.hx/compare/v1.0.4...v1.0.5)
+- Fixed the handling of global [storage events](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event).
+- Ported the documentation to [docsify](https://docsify.js.org).
+
 ## Version [1.0.4](https://git.belin.io/cedx/webstorage.hx/compare/v1.0.3...v1.0.4)
 - The `getObject()` and `putObjectIfAbsent()` methods of the `WebStorage` class are now generic.
 
