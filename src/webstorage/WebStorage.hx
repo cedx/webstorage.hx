@@ -33,7 +33,7 @@ import js.lib.Symbol;
 		if (options == null || !options.listenToGlobalEvents) listener = null;
 		else {
 			listener = event -> if (event.storageArea == backend) emit(event.key, event.oldValue, event.newValue, event.url);
-			addEventListener("storage", listener);
+			Browser.window.addEventListener("storage", listener);
 		}
 	}
 
@@ -51,7 +51,7 @@ import js.lib.Symbol;
 
 	/** Cancels the subscription to the storage events. **/
 	public function destroy(): Void
-		if (listener != null) removeEventListener("storage", listener);
+		if (listener != null) Browser.window.removeEventListener("storage", listener);
 
 	/** Gets a value indicating whether this storage contains the specified `key`. **/
 	public function exists(key: String) return backend.getItem(key) != null;
