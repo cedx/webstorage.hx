@@ -1,8 +1,8 @@
 # See also
 
 ## Development
-- [API reference](https://api.belin.io/webstorage.hx)
-- [Submit an issue](https://git.belin.io/cedx/webstorage.hx/issues)
+- [API reference](https://cedx.github.io/webstorage.hx/api)
+- [Submit an issue](https://github.com/cedx/webstorage.hx/issues)
 
 ## Packages
 - Haxe: `webstorage` on [Haxelib](https://lib.haxe.org/p/webstorage)

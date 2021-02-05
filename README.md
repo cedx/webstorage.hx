@@ -7,16 +7,16 @@
 > in [Haxe](https://haxe.org) and [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
 
 ## Documentation
-- [User guide](https://docs.belin.io/webstorage.hx)
-- [API reference](https://api.belin.io/webstorage.hx)
+- [User guide](https://cedx.github.io/webstorage.hx)
+- [API reference](https://cedx.github.io/webstorage.hx/api)
 
 ## Packages
 - Haxe: `webstorage` on [Haxelib](https://lib.haxe.org/p/webstorage)
 - JavaScript: `@cedx/webstorage.hx` on [npm](https://www.npmjs.com/package/@cedx/webstorage.hx)
 
 ## Development
-- [Git repository](https://git.belin.io/cedx/webstorage.hx)
-- [Submit an issue](https://git.belin.io/cedx/webstorage.hx/issues)
+- [Git repository](https://github.com/cedx/webstorage.hx)
+- [Submit an issue](https://github.com/cedx/webstorage.hx/issues)
 
 ## License
-[WebStorage.hx](https://docs.belin.io/webstorage.hx) is distributed under the MIT License.
+[WebStorage.hx](https://cedx.github.io/webstorage.hx) is distributed under the MIT License.

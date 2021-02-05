@@ -6,6 +6,6 @@
 	"name": "webstorage",
 	"releasenote": "Fixed the handling of global storage events.",
 	"tags": ["browser", "events", "html", "js", "service", "storage"],
-	"url": "https://docs.belin.io/webstorage.hx",
+	"url": "https://cedx.github.io/webstorage.hx",
 	"version": "1.0.5"
 }

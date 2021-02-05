@@ -1,10 +1,11 @@
 {
-	"bugs": "https://git.belin.io/cedx/webstorage.hx/issues",
+	"bugs": "https://github.com/cedx/webstorage.hx/issues",
 	"description": "Services for interacting with the Web Storage. An event-based API to manage storage changes.",
-	"homepage": "https://docs.belin.io/webstorage.hx",
+	"homepage": "https://cedx.github.io/webstorage.hx",
 	"license": "MIT",
 	"main": "./lib/index.js",
 	"name": "@cedx/webstorage.hx",
+	"repository": "cedx/webstorage.hx",
 	"type": "commonjs",
 	"version": "1.0.5",
 	"author": {
@@ -41,10 +42,6 @@
 		"service",
 		"storage"
 	],
-	"repository": {
-		"type": "git",
-		"url": "https://git.belin.io/cedx/webstorage.hx.git"
-	},
 	"scripts": {
 		"dist": "terser --config-file=etc/terser.json --output=build/webstorage.min.js build/webstorage.js",
 		"prepack": "pwsh tool/dist.ps1",
