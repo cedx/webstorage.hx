@@ -17,9 +17,7 @@ jobs:
         with:
           node-version: 14
       - name: Check environment
-        run: |
-          haxe --version
-          node --version
+        run: node --version
       - name: Install dependencies
         run: |
           haxelib install test.hxml --always
