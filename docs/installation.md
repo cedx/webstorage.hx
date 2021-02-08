@@ -20,10 +20,10 @@ haxelib version
 #### **JavaScript**
 ```shell
 node --version
-# v15.5.1
+# v15.8.0
 
 npm --version
-# 7.3.0
+# 7.5.1
 ```
 
 <!-- tabs:end -->
