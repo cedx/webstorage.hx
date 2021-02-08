@@ -24,6 +24,4 @@ jobs:
           haxelib set tink_core 1.27.1 --always
           npm install
       - name: Run tests
-        run: |
-          haxe test.hxml
-          npm test
+        run: haxe test.hxml
