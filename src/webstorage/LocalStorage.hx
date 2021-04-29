@@ -1,11 +1,11 @@
 package webstorage;
 
-import js.Browser;
+import js.Browser.window;
 
 /** Provides access to the local storage. **/
-@:expose class LocalStorage extends WebStorage {
+class LocalStorage extends WebStorage {
 
 	/** Creates a new local storage service. **/
 	public function new(?options: WebStorage.WebStorageOptions)
-		super(Browser.getLocalStorage(), options);
+		super(window.localStorage, options);
 }

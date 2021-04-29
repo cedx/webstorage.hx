@@ -3,15 +3,12 @@ package webstorage;
 import haxe.DynamicAccess;
 import haxe.Json;
 import js.Browser;
-import js.Syntax;
 import js.html.EventTarget;
 import js.html.Storage;
 import js.html.StorageEvent;
-import js.lib.Object;
-import js.lib.Symbol;
 
 /** Provides access to the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage). **/
-@:expose class WebStorage extends EventTarget {
+class WebStorage extends EventTarget {
 
 	/** The keys of this storage. **/
 	public var keys(get, never): Array<String>;
@@ -139,19 +136,6 @@ import js.lib.Symbol;
 			storageArea: backend,
 			url: url != null ? url : Browser.location.href
 		}));
-
-	/** Initializes the class. **/
-	static function __init__() {
-		final webStorageProto = Syntax.field(WebStorage, "prototype");
-		Object.defineProperty(webStorageProto, Syntax.field(Symbol, "iterator"), {
-			value: Syntax.code("function *() { for (const key of this.keys) yield [key, this.get(key)]; }")
-		});
-
-		Object.defineProperties(webStorageProto, {
-			keys: {get: webStorageProto.get_keys},
-			length: {get: webStorageProto.get_length}
-		});
-	}
 }
 
 /** Permits iteration over elements of a `WebStorage` instance. **/
@@ -164,8 +148,7 @@ private class WebStorageIterator {
 	final storage: Storage;
 
 	/** Creates a new storage iterator. **/
-	public function new(storage: Storage)
-		this.storage = storage;
+	public function new(storage: Storage) this.storage = storage;
 
 	/** Returns a value indicating whether the iteration is complete. **/
 	public function hasNext() return index < storage.length;

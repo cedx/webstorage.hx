@@ -1,11 +1,11 @@
 package webstorage;
 
-import js.Browser;
+import js.Browser.window;
 
 /** Provides access to the session storage. **/
-@:expose class SessionStorage extends WebStorage {
+class SessionStorage extends WebStorage {
 
 	/** Creates a new session storage service. **/
 	public function new(?options: WebStorage.WebStorageOptions)
-		super(Browser.getSessionStorage(), options);
+		super(window.sessionStorage, options);
 }
