@@ -3,8 +3,8 @@
 	"description": "Services for interacting with the Web Storage. An event-based API to manage storage changes.",
 	"homepage": "https://cedx.github.io/webstorage.hx",
 	"license": "MIT",
-	"main": "./lib/index.js",
-	"name": "@cedx/webstorage.hx",
+	"name": "@cedx/webstorage",
+	"private": true,
 	"repository": "cedx/webstorage.hx",
 	"type": "commonjs",
 	"version": "1.0.5",
@@ -14,37 +14,13 @@
 		"url": "https://belin.io"
 	},
 	"devDependencies": {
-		"karma": "^6.0.2",
+		"karma": "^6.3.2",
 		"karma-chrome-launcher": "^3.1.0",
 		"karma-mocha": "^2.0.1",
-		"mocha": "^8.2.1",
-		"terser": "^5.5.1"
+		"mocha": "^8.3.2",
+		"terser": "^5.7.0"
 	},
 	"engines": {
-		"node": ">=14.15.0"
-	},
-	"exports": {
-		"import": "./lib/index.mjs",
-		"require": "./lib/index.js"
-	},
-	"files": [
-		"build/",
-		"lib/"
-	],
-	"funding": {
-		"type": "patreon",
-		"url": "https://www.patreon.com/cedx"
-	},
-	"keywords": [
-		"browser",
-		"events",
-		"html",
-		"service",
-		"storage"
-	],
-	"scripts": {
-		"dist": "terser --config-file=etc/terser.json --output=build/webstorage.min.js build/webstorage.js",
-		"prepack": "pwsh tool/dist.ps1",
-		"test": "karma start etc/karma.js"
+		"node": ">=16.0.0"
 	}
 }

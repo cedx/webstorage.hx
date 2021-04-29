@@ -51,7 +51,7 @@
 		{"type": "ListenerName"},
 		{"type": "LocalVariableName"},
 		{"type": "MemberName"},
-		{"type": "MethodName", "props": {"format": "^([a-z][a-zA-Z0-9]*|__init__)$"}},
+		{"type": "MethodName"},
 		{"type": "ParameterName"},
 		{"type": "TypeName"},
 
