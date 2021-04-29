@@ -1,3 +1,3 @@
-import js.browser.mocha.Mocha.*;
+import js.mocha.Mocha.*;
 import utest.Assert;
 import utest.Test;

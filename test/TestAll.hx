@@ -1,5 +1,5 @@
 import haxe.ds.List;
-import js.browser.mocha.Mocha;
+import js.mocha.Mocha;
 import utest.Assert;
 import webstorage.*;
 
