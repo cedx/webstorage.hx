@@ -8,20 +8,15 @@ jobs:
     steps:
       - name: Fetch sources
         uses: actions/checkout@v2
-      - name: Set up Haxe
-        uses: krdlab/setup-haxe@v1
-        with:
-          haxe-version: 4.1.5
+      - name: Set up Lix
+        uses: lix-pm/setup-lix@master
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 14
-      - name: Check environment
-        run: node --version
+          node-version: 16
       - name: Install dependencies
         run: |
-          haxelib install test.hxml --always
-          haxelib set tink_core 1.27.1 --always
+          lix download
           npm install
       - name: Run tests
         run: haxe test.hxml
