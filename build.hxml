@@ -1,8 +1,5 @@
---class-path src
---dce full
---define analyzer-optimize
---define js-es=6
---js lib/bundle.js
+--js var/bundle.js
+share/build.hxml
 
 webstorage.LocalStorage
 webstorage.SessionStorage

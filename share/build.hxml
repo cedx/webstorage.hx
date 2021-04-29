@@ -1,0 +1,5 @@
+--class-path src
+--dce full
+--define analyzer-optimize
+--define js-es=6
+--library tink_core

@@ -1,9 +1,7 @@
---class-path src
 --class-path test
---define js-es=6
 --define UTEST_FAILURE_THROW
 --js var/tests.js
---library externs:0.5.0
---library utest:1.13.1
+--library utest
 --main TestAll
---cmd npm test
+share/build.hxml
+--cmd npx karma start etc/karma.js
