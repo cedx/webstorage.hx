@@ -11,7 +11,7 @@ You can verify if you're already good to go with the following commands:
 #### **Haxe**
 ```shell
 haxe --version
-# 4.1.5
+# 4.2.1
 
 haxelib version
 # 4.0.2
@@ -20,10 +20,10 @@ haxelib version
 #### **JavaScript**
 ```shell
 node --version
-# v15.8.0
+# v15.10.0
 
 npm --version
-# 7.5.1
+# 7.5.3
 ```
 
 <!-- tabs:end -->
