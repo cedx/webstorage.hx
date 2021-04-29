@@ -1,7 +1,7 @@
 # Installation
 
 ## Requirements
-Before installing **WebStorage.hx**, you need to make sure you have either
+Before installing **Web Storage for Haxe**, you need to make sure you have either
 [Haxe](https://haxe.org) or [Node.js](https://nodejs.org) up and running.
 
 You can verify if you're already good to go with the following commands:

@@ -14,7 +14,7 @@ lix run dox `
 	--define website "https://cedx.github.io/webstorage.hx" `
 	--input-path var `
 	--output-path docs/api `
-	--title "WebStorage.hx" `
+	--title "Web Storage for Haxe" `
 	--toplevel-package webstorage
 
 Copy-Item docs/favicon.ico docs/api
