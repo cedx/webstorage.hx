@@ -41,13 +41,13 @@ class WebStorage extends EventTarget {
 	function get_length() return backend.length;
 
 	/** Removes all entries from this storage. **/
-	public function clear(): Void {
+	public function clear() {
 		backend.clear();
 		emit(null);
 	}
 
 	/** Cancels the subscription to the storage events. **/
-	public function destroy(): Void
+	public function destroy()
 		if (listener != null) Browser.window.removeEventListener("storage", listener);
 
 	/** Gets a value indicating whether this storage contains the specified `key`. **/
@@ -57,7 +57,7 @@ class WebStorage extends EventTarget {
 		Gets the value associated to the specified `key`.
 		Returns the given `defaultValue` if the item does not exist.
 	**/
-	public function get(key: String, ?defaultValue: String): Null<String> {
+	public function get(key: String, ?defaultValue: String) {
 		final value = backend.getItem(key);
 		return value != null ? value : defaultValue;
 	}
@@ -66,7 +66,7 @@ class WebStorage extends EventTarget {
 		Gets the deserialized value associated to the specified `key`.
 		Returns the given `defaultValue` if the item does not exist.
 	**/
-	public function getObject<T>(key: String, ?defaultValue: T): Null<T>
+	public function getObject(key: String, ?defaultValue: Any): Dynamic
 		return try {
 			final value = backend.getItem(key);
 			value != null ? Json.parse(value) : defaultValue;
@@ -93,7 +93,7 @@ class WebStorage extends EventTarget {
 		Returns the deserialized value associated to `key`, if there is one.
 		Otherwise calls `ifAbsent` to get a new value, serializes and associates `key` to that value, and then returns the new value.
 	**/
-	public function putObjectIfAbsent<T>(key: String, ifAbsent: () -> T): Null<T> {
+	public function putObjectIfAbsent(key: String, ifAbsent: () -> Any): Dynamic {
 		if (!exists(key)) setObject(key, ifAbsent());
 		return getObject(key);
 	}
@@ -102,7 +102,7 @@ class WebStorage extends EventTarget {
 		Removes the value associated to the specified `key`.
 		Returns the value associated with the `key` before it was removed.
 	**/
-	public function remove(key: String): Null<String> {
+	public function remove(key: String) {
 		final oldValue = get(key);
 		backend.removeItem(key);
 		emit(key, oldValue);
@@ -110,7 +110,7 @@ class WebStorage extends EventTarget {
 	}
 
 	/** Associates a given `value` to the specified `key`. **/
-	public function set(key: String, value: String): WebStorage {
+	public function set(key: String, value: String) {
 		final oldValue = get(key);
 		backend.setItem(key, value);
 		emit(key, oldValue, value);
@@ -121,14 +121,14 @@ class WebStorage extends EventTarget {
 	public function setObject(key: String, value: Any) return set(key, Json.stringify(value));
 
 	/** Converts this object to a map in JSON format. **/
-	public function toJSON(): DynamicAccess<String> {
+	public function toJSON() {
 		final map: DynamicAccess<String> = {};
 		for (key => value in this) map[key] = value;
 		return map;
 	}
 
 	/** Emits a new storage event. **/
-	function emit(key: Null<String>, ?oldValue: String, ?newValue: String, ?url: String): Void
+	function emit(key: Null<String>, ?oldValue: String, ?newValue: String, ?url: String)
 		dispatchEvent(new StorageEvent("change", {
 			key: key,
 			newValue: newValue,
