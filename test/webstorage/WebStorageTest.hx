@@ -1,7 +1,7 @@
 package webstorage;
 
-import haxe.Json;
 import js.Browser;
+import tink.Json;
 
 /** Tests the features of the `WebStorage` class. **/
 class WebStorageTest extends Test {
@@ -26,7 +26,7 @@ class WebStorageTest extends Test {
 		describe(".remove()", testRemove);
 		describe(".set()", testSet);
 		describe(".setObject()", testSetObject);
-		describe(".toJSON()", testToJSON);
+		describe(".toJson()", testToJson);
 	}
 
 	/** Tests the `keys` property. **/
@@ -289,21 +289,29 @@ class WebStorageTest extends Test {
 		});
 	}
 
-	/** Tests the `toJSON()` method. **/
-	function testToJSON() {
+	/** Tests the `toJson()` method. **/
+	function testToJson() {
 		it("should return an empty map for an empty storage", function() {
 			final service = new SessionStorage();
-			Assert.same({}, service.toJSON());
+			Assert.same({}, WebStorage.toJson(service));
 			Assert.equals("{}", Json.stringify(service));
 		});
 
 		it("should return a non-empty map for a non-empty storage", function() {
-			final service = new SessionStorage().set("foo", "bar").set("baz", "qux");
-			Assert.same({baz: "qux", foo: "bar"}, service.toJSON());
+			var service = new SessionStorage().set("foo", "bar").set("baz", "qux");
+			Assert.same({baz: "qux", foo: "bar"}, WebStorage.toJson(service));
 
-			final json = Json.stringify(service);
+			var json = Json.stringify(service);
 			Assert.stringContains('"foo":"bar"', json);
 			Assert.stringContains('"baz":"qux"', json);
+			service.clear();
+
+			service = new SessionStorage({keyPrefix: "prefix:"}).set("foo", "bar").set("baz", "qux");
+			Assert.same({"prefix:baz": "qux", "prefix:foo": "bar"}, WebStorage.toJson(service));
+
+			json = Json.stringify(service);
+			Assert.stringContains('"prefix:foo":"bar"', json);
+			Assert.stringContains('"prefix:baz":"qux"', json);
 		});
 	}
 }

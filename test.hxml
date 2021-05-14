@@ -1,6 +1,7 @@
 --class-path test
 --define UTEST_FAILURE_THROW
 --js var/tests.js
+--library tink_json
 --library utest
 --main TestAll
 share/build.hxml
