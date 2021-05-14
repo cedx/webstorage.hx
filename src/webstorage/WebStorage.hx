@@ -13,6 +13,9 @@ import js.html.StorageEvent;
 #end
 class WebStorage extends EventTarget {
 
+	/** A string prefixed to every key so that it is unique globally in the whole storage. **/
+	public var keyPrefix: String;
+
 	/** The keys of this storage. **/
 	public var keys(get, never): Array<String>;
 
@@ -28,12 +31,17 @@ class WebStorage extends EventTarget {
 	/** Creates a new storage service. **/
 	function new(backend: Storage, ?options: WebStorageOptions) {
 		super();
-		this.backend = backend;
 
-		if (options == null || !options.listenToGlobalEvents) listener = null;
-		else {
-			listener = event -> if (event.storageArea == backend) emit(event.key, event.oldValue, event.newValue, event.url);
-			Browser.window.addEventListener("storage", listener);
+		this.backend = backend;
+		keyPrefix = "";
+		listener = null;
+
+		if (options != null) {
+			if (options.keyPrefix != null) keyPrefix = options.keyPrefix;
+			if (options.listenToGlobalEvents != null && options.listenToGlobalEvents) {
+				listener = event -> if (event.storageArea == backend) emit(event.key, event.oldValue, event.newValue, event.url);
+				Browser.window.addEventListener("storage", listener);
+			}
 		}
 	}
 
@@ -54,14 +62,14 @@ class WebStorage extends EventTarget {
 		if (listener != null) Browser.window.removeEventListener("storage", listener);
 
 	/** Gets a value indicating whether this storage contains the specified `key`. **/
-	public function exists(key: String) return backend.getItem(key) != null;
+	public function exists(key: String) return backend.getItem(buildKey(key)) != null;
 
 	/**
 		Gets the value associated to the specified `key`.
 		Returns the given `defaultValue` if the item does not exist.
 	**/
 	public function get(key: String, ?defaultValue: String) {
-		final value = backend.getItem(key);
+		final value = backend.getItem(buildKey(key));
 		return value != null ? value : defaultValue;
 	}
 
@@ -71,7 +79,7 @@ class WebStorage extends EventTarget {
 	**/
 	public function getObject(key: String, ?defaultValue: Any): Dynamic
 		return try {
-			final value = backend.getItem(key);
+			final value = backend.getItem(buildKey(key));
 			value != null ? Json.parse(value) : defaultValue;
 		} catch (e) defaultValue;
 
@@ -107,16 +115,16 @@ class WebStorage extends EventTarget {
 	**/
 	public function remove(key: String) {
 		final oldValue = get(key);
-		backend.removeItem(key);
-		emit(key, oldValue);
+		backend.removeItem(buildKey(key));
+		emit(buildKey(key), oldValue);
 		return oldValue;
 	}
 
 	/** Associates a given `value` to the specified `key`. **/
 	public function set(key: String, value: String) {
 		final oldValue = get(key);
-		backend.setItem(key, value);
-		emit(key, oldValue, value);
+		backend.setItem(buildKey(key), value);
+		emit(buildKey(key), oldValue, value);
 		return this;
 	}
 
@@ -131,6 +139,9 @@ class WebStorage extends EventTarget {
 		return map;
 	}
 	#end
+
+	/** Builds a normalized cache key from the given `key`. **/
+	inline function buildKey(key: String) return '$keyPrefix$key';
 
 	/** Emits a new storage event. **/
 	function emit(key: Null<String>, ?oldValue: String, ?newValue: String, ?url: String)
@@ -168,6 +179,9 @@ private class WebStorageIterator {
 /** Defines the options of a `WebStorage` instance. **/
 typedef WebStorageOptions = {
 
+	/** A string prefixed to every key so that it is unique globally in the whole storage. **/
+	var ?keyPrefix: String;
+
 	/** Value indicating whether to listen to the global storage events. **/
-	var listenToGlobalEvents: Bool;
+	var ?listenToGlobalEvents: Bool;
 }
