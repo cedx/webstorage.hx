@@ -8,9 +8,6 @@ import js.html.Storage;
 import js.html.StorageEvent;
 
 /** Provides access to the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage). **/
-#if tink_json
-@:jsonStringify(webstorage.WebStorage.toJson)
-#end
 class WebStorage extends EventTarget {
 
 	/** A string prefixed to every key so that it is unique globally in the whole storage. **/
@@ -132,13 +129,11 @@ class WebStorage extends EventTarget {
 	public function setObject(key: String, value: Any) return set(key, Json.stringify(value));
 
 	/** Converts the specified storage to a JSON representation. **/
-	#if tink_json
-	public static function toJson(storage: WebStorage) {
+	public function toJSON() {
 		final map: DynamicAccess<String> = {};
-		for (key => value in storage) map[key] = value;
+		for (key => value in this) map[key] = value;
 		return map;
 	}
-	#end
 
 	/** Builds a normalized cache key from the given `key`. **/
 	inline function buildKey(key: String) return '$keyPrefix$key';

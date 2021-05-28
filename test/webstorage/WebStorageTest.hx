@@ -1,317 +1,360 @@
 package webstorage;
 
-import js.Browser;
-import tink.Json;
+import haxe.Json;
+import js.Browser.window;
+
+using StringTools;
 
 /** Tests the features of the `WebStorage` class. **/
-class WebStorageTest extends Test {
+@:asserts class WebStorageTest {
 
-	/** The native session storage. **/
-	final sessionStorage = Browser.getSessionStorage();
-
-	/** Runs the tests. **/
-	public function run() {
-		beforeEach(() -> sessionStorage.clear());
-
-		describe(".keys", testKeys);
-		describe(".length", testLength);
-		describe(".addEventListener('change')", testAddEventListener);
-		describe(".clear()", testLength);
-		describe(".exists()", testExists);
-		describe(".get()", testGet);
-		describe(".getObject()", testGetObject);
-		describe(".keyValueIterator()", testKeyValueIterator);
-		describe(".putIfAbsent()", testPutIfAbsent);
-		describe(".putObjectIfAbsent()", testPutObjectIfAbsent);
-		describe(".remove()", testRemove);
-		describe(".set()", testSet);
-		describe(".setObject()", testSetObject);
-		describe(".toJson()", testToJson);
-	}
+	/** Creates a new test. **/
+	public function new() {}
 
 	/** Tests the `keys` property. **/
-	function testKeys() {
-		it("should return an empty array for an empty storage", function() {
-			Assert.equals(0, new SessionStorage().keys.length);
-		});
+	public function testKeys() {
+		// It should return an empty array for an empty storage.
+		asserts.assert(new SessionStorage().keys.length == 0);
 
-		it("should return the list of keys for a non-empty storage", function() {
-			sessionStorage.setItem("foo", "bar");
-			sessionStorage.setItem("bar", "baz");
+		// It should return the list of keys for a non-empty storage.
+		window.sessionStorage.setItem("foo", "bar");
+		window.sessionStorage.setItem("bar", "baz");
 
-			final keys = new SessionStorage().keys;
-			Assert.equals(2, keys.length);
-			Assert.equals("foo", keys[0]);
-			Assert.equals("bar", keys[1]);
-		});
+		final keys = new SessionStorage().keys;
+		asserts.assert(keys.length == 2);
+		asserts.assert(keys[0] == "foo");
+		asserts.assert(keys[1] == "bar");
+
+		return asserts.done();
 	}
 
 	/** Tests the `length` property. **/
-	function testLength() {
-		it("should return zero for an empty storage", function() {
-			Assert.equals(0, new SessionStorage().length);
-		});
+	public function testLength() {
+		// It should return zero for an empty storage.
+		asserts.assert(new SessionStorage().length == 0);
 
-		it("should return the number of entries for a non-empty storage", function() {
-			sessionStorage.setItem("foo", "bar");
-			sessionStorage.setItem("bar", "baz");
-			Assert.equals(2, new SessionStorage().length);
-		});
+		// It should return the number of entries for a non-empty storage.
+		window.sessionStorage.setItem("foo", "bar");
+		window.sessionStorage.setItem("bar", "baz");
+		asserts.assert(new SessionStorage().length == 2);
+
+		return asserts.done();
 	}
 
 	/** Tests the `addEventListener("change")` method. **/
-	function testAddEventListener() {
-		it("should trigger an event when a value is added", function(done) {
-			final listener = event -> {
-				Assert.equals("foo", event.key);
-				Assert.isNull(event.oldValue);
-				Assert.equals("bar", event.newValue);
-				done();
-			};
+	/* TODO
+	public function testAddEventListener() {
+		// It should trigger an event when a value is added", public function(done) {
+		final listener = event -> {
+			asserts.equals("foo", event.key);
+			asserts.assert(event.oldValue == null);
+			asserts.equals("bar", event.newValue);
+			done();
+		};
 
-			final service = new SessionStorage();
-			service.addEventListener("change", listener);
-			service.set("foo", "bar");
-			service.removeEventListener("change", listener);
-		});
+		final service = new SessionStorage();
+		service.addEventListener("change", listener);
+		service.set("foo", "bar");
+		service.removeEventListener("change", listener);
 
-		it("should trigger an event when a value is updated", function(done) {
-			sessionStorage.setItem("foo", "bar");
+		// It should trigger an event when a value is updated", public function(done) {
+		window.sessionStorage.setItem("foo", "bar");
 
-			final listener = event -> {
-				Assert.equals("foo", event.key);
-				Assert.equals("bar", event.oldValue);
-				Assert.equals("baz", event.newValue);
-				done();
-			};
+		final listener = event -> {
+			asserts.equals("foo", event.key);
+			asserts.equals("bar", event.oldValue);
+			asserts.equals("baz", event.newValue);
+			done();
+		};
 
-			final service = new SessionStorage();
-			service.addEventListener("change", listener);
-			service.set("foo", "baz");
-			service.removeEventListener("change", listener);
-		});
+		final service = new SessionStorage();
+		service.addEventListener("change", listener);
+		service.set("foo", "baz");
+		service.removeEventListener("change", listener);
 
-		it("should trigger an event when a value is removed", function(done) {
-			sessionStorage.setItem("foo", "bar");
+		// It should trigger an event when a value is removed", public function(done) {
+		window.sessionStorage.setItem("foo", "bar");
 
-			final listener = event -> {
-				Assert.equals("foo", event.key);
-				Assert.equals("bar", event.oldValue);
-				Assert.isNull(event.newValue);
-				done();
-			};
+		final listener = event -> {
+			asserts.equals("foo", event.key);
+			asserts.equals("bar", event.oldValue);
+			asserts.assert(event.newValue == null);
+			done();
+		};
 
-			final service = new SessionStorage();
-			service.addEventListener("change", listener);
-			service.remove("foo");
-			service.removeEventListener("change", listener);
-		});
+		final service = new SessionStorage();
+		service.addEventListener("change", listener);
+		service.remove("foo");
+		service.removeEventListener("change", listener);
 
-		it("should trigger an event when the storage is cleared", function(done) {
-			sessionStorage.setItem("foo", "bar");
-			sessionStorage.setItem("bar", "baz");
+		// It should trigger an event when the storage is cleared", public function(done) {
+		window.sessionStorage.setItem("foo", "bar");
+		window.sessionStorage.setItem("bar", "baz");
 
-			final listener = event -> {
-				Assert.isNull(event.key);
-				Assert.isNull(event.oldValue);
-				Assert.isNull(event.newValue);
-				done();
-			};
+		final listener = event -> {
+			asserts.assert(event.key == null);
+			asserts.assert(event.oldValue == null);
+			asserts.assert(event.newValue == null);
+			done();
+		};
 
-			final service = new SessionStorage();
-			service.addEventListener("change", listener);
-			service.clear();
-			service.removeEventListener("change", listener);
-		});
-	}
+		final service = new SessionStorage();
+		service.addEventListener("change", listener);
+		service.clear();
+		service.removeEventListener("change", listener);
+
+		return asserts.done();
+	}*/
 
 	/** Tests the `clear()` method. **/
-	function testClear() {
-		it("should remove all storage entries", function() {
-			sessionStorage.setItem("foo", "bar");
-			sessionStorage.setItem("bar", "baz");
+	public function testClear() {
+		// It should remove all storage entries.
+		window.sessionStorage.setItem("foo", "bar");
+		window.sessionStorage.setItem("bar", "baz");
 
-			final service = new SessionStorage();
-			Assert.equals(2, service.length);
-			service.clear();
-			Assert.equals(0, service.length);
-		});
+		final service = new SessionStorage();
+		asserts.assert(service.length == 2);
+		service.clear();
+		asserts.assert(service.length == 0);
+
+		return asserts.done();
 	}
 
 	/** Tests the `exists()` method. **/
-	function testExists() {
-		it("should return `false` if the specified key is not contained", function() {
-			Assert.isFalse(new SessionStorage().exists("foo"));
-		});
+	public function testExists() {
+		// It should return `false` if the specified key is not contained.
+		asserts.assert(!new SessionStorage().exists("foo"));
 
-		it("should return `true` if the specified key is contained", function() {
-			final service = new SessionStorage();
-			sessionStorage.setItem("foo", "bar");
-			Assert.isTrue(service.exists("foo"));
-			Assert.isFalse(service.exists("bar"));
-		});
+		// It should return `true` if the specified key is contained.
+		final service = new SessionStorage();
+		window.sessionStorage.setItem("foo", "bar");
+		asserts.assert(service.exists("foo"));
+		asserts.assert(!service.exists("bar"));
+
+		return asserts.done();
 	}
 
 	/** Tests the `get()` method. **/
-	function testGet() {
-		it("should properly get the storage entries", function() {
-			final service = new SessionStorage();
-			Assert.isNull(service.get("foo"));
+	public function testGet() {
+		// It should properly get the storage entries.
+		final service = new SessionStorage();
+		asserts.assert(service.get("foo") == null);
 
-			sessionStorage.setItem("foo", "bar");
-			Assert.equals("bar", service.get("foo"));
+		window.sessionStorage.setItem("foo", "bar");
+		asserts.assert(service.get("foo") == "bar");
 
-			sessionStorage.setItem("foo", "123");
-			Assert.equals("123", service.get("foo"));
-		});
+		window.sessionStorage.setItem("foo", "123");
+		asserts.assert(service.get("foo") == "123");
 
-		it("should return the given default value if the key is not found", function() {
-			Assert.equals("123", new SessionStorage().get("bar", "123"));
-		});
+		// It should return the given default value if the key is not found.
+		asserts.assert(new SessionStorage().get("bar", "123") == "123");
+		return asserts.done();
 	}
 
 	/** Tests the `getObject()` method. **/
-	function testGetObject() {
-		it("should properly get the deserialized storage entries", function() {
-			final service = new SessionStorage();
-			Assert.isNull(service.getObject("foo"));
+	public function testGetObject() {
+		// It should properly get the deserialized storage entries.
+		final service = new SessionStorage();
+		asserts.assert(service.getObject("foo") == null);
 
-			sessionStorage.setItem("foo", "123");
-			Assert.equals(123, service.getObject("foo"));
+		window.sessionStorage.setItem("foo", "123");
+		asserts.assert(service.getObject("foo") == 123);
 
-			sessionStorage.setItem("foo", '"bar"');
-			Assert.equals("bar", service.getObject("foo"));
+		window.sessionStorage.setItem("foo", '"bar"');
+		asserts.assert(service.getObject("foo") == "bar");
 
-			sessionStorage.setItem("foo", '{"key": "value"}');
-			Assert.same({key: "value"}, service.getObject("foo"));
-		});
+		window.sessionStorage.setItem("foo", '{"key": "value"}');
+		asserts.compare({key: "value"}, service.getObject("foo"));
 
-		it("should return the default value if the value can't be deserialized", function() {
-			sessionStorage.setItem("foo", "bar");
-			Assert.equals("defaultValue", new SessionStorage().getObject("foo", "defaultValue"));
-		});
+		// It should return the default value if the value can't be deserialized.
+		window.sessionStorage.setItem("foo", "bar");
+		asserts.assert(new SessionStorage().getObject("foo", "defaultValue") == "defaultValue");
+
+		return asserts.done();
 	}
 
 	/** Tests the `keyValueIterator()` method. **/
-	function testKeyValueIterator() {
-		it("should end iteration immediately if the storage is empty", function() {
-			final iterator = new SessionStorage().keyValueIterator();
-			Assert.isFalse(iterator.hasNext());
-		});
+	public function testKeyValueIterator() {
+		// It should end iteration immediately if the storage is empty.
+		final iterator = new SessionStorage().keyValueIterator();
+		asserts.assert(!iterator.hasNext());
 
-		it("should iterate over the values if the storage is not empty", function() {
-			sessionStorage.setItem("foo", "bar");
-			sessionStorage.setItem("bar", "baz");
+		// It should iterate over the values if the storage is not empty.
+		window.sessionStorage.setItem("foo", "bar");
+		window.sessionStorage.setItem("bar", "baz");
 
-			final iterator = new SessionStorage().keyValueIterator();
-			Assert.isTrue(iterator.hasNext());
-			Assert.same({key: "foo", value: "bar"}, iterator.next());
-			Assert.isTrue(iterator.hasNext());
-			Assert.same({key: "bar", value: "baz"}, iterator.next());
-			Assert.isFalse(iterator.hasNext());
-		});
+		final iterator = new SessionStorage().keyValueIterator();
+		asserts.assert(iterator.hasNext());
+		asserts.compare({key: "foo", value: "bar"}, iterator.next());
+		asserts.assert(iterator.hasNext());
+		asserts.compare({key: "bar", value: "baz"}, iterator.next());
+		asserts.assert(!iterator.hasNext());
+
+		return asserts.done();
 	}
 
 	/** Tests the `putIfAbsent()` method. **/
-	function testPutIfAbsent() {
-		it("should add a new entry if it does not exist", function() {
-			final service = new SessionStorage();
-			Assert.isNull(sessionStorage.getItem("foo"));
-			Assert.equals("bar", service.putIfAbsent("foo", () -> "bar"));
-			Assert.equals("bar", sessionStorage.getItem("foo"));
-		});
+	public function testPutIfAbsent() {
+		// It should add a new entry if it does not exist.
+		final service = new SessionStorage();
+		asserts.assert(window.sessionStorage.getItem("foo") == null);
+		asserts.assert(service.putIfAbsent("foo", () -> "bar") == "bar");
+		asserts.assert(window.sessionStorage.getItem("foo") == "bar");
 
-		it("should not add a new entry if it already exists", function() {
-			final service = new SessionStorage();
-			sessionStorage.setItem("foo", "bar");
-			Assert.equals("bar", service.putIfAbsent("foo", () -> "qux"));
-			Assert.equals("bar", sessionStorage.getItem("foo"));
-		});
+		// It should not add a new entry if it already exists.
+		final service = new SessionStorage();
+		window.sessionStorage.setItem("foo", "bar");
+		asserts.assert(service.putIfAbsent("foo", () -> "qux") == "bar");
+		asserts.assert(window.sessionStorage.getItem("foo") == "bar");
+		asserts.assert(service.putIfAbsent("bar", () -> "qux") == "qux");
+		asserts.assert(window.sessionStorage.getItem("bar") == "qux");
+
+		// It should support the key prefix.
+		final service = new SessionStorage({keyPrefix: "prefix:"});
+		window.sessionStorage.setItem("prefix:foo", "bar");
+		asserts.assert(service.putIfAbsent("foo", () -> "qux") == "bar");
+		asserts.assert(window.sessionStorage.getItem("prefix:foo") == "bar");
+		asserts.assert(service.putIfAbsent("bar", () -> "qux") == "qux");
+		asserts.assert(window.sessionStorage.getItem("prefix:bar") == "qux");
+
+		return asserts.done();
 	}
 
 	/** Tests the `putObjectIfAbsent()` method. **/
-	function testPutObjectIfAbsent() {
-		it("should add a new entry if it does not exist", function() {
-			final service = new SessionStorage();
-			Assert.isNull(sessionStorage.getItem("foo"));
-			Assert.equals(123, service.putObjectIfAbsent("foo", () -> 123));
-			Assert.equals("123", sessionStorage.getItem("foo"));
-		});
+	public function testPutObjectIfAbsent() {
+		// It should add a new entry if it does not exist.
+		final service = new SessionStorage();
+		asserts.assert(window.sessionStorage.getItem("foo") == null);
+		asserts.assert(service.putObjectIfAbsent("foo", () -> 123) == 123);
+		asserts.assert(window.sessionStorage.getItem("foo") == "123");
 
-		it("should not add a new entry if it already exists", function() {
-			final service = new SessionStorage();
-			sessionStorage.setItem("foo", "123");
-			Assert.equals(123, service.putObjectIfAbsent("foo", () -> 456));
-			Assert.equals("123", sessionStorage.getItem("foo"));
-		});
+		// It should not add a new entry if it already exists.
+		final service = new SessionStorage();
+		window.sessionStorage.setItem("foo", "123");
+		asserts.assert(service.putObjectIfAbsent("foo", () -> 456) == 123);
+		asserts.assert(window.sessionStorage.getItem("foo") == "123");
+		asserts.assert(service.putObjectIfAbsent("bar", () -> 456) == 456);
+		asserts.assert(window.sessionStorage.getItem("bar") == "456");
+
+		// It should support the key prefix.
+		final service = new SessionStorage({keyPrefix: "prefix:"});
+		window.sessionStorage.setItem("prefix:foo", "123");
+		asserts.assert(service.putObjectIfAbsent("foo", () -> 456) == 123);
+		asserts.assert(window.sessionStorage.getItem("prefix:foo") == "123");
+		asserts.assert(service.putObjectIfAbsent("bar", () -> 456) == 456);
+		asserts.assert(window.sessionStorage.getItem("prefix:bar") == "456");
+
+		return asserts.done();
 	}
 
 	/** Tests the `remove()` method. **/
-	function testRemove() {
-		it("should properly remove the storage entries", function() {
-			final service = new SessionStorage();
-			sessionStorage.setItem("foo", "bar");
-			sessionStorage.setItem("bar", "baz");
-			Assert.equals("bar", sessionStorage.getItem("foo"));
+	public function testRemove() {
+		// It should properly remove the storage entries.
+		final service = new SessionStorage();
+		window.sessionStorage.setItem("foo", "bar");
+		window.sessionStorage.setItem("bar", "baz");
+		asserts.assert(window.sessionStorage.getItem("foo") == "bar");
 
-			service.remove("foo");
-			Assert.isNull(sessionStorage.getItem("foo"));
-			Assert.equals("baz", sessionStorage.getItem("bar"));
+		service.remove("foo");
+		asserts.assert(window.sessionStorage.getItem("foo") == null);
+		asserts.assert(window.sessionStorage.getItem("bar") == "baz");
 
-			service.remove("bar");
-			Assert.isNull(sessionStorage.getItem("bar"));
-		});
+		service.remove("bar");
+		asserts.assert(window.sessionStorage.getItem("bar") == null);
+
+		// It should support the key prefix.
+		final service = new SessionStorage({keyPrefix: "prefix:"});
+		window.sessionStorage.setItem("prefix:foo", "bar");
+		window.sessionStorage.setItem("prefix:bar", "baz");
+		asserts.assert(window.sessionStorage.getItem("prefix:foo") == "bar");
+
+		service.remove("foo");
+		asserts.assert(window.sessionStorage.getItem("prefix:foo") == null);
+		asserts.assert(window.sessionStorage.getItem("prefix:bar") == "baz");
+
+		service.remove("bar");
+		asserts.assert(window.sessionStorage.getItem("prefix:bar") == null);
+		return asserts.done();
 	}
 
 	/** Tests the `set()` method. **/
-	function testSet() {
-		it("should properly set the storage entries", function() {
-			final service = new SessionStorage();
-			Assert.isNull(sessionStorage.getItem("foo"));
-			service.set("foo", "bar");
-			Assert.equals("bar", sessionStorage.getItem("foo"));
-			service.set("foo", "123");
-			Assert.equals("123", sessionStorage.getItem("foo"));
-		});
+	public function testSet() {
+		// It should properly set the storage entries.
+		final service = new SessionStorage();
+		asserts.assert(window.sessionStorage.getItem("foo") == null);
+
+		service.set("foo", "bar");
+		asserts.assert(window.sessionStorage.getItem("foo") == "bar");
+
+		service.set("foo", "123");
+		asserts.assert(window.sessionStorage.getItem("foo") == "123");
+
+		// It should support the key prefix.
+		final service = new SessionStorage({keyPrefix: "prefix:"});
+		asserts.assert(window.sessionStorage.getItem("prefix:foo") == null);
+
+		service.set("foo", "bar");
+		asserts.assert(window.sessionStorage.getItem("foo") == null);
+		asserts.assert(window.sessionStorage.getItem("prefix:foo") == "bar");
+
+		service.set("foo", "123");
+		asserts.assert(window.sessionStorage.getItem("prefix:foo") == "123");
+		return asserts.done();
 	}
 
 	/** Tests the `setObject()` method. **/
-	function testSetObject() {
-		it("should properly serialize and set the storage entries", function() {
-			final service = new SessionStorage();
-			Assert.isNull(sessionStorage.getItem("foo"));
-			service.setObject("foo", 123);
-			Assert.equals("123", sessionStorage.getItem("foo"));
-			service.setObject("foo", "bar");
-			Assert.equals('"bar"', sessionStorage.getItem("foo"));
-			service.setObject("foo", {key: "value"});
-			Assert.equals('{"key":"value"}', sessionStorage.getItem("foo"));
-		});
+	public function testSetObject() {
+		// It should properly serialize and set the storage entries.
+		final service = new SessionStorage();
+		asserts.assert(window.sessionStorage.getItem("foo") == null);
+
+		service.setObject("foo", 123);
+		asserts.assert(window.sessionStorage.getItem("foo") == "123");
+
+		service.setObject("foo", "bar");
+		asserts.assert(window.sessionStorage.getItem("foo") == '"bar"');
+
+		service.setObject("foo", {key: "value"});
+		asserts.assert(window.sessionStorage.getItem("foo") == '{"key":"value"}');
+
+		// It should support the key prefix.
+		final service = new SessionStorage({keyPrefix: "prefix:"});
+		asserts.assert(window.sessionStorage.getItem("prefix:foo") == null);
+
+		service.setObject("foo", 123);
+		asserts.assert(window.sessionStorage.getItem("foo") == null);
+		asserts.assert(window.sessionStorage.getItem("prefix:foo") == "123");
+
+		service.setObject("foo", "bar");
+		asserts.assert(window.sessionStorage.getItem("prefix:foo") == '"bar"');
+
+		service.setObject("foo", {key: "value"});
+		asserts.assert(window.sessionStorage.getItem("prefix:foo") == '{"key":"value"}');
+		return asserts.done();
 	}
 
-	/** Tests the `toJson()` method. **/
-	function testToJson() {
-		it("should return an empty map for an empty storage", function() {
-			final service = new SessionStorage();
-			Assert.same({}, WebStorage.toJson(service));
-			Assert.equals("{}", Json.stringify(service));
-		});
+	/** Tests the `toJSON()` method. **/
+	public function testToJSON() {
+		// It should return an empty map for an empty storage.
+		final service = new SessionStorage();
+		asserts.compare({}, service.toJSON());
+		asserts.assert(Json.stringify(service) == "{}");
 
-		it("should return a non-empty map for a non-empty storage", function() {
-			var service = new SessionStorage().set("foo", "bar").set("baz", "qux");
-			Assert.same({baz: "qux", foo: "bar"}, WebStorage.toJson(service));
+		// It should return a non-empty map for a non-empty storage.
+		final service = new SessionStorage().set("foo", "bar").set("baz", "qux");
+		asserts.compare({baz: "qux", foo: "bar"}, service.toJSON());
 
-			var json = Json.stringify(service);
-			Assert.stringContains('"foo":"bar"', json);
-			Assert.stringContains('"baz":"qux"', json);
-			service.clear();
+		final json = Json.stringify(service);
+		asserts.assert(json.contains('"foo":"bar"'));
+		asserts.assert(json.contains('"baz":"qux"'));
 
-			service = new SessionStorage({keyPrefix: "prefix:"}).set("foo", "bar").set("baz", "qux");
-			Assert.same({"prefix:baz": "qux", "prefix:foo": "bar"}, WebStorage.toJson(service));
+		// It should support the key prefix.
+		final service = new SessionStorage({keyPrefix: "prefix:"}).set("foo", "bar").set("baz", "qux");
+		asserts.compare({"prefix:baz": "qux", "prefix:foo": "bar"}, service.toJSON());
 
-			json = Json.stringify(service);
-			Assert.stringContains('"prefix:foo":"bar"', json);
-			Assert.stringContains('"prefix:baz":"qux"', json);
-		});
+		final json = Json.stringify(service);
+		asserts.assert(json.contains('"prefix:foo":"bar"'));
+		asserts.assert(json.contains('"prefix:baz":"qux"'));
+		return asserts.done();
 	}
 }

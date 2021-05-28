@@ -1,3 +1,4 @@
-import js.mocha.Mocha.*;
-import utest.Assert;
-import utest.Test;
+import tink.unit.Assert.assert;
+import tink.unit.Assert.compare;
+
+using tink.CoreApi;

@@ -1,8 +1,7 @@
 --class-path test
---define UTEST_FAILURE_THROW
 --js var/tests.js
---library tink_json
---library utest
---main TestAll
+--library deep_equal
+--library tink_unittest
+--main RunTests
 share/build.hxml
---cmd npx karma start etc/karma.js
+--cmd node test/index.js
