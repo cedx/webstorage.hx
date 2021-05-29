@@ -11,6 +11,12 @@ using StringTools;
 	/** Creates a new test. **/
 	public function new() {}
 
+	/** This method is executed before each test. **/
+	@:before public function before() {
+		window.sessionStorage.clear();
+		return Noise;
+	}
+
 	/** Tests the `keys` property. **/
 	public function testKeys() {
 		// It should return an empty array for an empty storage.

@@ -3,7 +3,6 @@
 ## Version [2.0.0](https://github.com/cedx/webstorage.hx/compare/v1.0.5...v2.0.0)
 - Breaking change: the `WebStorage` class no longer extends from [`EventTarget`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget).
 - Added support for key prefix.
-- Added support for [`tink_json`](https://github.com/haxetink/tink_json) serialization.
 
 ## Version [1.0.5](https://github.com/cedx/webstorage.hx/compare/v1.0.4...v1.0.5)
 - Fixed the handling of global [storage events](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event).

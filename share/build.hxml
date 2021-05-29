@@ -1,5 +1,6 @@
 --class-path src
 --dce full
 --define analyzer-optimize
+--define no-deprecation-warnings
 --define js-es=6
 --library tink_core

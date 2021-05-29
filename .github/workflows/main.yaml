@@ -15,8 +15,6 @@ jobs:
         with:
           node-version: 16
       - name: Install dependencies
-        run: |
-          lix download
-          npm install
+        run: npm install
       - name: Run tests
         run: haxe test.hxml
