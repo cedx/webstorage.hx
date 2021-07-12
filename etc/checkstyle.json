@@ -1,8 +1,8 @@
 {
 	"defaultSeverity": "ERROR",
 	"exclude": {
-		"path": "RELATIVE_TO_SOURCE",
-		"MethodLength": ["webstorage/WebStorageTest"]
+		"path": "RELATIVE_TO_PROJECT",
+		"MethodLength": ["src/webstorage/WebStorageTest"]
 	},
 	"checks": [
 		{"type": "BlockBreakingConditional"},
@@ -28,7 +28,7 @@
 		{"type": "TODOComment"},
 
 		{"type": "EmptyPackage"},
-		{"type": "Interface"},
+		{"type": "Interface", "props": {"allowProperties": true}},
 		{"type": "UnnecessaryConstructor"},
 
 		{"type": "UnusedImport"},
@@ -51,7 +51,7 @@
 		{"type": "ListenerName"},
 		{"type": "LocalVariableName"},
 		{"type": "MemberName"},
-		{"type": "MethodName"},
+		{"type": "MethodName", "props": {"format": "^([a-z][a-zA-Z0-9]*|__init__)$"}},
 		{"type": "ParameterName"},
 		{"type": "TypeName"},
 
