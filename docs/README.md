@@ -4,20 +4,10 @@
 > Services for interacting with the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage), in [Haxe](https://haxe.org).
 
 ## Quick start
-Install the latest version of **Web Storage for Haxe** with your favorite package manager:
+Install the latest version of **Web Storage for Haxe** with [lix](https://github.com/lix-pm/lix.client) package manager:
 
-<!-- tabs:start -->
-
-#### **Haxe**
 ```shell
-haxelib install webstorage
+lix +lib webstorage
 ```
 
-#### **JavaScript**
-```shell
-npm install @cedx/webstorage.hx
-```
-
-<!-- tabs:end -->
-
-For detailed instructions, see the [installation guide](installation.md).
+For detailed instructions, see the [installation guide](installation.md) and the [usage information](usage/api.md).
