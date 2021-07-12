@@ -11,7 +11,7 @@ You can verify if you're already good to go with the following commands:
 #### **Haxe**
 ```shell
 haxe --version
-# 4.2.1
+# 4.2.3
 
 haxelib version
 # 4.0.2
