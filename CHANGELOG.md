@@ -3,6 +3,8 @@
 ## Version [2.0.0](https://github.com/cedx/webstorage.hx/compare/v1.0.5...v2.0.0)
 - Breaking change: the `WebStorage` class no longer extends from [`EventTarget`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget).
 - Added support for key prefix.
+- Dropped the [npm](https://www.npmjs.com) package.
+- Replaced the build system based on [PowerShell](https://docs.microsoft.com/en-us/powershell) by [lix](https://github.com/lix-pm/lix.client) scripts.
 
 ## Version [1.0.5](https://github.com/cedx/webstorage.hx/compare/v1.0.4...v1.0.5)
 - Fixed the handling of global [storage events](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event).
