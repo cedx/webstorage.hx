@@ -1,0 +1,15 @@
+clone:
+  depth: 1
+definitions:
+  caches:
+    haxe: ~/haxe
+pipelines:
+  branches:
+    main:
+      - step:
+          name: Testing
+          caches: [haxe]
+          image: cedxbelin/haxe.js
+          script:
+            - lix download
+            - haxe test_js.hxml
