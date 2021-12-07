@@ -11,7 +11,7 @@ import js.html.StorageEvent;
 class WebStorage extends EventTarget {
 
 	/** A string prefixed to every key so that it is unique globally in the whole storage. **/
-	public var keyPrefix: String;
+	public var keyPrefix = "";
 
 	/** The keys of this storage. **/
 	public var keys(get, never): Array<String>;
@@ -23,16 +23,13 @@ class WebStorage extends EventTarget {
 	final backend: Storage;
 
 	/** The function that listens for storage events. **/
-	final listener: Null<StorageEvent -> Void>;
+	final listener: Null<StorageEvent -> Void> = null;
 
 	/** Creates a new storage service. **/
 	function new(backend: Storage, ?options: WebStorageOptions) {
 		super();
 
 		this.backend = backend;
-		keyPrefix = "";
-		listener = null;
-
 		if (options != null) {
 			if (options.keyPrefix != null) keyPrefix = options.keyPrefix;
 			if (options.listenToGlobalEvents != null && options.listenToGlobalEvents) {
