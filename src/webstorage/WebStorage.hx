@@ -3,12 +3,11 @@ package webstorage;
 import haxe.DynamicAccess;
 import haxe.Json;
 import js.Browser;
-import js.html.EventTarget;
 import js.html.Storage;
 import js.html.StorageEvent;
 
 /** Provides access to the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage). **/
-class WebStorage extends EventTarget {
+class WebStorage {
 
 	/** A string prefixed to every key so that it is unique globally in the whole storage. **/
 	public var keyPrefix = "";
@@ -27,8 +26,6 @@ class WebStorage extends EventTarget {
 
 	/** Creates a new storage service. **/
 	function new(backend: Storage, ?options: WebStorageOptions) {
-		super();
-
 		this.backend = backend;
 		if (options != null) {
 			if (options.keyPrefix != null) keyPrefix = options.keyPrefix;
