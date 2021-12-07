@@ -1,10 +1,15 @@
 package webstorage;
 
 import haxe.DynamicAccess;
-import haxe.Json;
 import js.Browser;
 import js.html.Storage;
 import js.html.StorageEvent;
+
+#if tink_json
+import tink.Json;
+#else
+import haxe.Json;
+#end
 
 /** Provides access to the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage). **/
 class WebStorage {
