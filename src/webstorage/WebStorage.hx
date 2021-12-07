@@ -35,7 +35,7 @@ class WebStorage {
 		if (options != null) {
 			if (options.keyPrefix != null) keyPrefix = options.keyPrefix;
 			if (options.listenToGlobalEvents != null && options.listenToGlobalEvents) {
-				listener = event -> if (event.storageArea == backend) emit(event.key, event.oldValue, event.newValue, event.url);
+				// TODO listener = event -> if (event.storageArea == backend) emit(event.key, event.oldValue, event.newValue, event.url);
 				Browser.window.addEventListener("storage", listener);
 			}
 		}
@@ -50,7 +50,7 @@ class WebStorage {
 	/** Removes all entries from this storage. **/
 	public function clear() {
 		backend.clear();
-		emit(null);
+		// TODO emit(null);
 	}
 
 	/** Cancels the subscription to the storage events. **/
@@ -61,38 +61,27 @@ class WebStorage {
 	public inline function exists(key: String) return backend.getItem(buildKey(key)) != null;
 
 	/**
+		Gets the deserialized value associated to the specified `key`.
+		Returns the given `defaultValue` if the item does not exist.
+	**/
+	public function get<T>(key: String, ?defaultValue: T)
+		return try {
+			final value = backend.getItem(buildKey(key));
+			value != null ? (Json.parse(value): T) : defaultValue;
+		} catch (e) defaultValue;
+
+	/**
 		Gets the value associated to the specified `key`.
 		Returns the given `defaultValue` if the item does not exist.
 	**/
-	public function get(key: String, ?defaultValue: String) {
+	public function getString(key: String, ?defaultValue: String) {
 		final value = backend.getItem(buildKey(key));
 		return value != null ? value : defaultValue;
 	}
 
-	/**
-		Gets the deserialized value associated to the specified `key`.
-		Returns the given `defaultValue` if the item does not exist.
-	**/
-	public function getObject(key: String, ?defaultValue: Any): Dynamic
-		return try {
-			final value = backend.getItem(buildKey(key));
-			value != null ? Json.parse(value) : defaultValue;
-		} catch (e) defaultValue;
-
 	/** Returns a new iterator that allows iterating the entries of this storage. **/
-	public function keyValueIterator(): KeyValueIterator<String, String>
+	public inline function keyValueIterator(): KeyValueIterator<String, String>
 		return new WebStorageIterator(backend);
-
-	/**
-		Looks up the value of the specified `key`, or add a new value if it isn't there.
-
-		Returns the value associated to `key`, if there is one.
-		Otherwise calls `ifAbsent` to get a new value, associates `key` to that value, and then returns the new value.
-	**/
-	public function putIfAbsent(key: String, ifAbsent: () -> String): String {
-		if (!exists(key)) set(key, ifAbsent());
-		return get(key);
-	}
 
 	/**
 		Looks up the value of the specified `key`, or add a new value if it isn't there.
@@ -100,9 +89,20 @@ class WebStorage {
 		Returns the deserialized value associated to `key`, if there is one.
 		Otherwise calls `ifAbsent` to get a new value, serializes and associates `key` to that value, and then returns the new value.
 	**/
-	public function putObjectIfAbsent(key: String, ifAbsent: () -> Any): Dynamic {
-		if (!exists(key)) setObject(key, ifAbsent());
-		return getObject(key);
+	public function putIfAbsent<T>(key: String, ifAbsent: () -> T): T {
+		if (!exists(key)) set(key, ifAbsent());
+		return get(key);
+	}
+
+	/**
+		Looks up the value of the specified `key`, or add a new value if it isn't there.
+
+		Returns the value associated to `key`, if there is one.
+		Otherwise calls `ifAbsent` to get a new value, associates `key` to that value, and then returns the new value.
+	**/
+	public function putStringIfAbsent(key: String, ifAbsent: () -> String): String {
+		if (!exists(key)) setString(key, ifAbsent());
+		return getString(key);
 	}
 
 	/**
@@ -110,22 +110,22 @@ class WebStorage {
 		Returns the value associated with the `key` before it was removed.
 	**/
 	public function remove(key: String) {
-		final oldValue = get(key);
+		final oldValue = getString(key);
 		backend.removeItem(buildKey(key));
-		emit(buildKey(key), oldValue);
+		// TODO emit(buildKey(key), oldValue);
 		return oldValue;
 	}
 
+	/** Serializes and associates a given `value` to the specified `key`. **/
+	public inline function set<T>(key: String, value: T) return setString(key, Json.stringify(value));
+
 	/** Associates a given `value` to the specified `key`. **/
-	public function set(key: String, value: String) {
-		final oldValue = get(key);
+	public function setString(key: String, value: String) {
+		final oldValue = getString(key);
 		backend.setItem(buildKey(key), value);
-		emit(buildKey(key), oldValue, value);
+		// TODO emit(buildKey(key), oldValue, value);
 		return this;
 	}
-
-	/** Serializes and associates a given `value` to the specified `key`. **/
-	public function setObject(key: String, value: Any) return set(key, Json.stringify(value));
 
 	/** Converts the specified storage to a JSON representation. **/
 	public function toJSON() {
@@ -138,6 +138,7 @@ class WebStorage {
 	inline function buildKey(key: String) return '$keyPrefix$key';
 
 	/** Emits a new storage event. **/
+	/* TODO
 	function emit(key: Null<String>, ?oldValue: String, ?newValue: String, ?url: String)
 		dispatchEvent(new StorageEvent("change", {
 			key: key,
@@ -145,7 +146,7 @@ class WebStorage {
 			oldValue: oldValue,
 			storageArea: backend,
 			url: url != null ? url : Browser.location.href
-		}));
+		})); */
 }
 
 /** Permits iteration over elements of a `WebStorage` instance. **/
@@ -161,7 +162,7 @@ private class WebStorageIterator {
 	public function new(storage: Storage) this.storage = storage;
 
 	/** Returns a value indicating whether the iteration is complete. **/
-	public function hasNext() return index < storage.length;
+	public inline function hasNext() return index < storage.length;
 
 	/** Returns the current item of the iterator and advances to the next one. **/
 	public function next(): {key: String, value: String} {

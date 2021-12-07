@@ -143,6 +143,7 @@ using StringTools;
 	}
 
 	/** Tests the `get()` method. **/
+	/*
 	public function testGet() {
 		// It should properly get the storage entries.
 		final service = new SessionStorage();
@@ -157,9 +158,10 @@ using StringTools;
 		// It should return the given default value if the key is not found.
 		asserts.assert(service.get("bar", "123") == "123");
 		return asserts.done();
-	}
+	}*/
 
 	/** Tests the `getObject()` method. **/
+	/*
 	public function testGetObject() {
 		// It should properly get the deserialized storage entries.
 		final service = new SessionStorage();
@@ -179,7 +181,7 @@ using StringTools;
 		asserts.assert(service.getObject("foo", "defaultValue") == "defaultValue");
 
 		return asserts.done();
-	}
+	}*/
 
 	/** Tests the `keyValueIterator()` method. **/
 	public function testKeyValueIterator() {
@@ -203,6 +205,7 @@ using StringTools;
 	}
 
 	/** Tests the `putIfAbsent()` method. **/
+	/*
 	public function testPutIfAbsent() {
 		// It should add a new entry if it does not exist.
 		final service = new SessionStorage();
@@ -226,9 +229,10 @@ using StringTools;
 		asserts.assert(window.sessionStorage.getItem("prefix:bar") == "qux");
 
 		return asserts.done();
-	}
+	}*/
 
 	/** Tests the `putObjectIfAbsent()` method. **/
+	/*
 	public function testPutObjectIfAbsent() {
 		// It should add a new entry if it does not exist.
 		final service = new SessionStorage();
@@ -253,7 +257,7 @@ using StringTools;
 		asserts.assert(window.sessionStorage.getItem("prefix:bar") == "456");
 
 		return asserts.done();
-	}
+	}*/
 
 	/** Tests the `remove()` method. **/
 	public function testRemove() {
@@ -286,6 +290,7 @@ using StringTools;
 	}
 
 	/** Tests the `set()` method. **/
+	/*
 	public function testSet() {
 		// It should properly set the storage entries.
 		final service = new SessionStorage();
@@ -308,9 +313,10 @@ using StringTools;
 		service.set("foo", "123");
 		asserts.assert(window.sessionStorage.getItem("prefix:foo") == "123");
 		return asserts.done();
-	}
+	}*/
 
 	/** Tests the `setObject()` method. **/
+	/*
 	public function testSetObject() {
 		// It should properly serialize and set the storage entries.
 		final service = new SessionStorage();
@@ -339,9 +345,10 @@ using StringTools;
 		service.setObject("foo", {key: "value"});
 		asserts.assert(window.sessionStorage.getItem("prefix:foo") == '{"key":"value"}');
 		return asserts.done();
-	}
+	}*/
 
 	/** Tests the `toJSON()` method. **/
+	/*
 	public function testToJSON() {
 		// It should return an empty map for an empty storage.
 		final service = new SessionStorage();
@@ -364,5 +371,5 @@ using StringTools;
 		asserts.assert(json.contains('"prefix:foo":"bar"'));
 		asserts.assert(json.contains('"prefix:baz":"qux"'));
 		return asserts.done();
-	}
+	}*/
 }
