@@ -1,26 +1,27 @@
 # Changelog
 
-## Version [2.0.0](https://github.com/cedx/webstorage.hx/compare/v1.0.5...v2.0.0)
+## Version [2.0.0](https://bitbucket.org/cedx/webstorage.hx/branches/compare/v2.0.0..v1.0.5)
+- Breaking change: removed the `getObject()`, `putObjectIfAbsent()` and `setObject()` methods.
 - Breaking change: the `WebStorage` class no longer extends from [`EventTarget`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget).
 - Added support for key prefix.
 - Dropped the [npm](https://www.npmjs.com) package.
 - Replaced the build system based on [PowerShell](https://docs.microsoft.com/en-us/powershell) by [lix](https://github.com/lix-pm/lix.client) scripts.
 
-## Version [1.0.5](https://github.com/cedx/webstorage.hx/compare/v1.0.4...v1.0.5)
+## Version [1.0.5](https://bitbucket.org/cedx/webstorage.hx/branches/compare/v1.0.5..v1.0.4)
 - Fixed the handling of global [storage events](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event).
 - Ported the documentation to [docsify](https://docsify.js.org).
 
-## Version [1.0.4](https://github.com/cedx/webstorage.hx/compare/v1.0.3...v1.0.4)
+## Version [1.0.4](https://bitbucket.org/cedx/webstorage.hx/branches/compare/v1.0.4..v1.0.3)
 - The `getObject()` and `putObjectIfAbsent()` methods of the `WebStorage` class are now generic.
 
-## Version [1.0.3](https://github.com/cedx/webstorage.hx/compare/v1.0.2...v1.0.3)
+## Version [1.0.3](https://bitbucket.org/cedx/webstorage.hx/branches/compare/v1.0.3..v1.0.2)
 - Fixed the [npm](https://www.npmjs.com) packaging.
 - Updated the documentation.
 
-## Version [1.0.2](https://github.com/cedx/webstorage.hx/compare/v1.0.1...v1.0.2)
+## Version [1.0.2](https://bitbucket.org/cedx/webstorage.hx/branches/compare/v1.0.2..v1.0.1)
 - Fixed the [Haxelib](https://lib.haxe.org) badges.
 
-## Version [1.0.1](https://github.com/cedx/webstorage.hx/compare/v1.0.0...v1.0.1)
+## Version [1.0.1](https://bitbucket.org/cedx/webstorage.hx/branches/compare/v1.0.1..v1.0.0)
 - Fixed the [Haxelib](https://lib.haxe.org) packaging.
 
 ## Version 1.0.0
