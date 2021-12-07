@@ -43,7 +43,7 @@ class WebStorage extends EventTarget {
 	function get_keys() return [for (index in 0...backend.length) backend.key(index)];
 
 	/** Gets the number of entries in this storage. **/
-	function get_length() return backend.length;
+	inline function get_length() return backend.length;
 
 	/** Removes all entries from this storage. **/
 	public function clear() {
@@ -56,7 +56,7 @@ class WebStorage extends EventTarget {
 		if (listener != null) Browser.window.removeEventListener("storage", listener);
 
 	/** Gets a value indicating whether this storage contains the specified `key`. **/
-	public function exists(key: String) return backend.getItem(buildKey(key)) != null;
+	public inline function exists(key: String) return backend.getItem(buildKey(key)) != null;
 
 	/**
 		Gets the value associated to the specified `key`.

@@ -6,6 +6,7 @@
 - Added support for key prefix.
 - Dropped the [npm](https://www.npmjs.com) package.
 - Replaced the build system based on [PowerShell](https://docs.microsoft.com/en-us/powershell) by [lix](https://github.com/lix-pm/lix.client) scripts.
+- Updated the documentation.
 
 ## Version [1.0.5](https://bitbucket.org/cedx/webstorage.hx/branches/compare/v1.0.5..v1.0.4)
 - Fixed the handling of global [storage events](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event).
