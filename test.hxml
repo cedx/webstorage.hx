@@ -1,4 +1,5 @@
 --class-path test
+--define js-global=global
 --js var/tests.js
 --library deep_equal
 --library tink_unittest

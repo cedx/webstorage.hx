@@ -11,7 +11,7 @@ using StringTools;
 	/** Creates a new test. **/
 	public function new() {}
 
-	/** This method is executed before each test. **/
+	/** This method is invoked before each test. **/
 	@:before public function before() {
 		window.sessionStorage.clear();
 		return Noise;
@@ -20,13 +20,14 @@ using StringTools;
 	/** Tests the `keys` property. **/
 	public function testKeys() {
 		// It should return an empty array for an empty storage.
-		asserts.assert(new SessionStorage().keys.length == 0);
+		final service = new SessionStorage();
+		asserts.assert(service.keys.length == 0);
 
 		// It should return the list of keys for a non-empty storage.
 		window.sessionStorage.setItem("foo", "bar");
 		window.sessionStorage.setItem("bar", "baz");
 
-		final keys = new SessionStorage().keys;
+		final keys = service.keys;
 		asserts.assert(keys.length == 2);
 		asserts.assert(keys[0] == "foo");
 		asserts.assert(keys[1] == "bar");
@@ -37,12 +38,13 @@ using StringTools;
 	/** Tests the `length` property. **/
 	public function testLength() {
 		// It should return zero for an empty storage.
-		asserts.assert(new SessionStorage().length == 0);
+		final service = new SessionStorage();
+		asserts.assert(service.length == 0);
 
 		// It should return the number of entries for a non-empty storage.
 		window.sessionStorage.setItem("foo", "bar");
 		window.sessionStorage.setItem("bar", "baz");
-		asserts.assert(new SessionStorage().length == 2);
+		asserts.assert(service.length == 2);
 
 		return asserts.done();
 	}
@@ -129,10 +131,10 @@ using StringTools;
 	/** Tests the `exists()` method. **/
 	public function testExists() {
 		// It should return `false` if the specified key is not contained.
-		asserts.assert(!new SessionStorage().exists("foo"));
+		final service = new SessionStorage();
+		asserts.assert(!service.exists("foo"));
 
 		// It should return `true` if the specified key is contained.
-		final service = new SessionStorage();
 		window.sessionStorage.setItem("foo", "bar");
 		asserts.assert(service.exists("foo"));
 		asserts.assert(!service.exists("bar"));
@@ -153,7 +155,7 @@ using StringTools;
 		asserts.assert(service.get("foo") == "123");
 
 		// It should return the given default value if the key is not found.
-		asserts.assert(new SessionStorage().get("bar", "123") == "123");
+		asserts.assert(service.get("bar", "123") == "123");
 		return asserts.done();
 	}
 
@@ -174,7 +176,7 @@ using StringTools;
 
 		// It should return the default value if the value can't be deserialized.
 		window.sessionStorage.setItem("foo", "bar");
-		asserts.assert(new SessionStorage().getObject("foo", "defaultValue") == "defaultValue");
+		asserts.assert(service.getObject("foo", "defaultValue") == "defaultValue");
 
 		return asserts.done();
 	}
@@ -182,14 +184,15 @@ using StringTools;
 	/** Tests the `keyValueIterator()` method. **/
 	public function testKeyValueIterator() {
 		// It should end iteration immediately if the storage is empty.
-		final iterator = new SessionStorage().keyValueIterator();
+		final service = new SessionStorage();
+		final iterator = service.keyValueIterator();
 		asserts.assert(!iterator.hasNext());
 
 		// It should iterate over the values if the storage is not empty.
 		window.sessionStorage.setItem("foo", "bar");
 		window.sessionStorage.setItem("bar", "baz");
 
-		final iterator = new SessionStorage().keyValueIterator();
+		final iterator = service.keyValueIterator();
 		asserts.assert(iterator.hasNext());
 		asserts.compare({key: "foo", value: "bar"}, iterator.next());
 		asserts.assert(iterator.hasNext());
@@ -208,7 +211,6 @@ using StringTools;
 		asserts.assert(window.sessionStorage.getItem("foo") == "bar");
 
 		// It should not add a new entry if it already exists.
-		final service = new SessionStorage();
 		window.sessionStorage.setItem("foo", "bar");
 		asserts.assert(service.putIfAbsent("foo", () -> "qux") == "bar");
 		asserts.assert(window.sessionStorage.getItem("foo") == "bar");
