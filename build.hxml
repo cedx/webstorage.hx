@@ -3,4 +3,4 @@ share/build.hxml
 
 webstorage.LocalStorage
 webstorage.SessionStorage
-webstorage.WebStorage
+webstorage.Storage

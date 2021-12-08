@@ -2,8 +2,9 @@ package webstorage;
 
 import haxe.DynamicAccess;
 import js.Browser;
-import js.html.Storage;
+import js.html.Storage as WebStorage;
 import js.html.StorageEvent;
+import tink.core.Signal;
 
 #if tink_json
 import tink.Json;
@@ -11,68 +12,87 @@ import tink.Json;
 import haxe.Json;
 #end
 
-/** Provides access to the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage). **/
-class WebStorage {
+using Lambda;
+using StringTools;
 
-	/** A string prefixed to every key so that it is unique globally in the whole storage. **/
-	public var keyPrefix = "";
+/** Provides access to the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage). **/
+abstract class Storage {
 
 	/** The keys of this storage. **/
 	public var keys(get, never): Array<String>;
 
+	/** A string prefixed to every key so that it is unique globally in the whole storage. **/
+	public final keyPrefix = "";
+
 	/** The number of entries in this storage. **/
 	public var length(get, never): Int;
 
-	/** The underlying data store. **/
-	final backend: Storage;
+	/** The stream of storage events. **/
+	public final onChange: Signal<StorageEvent>;
 
-	/** The function that listens for storage events. **/
-	final listener: Null<StorageEvent -> Void> = null;
+	/** The underlying data store. **/
+	final backend: WebStorage;
+
+	/** The handler of storage events. **/
+	final onChangeTrigger: SignalTrigger<StorageEvent> = Signal.trigger();
 
 	/** Creates a new storage service. **/
-	function new(backend: Storage, ?options: WebStorageOptions) {
-		this.backend = backend;
+	function new(backend: WebStorage, ?options: StorageOptions) {
+		var onChange = onChangeTrigger.asSignal();
 		if (options != null) {
-			if (options.keyPrefix != null) keyPrefix = options.keyPrefix;
-			if (options.listenToGlobalEvents != null && options.listenToGlobalEvents) {
-				// TODO listener = event -> if (event.storageArea == backend) emit(event.key, event.oldValue, event.newValue, event.url);
-				Browser.window.addEventListener("storage", listener);
+			if (options.listenToGlobalEvents) onChange = onChange.join(Signal.ofClassical(
+				Browser.window.addEventListener.bind("storage"),
+				Browser.window.removeEventListener.bind("storage")
+			).filter((event: StorageEvent) -> event.storageArea == backend));
+
+			if (options.keyPrefix != null) {
+				keyPrefix = options.keyPrefix;
+				onChange = onChange.filter(event -> event.key.startsWith(keyPrefix));
 			}
 		}
+
+		this.backend = backend;
+		this.onChange = onChange;
 	}
+
+	/** Creates a new local storage service. **/
+	public inline static function local(?options: StorageOptions) return new LocalStorage(options);
+
+	/** Creates a new session storage service. **/
+	public inline static function session(?options: StorageOptions) return new SessionStorage(options);
 
 	/** Gets the keys of this storage. **/
-	function get_keys() return [for (index in 0...backend.length) backend.key(index)];
-
-	/** Gets the number of entries in this storage. **/
-	inline function get_length() return backend.length;
-
-	/** Removes all entries from this storage. **/
-	public function clear() {
-		backend.clear();
-		// TODO emit(null);
+	function get_keys() {
+		final keys = [for (index in 0...backend.length) backend.key(index)];
+		return keyPrefix.length == 0 ? keys : [for (key in keys) if (key.startsWith(keyPrefix)) key.substring(keyPrefix.length)];
 	}
 
-	/** Cancels the subscription to the storage events. **/
-	public function destroy()
-		if (listener != null) Browser.window.removeEventListener("storage", listener);
+	/** Gets the number of entries in this storage. **/
+	function get_length() return keyPrefix.length == 0 ? backend.length : keys.length;
+
+	/** Removes all entries from this storage. **/
+	public function clear()
+		if (keyPrefix.length > 0) keys.iter(remove);
+		else {
+			backend.clear();
+			trigger(null);
+		}
 
 	/** Gets a value indicating whether this storage contains the specified `key`. **/
 	public inline function exists(key: String) return backend.getItem(buildKey(key)) != null;
 
 	/**
 		Gets the deserialized value associated to the specified `key`.
-		Returns the given `defaultValue` if the item does not exist.
+		Returns the given `defaultValue` if the key does not exist or its value is invalid.
 	**/
-	public function get<T>(key: String, ?defaultValue: T)
-		return try {
-			final value = backend.getItem(buildKey(key));
-			value != null ? (Json.parse(value): T) : defaultValue;
-		} catch (e) defaultValue;
+	public function get<T>(key: String, ?defaultValue: T) return try {
+		final value = backend.getItem(buildKey(key));
+		value != null ? (Json.parse(value): T) : defaultValue;
+	} catch (e) defaultValue;
 
 	/**
 		Gets the value associated to the specified `key`.
-		Returns the given `defaultValue` if the item does not exist.
+		Returns the given `defaultValue` if the key does not exist.
 	**/
 	public function getString(key: String, ?defaultValue: String) {
 		final value = backend.getItem(buildKey(key));
@@ -81,7 +101,7 @@ class WebStorage {
 
 	/** Returns a new iterator that allows iterating the entries of this storage. **/
 	public inline function keyValueIterator(): KeyValueIterator<String, String>
-		return new WebStorageIterator(backend);
+		return new StorageIterator(backend);
 
 	/**
 		Looks up the value of the specified `key`, or add a new value if it isn't there.
@@ -112,7 +132,7 @@ class WebStorage {
 	public function remove(key: String) {
 		final oldValue = getString(key);
 		backend.removeItem(buildKey(key));
-		// TODO emit(buildKey(key), oldValue);
+		// TODO trigger(buildKey(key), oldValue);
 		return oldValue;
 	}
 
@@ -123,43 +143,43 @@ class WebStorage {
 	public function setString(key: String, value: String) {
 		final oldValue = getString(key);
 		backend.setItem(buildKey(key), value);
-		// TODO emit(buildKey(key), oldValue, value);
+		// TODO trigger(buildKey(key), oldValue, value);
 		return this;
 	}
 
-	/** Converts the specified storage to a JSON representation. **/
+	/** Converts this storage to a JSON representation. **/
+	#if !tink_json
 	public function toJSON() {
 		final map: DynamicAccess<String> = {};
 		for (key => value in this) map[key] = value;
 		return map;
 	}
+	#end
 
 	/** Builds a normalized cache key from the given `key`. **/
 	inline function buildKey(key: String) return '$keyPrefix$key';
 
-	/** Emits a new storage event. **/
-	/* TODO
-	function emit(key: Null<String>, ?oldValue: String, ?newValue: String, ?url: String)
-		dispatchEvent(new StorageEvent("change", {
-			key: key,
-			newValue: newValue,
-			oldValue: oldValue,
-			storageArea: backend,
-			url: url != null ? url : Browser.location.href
-		})); */
+	/** Triggers a new storage event. **/
+	function trigger(key: Null<String>, ?oldValue: String, ?newValue: String, ?url: String) onChangeTrigger.trigger(new StorageEvent("storage", {
+		key: key,
+		newValue: newValue,
+		oldValue: oldValue,
+		storageArea: backend,
+		url: url != null ? url : Browser.location.href
+	}));
 }
 
-/** Permits iteration over elements of a `WebStorage` instance. **/
-private class WebStorageIterator {
+/** Permits iteration over elements of a `Storage` instance. **/
+private class StorageIterator {
 
 	/** The current index. **/
 	var index = 0;
 
 	/** The instance to iterate. **/
-	final storage: Storage;
+	final storage: WebStorage;
 
 	/** Creates a new storage iterator. **/
-	public function new(storage: Storage) this.storage = storage;
+	public function new(storage: WebStorage) this.storage = storage;
 
 	/** Returns a value indicating whether the iteration is complete. **/
 	public inline function hasNext() return index < storage.length;
@@ -171,8 +191,8 @@ private class WebStorageIterator {
 	}
 }
 
-/** Defines the options of a `WebStorage` instance. **/
-typedef WebStorageOptions = {
+/** Defines the options of a `Storage` instance. **/
+typedef StorageOptions = {
 
 	/** A string prefixed to every key so that it is unique globally in the whole storage. **/
 	var ?keyPrefix: String;

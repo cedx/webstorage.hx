@@ -1,12 +1,17 @@
 package webstorage;
 
-import haxe.Json;
 import js.Browser.window;
+
+#if tink_json
+import tink.Json;
+#else
+import haxe.Json;
+#end
 
 using StringTools;
 
-/** Tests the features of the `WebStorage` class. **/
-@:asserts class WebStorageTest {
+/** Tests the features of the `Storage` class. **/
+@:asserts class StorageTest {
 
 	/** Creates a new test. **/
 	public function new() {}
@@ -20,17 +25,20 @@ using StringTools;
 	/** Tests the `keys` property. **/
 	public function testKeys() {
 		// It should return an empty array for an empty storage.
-		final service = new SessionStorage();
+		final service = Storage.session();
 		asserts.assert(service.keys.length == 0);
 
 		// It should return the list of keys for a non-empty storage.
 		window.sessionStorage.setItem("foo", "bar");
-		window.sessionStorage.setItem("bar", "baz");
+		window.sessionStorage.setItem("prefix:baz", "qux");
 
-		final keys = service.keys;
+		var keys = service.keys;
 		asserts.assert(keys.length == 2);
-		asserts.assert(keys[0] == "foo");
-		asserts.assert(keys[1] == "bar");
+		asserts.assert(keys.contains("foo") && keys.contains("prefix:baz"));
+
+		// It should handle the key prefix.
+		keys = Storage.session({keyPrefix: "prefix:"}).keys;
+		asserts.assert(keys.length == 1 && keys[0] == "baz");
 
 		return asserts.done();
 	}
@@ -38,14 +46,16 @@ using StringTools;
 	/** Tests the `length` property. **/
 	public function testLength() {
 		// It should return zero for an empty storage.
-		final service = new SessionStorage();
+		final service = Storage.session();
 		asserts.assert(service.length == 0);
 
 		// It should return the number of entries for a non-empty storage.
 		window.sessionStorage.setItem("foo", "bar");
-		window.sessionStorage.setItem("bar", "baz");
+		window.sessionStorage.setItem("prefix:baz", "qux");
 		asserts.assert(service.length == 2);
 
+		// It should handle the key prefix.
+		asserts.assert(Storage.session({keyPrefix: "prefix:"}).length == 1);
 		return asserts.done();
 	}
 
@@ -60,7 +70,7 @@ using StringTools;
 			done();
 		};
 
-		final service = new SessionStorage();
+		final service = Storage.session();
 		service.addEventListener("change", listener);
 		service.set("foo", "bar");
 		service.removeEventListener("change", listener);
@@ -75,7 +85,7 @@ using StringTools;
 			done();
 		};
 
-		final service = new SessionStorage();
+		final service = Storage.session();
 		service.addEventListener("change", listener);
 		service.set("foo", "baz");
 		service.removeEventListener("change", listener);
@@ -90,7 +100,7 @@ using StringTools;
 			done();
 		};
 
-		final service = new SessionStorage();
+		final service = Storage.session();
 		service.addEventListener("change", listener);
 		service.remove("foo");
 		service.removeEventListener("change", listener);
@@ -106,7 +116,7 @@ using StringTools;
 			done();
 		};
 
-		final service = new SessionStorage();
+		final service = Storage.session();
 		service.addEventListener("change", listener);
 		service.clear();
 		service.removeEventListener("change", listener);
@@ -118,12 +128,17 @@ using StringTools;
 	public function testClear() {
 		// It should remove all storage entries.
 		window.sessionStorage.setItem("foo", "bar");
-		window.sessionStorage.setItem("bar", "baz");
+		window.sessionStorage.setItem("prefix:baz", "qux");
 
-		final service = new SessionStorage();
-		asserts.assert(service.length == 2);
-		service.clear();
-		asserts.assert(service.length == 0);
+		Storage.session().clear();
+		asserts.assert(window.sessionStorage.length == 0);
+
+		// It should handle the key prefix.
+		window.sessionStorage.setItem("foo", "bar");
+		window.sessionStorage.setItem("prefix:baz", "qux");
+
+		Storage.session({keyPrefix: "prefix:"}).clear();
+		asserts.assert(window.sessionStorage.length == 1);
 
 		return asserts.done();
 	}
@@ -131,62 +146,105 @@ using StringTools;
 	/** Tests the `exists()` method. **/
 	public function testExists() {
 		// It should return `false` if the specified key is not contained.
-		final service = new SessionStorage();
+		var service = Storage.session();
 		asserts.assert(!service.exists("foo"));
 
 		// It should return `true` if the specified key is contained.
 		window.sessionStorage.setItem("foo", "bar");
-		asserts.assert(service.exists("foo"));
-		asserts.assert(!service.exists("bar"));
+		window.sessionStorage.setItem("prefix:baz", "qux");
+
+		asserts.assert(!service.exists("foo:bar"));
+		asserts.assert(service.exists("foo") && service.exists("prefix:baz"));
+
+		// It should handle the key prefix.
+		service = Storage.session({keyPrefix: "prefix:"});
+		asserts.assert(!service.exists("foo"));
+		asserts.assert(service.exists("baz"));
 
 		return asserts.done();
 	}
 
 	/** Tests the `get()` method. **/
-	/*
 	public function testGet() {
-		// It should properly get the storage entries.
-		final service = new SessionStorage();
+		// It should properly get the deserialized storage entries.
+		var service = Storage.session();
 		asserts.assert(service.get("foo") == null);
 
-		window.sessionStorage.setItem("foo", "bar");
+		window.sessionStorage.setItem("foo", '"bar"');
 		asserts.assert(service.get("foo") == "bar");
 
 		window.sessionStorage.setItem("foo", "123");
-		asserts.assert(service.get("foo") == "123");
-
-		// It should return the given default value if the key is not found.
-		asserts.assert(service.get("bar", "123") == "123");
-		return asserts.done();
-	}*/
-
-	/** Tests the `getObject()` method. **/
-	/*
-	public function testGetObject() {
-		// It should properly get the deserialized storage entries.
-		final service = new SessionStorage();
-		asserts.assert(service.getObject("foo") == null);
-
-		window.sessionStorage.setItem("foo", "123");
-		asserts.assert(service.getObject("foo") == 123);
-
-		window.sessionStorage.setItem("foo", '"bar"');
-		asserts.assert(service.getObject("foo") == "bar");
+		asserts.assert(service.get("foo") == 123);
 
 		window.sessionStorage.setItem("foo", '{"key": "value"}');
-		asserts.compare({key: "value"}, service.getObject("foo"));
+		asserts.compare({key: "value"}, service.get("foo"));
 
-		// It should return the default value if the value can't be deserialized.
-		window.sessionStorage.setItem("foo", "bar");
-		asserts.assert(service.getObject("foo", "defaultValue") == "defaultValue");
+		window.sessionStorage.setItem("foo", 'bar123');
+		asserts.assert(service.get("foo") == null);
+
+		final defaultValue = {k: "_Oops_"};
+		window.sessionStorage.removeItem("foo");
+		asserts.assert(service.get("foo", defaultValue) == defaultValue);
+
+		// It should handle the key prefix.
+		var service = Storage.session({keyPrefix: "prefix:"});
+		asserts.assert(service.get("baz") == null);
+
+		window.sessionStorage.setItem("prefix:baz", '"qux"');
+		asserts.assert(service.get("baz") == "qux");
+
+		window.sessionStorage.setItem("prefix:baz", "456");
+		asserts.assert(service.get("baz") == 456);
+
+		window.sessionStorage.setItem("prefix:baz", '{"key": "value"}');
+		asserts.compare({key: "value"}, service.get("baz"));
+
+		window.sessionStorage.setItem("prefix:baz", 'qux456');
+		asserts.assert(service.get("baz") == null);
+
+		final defaultValue = {k: "_Oops_"};
+		window.sessionStorage.removeItem("prefix:baz");
+		asserts.assert(service.get("baz", defaultValue) == defaultValue);
 
 		return asserts.done();
-	}*/
+	}
+
+	/** Tests the `getString()` method. **/
+	public function testGetString() {
+		// It should properly get the storage entries.
+		var service = Storage.session();
+		asserts.assert(service.getString("foo") == null);
+
+		window.sessionStorage.setItem("foo", "bar");
+		asserts.assert(service.getString("foo") == "bar");
+
+		window.sessionStorage.setItem("foo", "123");
+		asserts.assert(service.getString("foo") == "123");
+
+		window.sessionStorage.removeItem("foo");
+		asserts.assert(service.getString("foo", "_Oops_") == "_Oops_");
+
+		// It should handle the key prefix.
+		var service = Storage.session({keyPrefix: "prefix:"});
+		asserts.assert(service.getString("baz") == null);
+
+		window.sessionStorage.setItem("prefix:baz", "qux");
+		asserts.assert(service.getString("baz") == "qux");
+
+		window.sessionStorage.setItem("prefix:baz", "456");
+		asserts.assert(service.getString("baz") == "456");
+
+		window.sessionStorage.removeItem("prefix:baz");
+		asserts.assert(service.getString("baz", "_Oops_") == "_Oops_");
+
+		return asserts.done();
+	}
 
 	/** Tests the `keyValueIterator()` method. **/
+	/*
 	public function testKeyValueIterator() {
 		// It should end iteration immediately if the storage is empty.
-		final service = new SessionStorage();
+		final service = Storage.session();
 		final iterator = service.keyValueIterator();
 		asserts.assert(!iterator.hasNext());
 
@@ -202,13 +260,13 @@ using StringTools;
 		asserts.assert(!iterator.hasNext());
 
 		return asserts.done();
-	}
+	}*/
 
 	/** Tests the `putIfAbsent()` method. **/
 	/*
 	public function testPutIfAbsent() {
 		// It should add a new entry if it does not exist.
-		final service = new SessionStorage();
+		final service = Storage.session();
 		asserts.assert(window.sessionStorage.getItem("foo") == null);
 		asserts.assert(service.putIfAbsent("foo", () -> "bar") == "bar");
 		asserts.assert(window.sessionStorage.getItem("foo") == "bar");
@@ -221,7 +279,7 @@ using StringTools;
 		asserts.assert(window.sessionStorage.getItem("bar") == "qux");
 
 		// It should support the key prefix.
-		final service = new SessionStorage({keyPrefix: "prefix:"});
+		final service = Storage.session({keyPrefix: "prefix:"});
 		window.sessionStorage.setItem("prefix:foo", "bar");
 		asserts.assert(service.putIfAbsent("foo", () -> "qux") == "bar");
 		asserts.assert(window.sessionStorage.getItem("prefix:foo") == "bar");
@@ -235,13 +293,13 @@ using StringTools;
 	/*
 	public function testPutObjectIfAbsent() {
 		// It should add a new entry if it does not exist.
-		final service = new SessionStorage();
+		final service = Storage.session();
 		asserts.assert(window.sessionStorage.getItem("foo") == null);
 		asserts.assert(service.putObjectIfAbsent("foo", () -> 123) == 123);
 		asserts.assert(window.sessionStorage.getItem("foo") == "123");
 
 		// It should not add a new entry if it already exists.
-		final service = new SessionStorage();
+		final service = Storage.session();
 		window.sessionStorage.setItem("foo", "123");
 		asserts.assert(service.putObjectIfAbsent("foo", () -> 456) == 123);
 		asserts.assert(window.sessionStorage.getItem("foo") == "123");
@@ -249,7 +307,7 @@ using StringTools;
 		asserts.assert(window.sessionStorage.getItem("bar") == "456");
 
 		// It should support the key prefix.
-		final service = new SessionStorage({keyPrefix: "prefix:"});
+		final service = Storage.session({keyPrefix: "prefix:"});
 		window.sessionStorage.setItem("prefix:foo", "123");
 		asserts.assert(service.putObjectIfAbsent("foo", () -> 456) == 123);
 		asserts.assert(window.sessionStorage.getItem("prefix:foo") == "123");
@@ -260,9 +318,10 @@ using StringTools;
 	}*/
 
 	/** Tests the `remove()` method. **/
+	/*
 	public function testRemove() {
 		// It should properly remove the storage entries.
-		final service = new SessionStorage();
+		final service = Storage.session();
 		window.sessionStorage.setItem("foo", "bar");
 		window.sessionStorage.setItem("bar", "baz");
 		asserts.assert(window.sessionStorage.getItem("foo") == "bar");
@@ -275,7 +334,7 @@ using StringTools;
 		asserts.assert(window.sessionStorage.getItem("bar") == null);
 
 		// It should support the key prefix.
-		final service = new SessionStorage({keyPrefix: "prefix:"});
+		final service = Storage.session({keyPrefix: "prefix:"});
 		window.sessionStorage.setItem("prefix:foo", "bar");
 		window.sessionStorage.setItem("prefix:bar", "baz");
 		asserts.assert(window.sessionStorage.getItem("prefix:foo") == "bar");
@@ -287,13 +346,13 @@ using StringTools;
 		service.remove("bar");
 		asserts.assert(window.sessionStorage.getItem("prefix:bar") == null);
 		return asserts.done();
-	}
+	}*/
 
 	/** Tests the `set()` method. **/
 	/*
 	public function testSet() {
 		// It should properly set the storage entries.
-		final service = new SessionStorage();
+		final service = Storage.session();
 		asserts.assert(window.sessionStorage.getItem("foo") == null);
 
 		service.set("foo", "bar");
@@ -303,7 +362,7 @@ using StringTools;
 		asserts.assert(window.sessionStorage.getItem("foo") == "123");
 
 		// It should support the key prefix.
-		final service = new SessionStorage({keyPrefix: "prefix:"});
+		final service = Storage.session({keyPrefix: "prefix:"});
 		asserts.assert(window.sessionStorage.getItem("prefix:foo") == null);
 
 		service.set("foo", "bar");
@@ -319,7 +378,7 @@ using StringTools;
 	/*
 	public function testSetObject() {
 		// It should properly serialize and set the storage entries.
-		final service = new SessionStorage();
+		final service = Storage.session();
 		asserts.assert(window.sessionStorage.getItem("foo") == null);
 
 		service.setObject("foo", 123);
@@ -332,7 +391,7 @@ using StringTools;
 		asserts.assert(window.sessionStorage.getItem("foo") == '{"key":"value"}');
 
 		// It should support the key prefix.
-		final service = new SessionStorage({keyPrefix: "prefix:"});
+		final service = Storage.session({keyPrefix: "prefix:"});
 		asserts.assert(window.sessionStorage.getItem("prefix:foo") == null);
 
 		service.setObject("foo", 123);
@@ -351,12 +410,12 @@ using StringTools;
 	/*
 	public function testToJSON() {
 		// It should return an empty map for an empty storage.
-		final service = new SessionStorage();
+		final service = Storage.session();
 		asserts.compare({}, service.toJSON());
 		asserts.assert(Json.stringify(service) == "{}");
 
 		// It should return a non-empty map for a non-empty storage.
-		final service = new SessionStorage().set("foo", "bar").set("baz", "qux");
+		final service = Storage.session().set("foo", "bar").set("baz", "qux");
 		asserts.compare({baz: "qux", foo: "bar"}, service.toJSON());
 
 		final json = Json.stringify(service);
@@ -364,7 +423,7 @@ using StringTools;
 		asserts.assert(json.contains('"baz":"qux"'));
 
 		// It should support the key prefix.
-		final service = new SessionStorage({keyPrefix: "prefix:"}).set("foo", "bar").set("baz", "qux");
+		final service = Storage.session({keyPrefix: "prefix:"}).set("foo", "bar").set("baz", "qux");
 		asserts.compare({"prefix:baz": "qux", "prefix:foo": "bar"}, service.toJSON());
 
 		final json = Json.stringify(service);
