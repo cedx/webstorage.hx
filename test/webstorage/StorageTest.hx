@@ -72,7 +72,7 @@ using StringTools;
 
 		final service = Storage.session();
 		service.addEventListener("change", listener);
-		service.set("foo", "bar");
+		service.setString("foo", "bar");
 		service.removeEventListener("change", listener);
 
 		// It should trigger an event when a value is updated", public function(done) {
@@ -87,7 +87,7 @@ using StringTools;
 
 		final service = Storage.session();
 		service.addEventListener("change", listener);
-		service.set("foo", "baz");
+		service.setString("foo", "baz");
 		service.removeEventListener("change", listener);
 
 		// It should trigger an event when a value is removed", public function(done) {
@@ -318,58 +318,45 @@ using StringTools;
 	}*/
 
 	/** Tests the `remove()` method. **/
-	/*
 	public function testRemove() {
-		// It should properly remove the storage entries.
-		final service = Storage.session();
 		window.sessionStorage.setItem("foo", "bar");
-		window.sessionStorage.setItem("bar", "baz");
-		asserts.assert(window.sessionStorage.getItem("foo") == "bar");
+		window.sessionStorage.setItem("prefix:baz", "qux");
 
-		service.remove("foo");
+		// It should properly remove the storage entries.
+		Storage.session().remove("foo");
+		asserts.assert(window.sessionStorage.length == 1);
 		asserts.assert(window.sessionStorage.getItem("foo") == null);
-		asserts.assert(window.sessionStorage.getItem("bar") == "baz");
 
-		service.remove("bar");
-		asserts.assert(window.sessionStorage.getItem("bar") == null);
+		// It should handle the key prefix.
+		Storage.session({keyPrefix: "prefix:"}).remove("baz");
+		asserts.assert(window.sessionStorage.length == 0);
+		asserts.assert(window.sessionStorage.getItem("prefix:baz") == null);
 
-		// It should support the key prefix.
-		final service = Storage.session({keyPrefix: "prefix:"});
-		window.sessionStorage.setItem("prefix:foo", "bar");
-		window.sessionStorage.setItem("prefix:bar", "baz");
-		asserts.assert(window.sessionStorage.getItem("prefix:foo") == "bar");
-
-		service.remove("foo");
-		asserts.assert(window.sessionStorage.getItem("prefix:foo") == null);
-		asserts.assert(window.sessionStorage.getItem("prefix:bar") == "baz");
-
-		service.remove("bar");
-		asserts.assert(window.sessionStorage.getItem("prefix:bar") == null);
 		return asserts.done();
-	}*/
+	}
 
-	/** Tests the `set()` method. **/
+	/** Tests the `setString()` method. **/
 	/*
-	public function testSet() {
+	public function testSetString() {
 		// It should properly set the storage entries.
 		final service = Storage.session();
 		asserts.assert(window.sessionStorage.getItem("foo") == null);
 
-		service.set("foo", "bar");
+		service.setString("foo", "bar");
 		asserts.assert(window.sessionStorage.getItem("foo") == "bar");
 
-		service.set("foo", "123");
+		service.setString("foo", "123");
 		asserts.assert(window.sessionStorage.getItem("foo") == "123");
 
 		// It should support the key prefix.
 		final service = Storage.session({keyPrefix: "prefix:"});
 		asserts.assert(window.sessionStorage.getItem("prefix:foo") == null);
 
-		service.set("foo", "bar");
+		service.setString("foo", "bar");
 		asserts.assert(window.sessionStorage.getItem("foo") == null);
 		asserts.assert(window.sessionStorage.getItem("prefix:foo") == "bar");
 
-		service.set("foo", "123");
+		service.setString("foo", "123");
 		asserts.assert(window.sessionStorage.getItem("prefix:foo") == "123");
 		return asserts.done();
 	}*/
@@ -415,7 +402,7 @@ using StringTools;
 		asserts.assert(Json.stringify(service) == "{}");
 
 		// It should return a non-empty map for a non-empty storage.
-		final service = Storage.session().set("foo", "bar").set("baz", "qux");
+		final service = Storage.session().setString("foo", "bar").setString("baz", "qux");
 		asserts.compare({baz: "qux", foo: "bar"}, service.toJSON());
 
 		final json = Json.stringify(service);
@@ -423,7 +410,7 @@ using StringTools;
 		asserts.assert(json.contains('"baz":"qux"'));
 
 		// It should support the key prefix.
-		final service = Storage.session({keyPrefix: "prefix:"}).set("foo", "bar").set("baz", "qux");
+		final service = Storage.session({keyPrefix: "prefix:"}).setString("foo", "bar").setString("baz", "qux");
 		asserts.compare({"prefix:baz": "qux", "prefix:foo": "bar"}, service.toJSON());
 
 		final json = Json.stringify(service);

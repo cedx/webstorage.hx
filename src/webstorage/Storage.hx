@@ -101,7 +101,7 @@ abstract class Storage {
 
 	/** Returns a new iterator that allows iterating the entries of this storage. **/
 	public inline function keyValueIterator(): KeyValueIterator<String, String>
-		return new StorageIterator(backend);
+		return new StorageIterator(backend, keyPrefix);
 
 	/**
 		Looks up the value of the specified `key`, or add a new value if it isn't there.
@@ -132,7 +132,7 @@ abstract class Storage {
 	public function remove(key: String) {
 		final oldValue = getString(key);
 		backend.removeItem(buildKey(key));
-		// TODO trigger(buildKey(key), oldValue);
+		trigger(buildKey(key), oldValue);
 		return oldValue;
 	}
 
@@ -143,7 +143,7 @@ abstract class Storage {
 	public function setString(key: String, value: String) {
 		final oldValue = getString(key);
 		backend.setItem(buildKey(key), value);
-		// TODO trigger(buildKey(key), oldValue, value);
+		trigger(buildKey(key), oldValue, value);
 		return this;
 	}
 
@@ -175,11 +175,17 @@ private class StorageIterator {
 	/** The current index. **/
 	var index = 0;
 
+	/** The key prefix. **/
+	final keyPrefix: String;
+
 	/** The instance to iterate. **/
 	final storage: WebStorage;
 
 	/** Creates a new storage iterator. **/
-	public function new(storage: WebStorage) this.storage = storage;
+	public function new(storage: WebStorage, keyPrefix: String) {
+		this.keyPrefix = keyPrefix;
+		this.storage = storage;
+	}
 
 	/** Returns a value indicating whether the iteration is complete. **/
 	public inline function hasNext() return index < storage.length;

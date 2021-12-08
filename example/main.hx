@@ -1,10 +1,10 @@
 import js.Browser.console;
 import js.lib.Object;
-import webstorage.LocalStorage;
+import webstorage.Storage;
 
 /** Application entry point. **/
 function main() {
-	final service = new LocalStorage();
+	final service = Storage.local();
 
 	// Query the storage.
 	console.log(service.exists("foo")); // false
