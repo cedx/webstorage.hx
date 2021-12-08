@@ -56,10 +56,10 @@ abstract class Storage {
 	}
 
 	/** Creates a new local storage service. **/
-	public inline static function local(?options: StorageOptions) return new LocalStorage(options);
+	public static inline function local(?options: StorageOptions) return new LocalStorage(options);
 
 	/** Creates a new session storage service. **/
-	public inline static function session(?options: StorageOptions) return new SessionStorage(options);
+	public static inline function session(?options: StorageOptions) return new SessionStorage(options);
 
 	/** Gets the keys of this storage. **/
 	function get_keys() {
@@ -83,7 +83,7 @@ abstract class Storage {
 
 	/**
 		Gets the deserialized value associated to the specified `key`.
-		Returns the given `defaultValue` if the key does not exist or its value is invalid.
+		Returns the given `defaultValue` if the `key` does not exist or its value cannot be deserialized.
 	**/
 	public function get<T>(key: String, ?defaultValue: T) return try {
 		final value = backend.getItem(buildKey(key));
@@ -92,7 +92,7 @@ abstract class Storage {
 
 	/**
 		Gets the value associated to the specified `key`.
-		Returns the given `defaultValue` if the key does not exist.
+		Returns the given `defaultValue` if the `key` does not exist.
 	**/
 	public function getString(key: String, ?defaultValue: String) {
 		final value = backend.getItem(buildKey(key));
@@ -101,7 +101,7 @@ abstract class Storage {
 
 	/** Returns a new iterator that allows iterating the entries of this storage. **/
 	public inline function keyValueIterator(): KeyValueIterator<String, String>
-		return new StorageIterator(backend, keyPrefix);
+		return new StorageIterator(this);
 
 	/**
 		Looks up the value of the specified `key`, or add a new value if it isn't there.
@@ -175,25 +175,25 @@ private class StorageIterator {
 	/** The current index. **/
 	var index = 0;
 
-	/** The key prefix. **/
-	final keyPrefix: String;
+	/** The storage keys. **/
+	final keys: Array<String>;
 
-	/** The instance to iterate. **/
-	final storage: WebStorage;
+	/** The storage to iterate. **/
+	final storage: Storage;
 
 	/** Creates a new storage iterator. **/
-	public function new(storage: WebStorage, keyPrefix: String) {
-		this.keyPrefix = keyPrefix;
+	public function new(storage: Storage) {
 		this.storage = storage;
+		keys = storage.keys;
 	}
 
 	/** Returns a value indicating whether the iteration is complete. **/
-	public inline function hasNext() return index < storage.length;
+	public inline function hasNext() return index < keys.length;
 
 	/** Returns the current item of the iterator and advances to the next one. **/
 	public function next(): {key: String, value: String} {
-		final key = storage.key(index++);
-		return {key: key, value: storage.getItem(key)};
+		final key = keys[index++];
+		return {key: key, value: storage.getString(key)};
 	}
 }
 

@@ -179,7 +179,7 @@ using StringTools;
 		window.sessionStorage.setItem("foo", '{"key": "value"}');
 		asserts.compare({key: "value"}, service.get("foo"));
 
-		window.sessionStorage.setItem("foo", 'bar123');
+		window.sessionStorage.setItem("foo", "{bar[123]}");
 		asserts.assert(service.get("foo") == null);
 
 		final defaultValue = {k: "_Oops_"};
@@ -199,7 +199,7 @@ using StringTools;
 		window.sessionStorage.setItem("prefix:baz", '{"key": "value"}');
 		asserts.compare({key: "value"}, service.get("baz"));
 
-		window.sessionStorage.setItem("prefix:baz", 'qux456');
+		window.sessionStorage.setItem("prefix:baz", "{qux[456]}");
 		asserts.assert(service.get("baz") == null);
 
 		final defaultValue = {k: "_Oops_"};
@@ -241,26 +241,30 @@ using StringTools;
 	}
 
 	/** Tests the `keyValueIterator()` method. **/
-	/*
 	public function testKeyValueIterator() {
 		// It should end iteration immediately if the storage is empty.
-		final service = Storage.session();
-		final iterator = service.keyValueIterator();
+		var iterator = Storage.session().keyValueIterator();
 		asserts.assert(!iterator.hasNext());
 
 		// It should iterate over the values if the storage is not empty.
 		window.sessionStorage.setItem("foo", "bar");
-		window.sessionStorage.setItem("bar", "baz");
+		window.sessionStorage.setItem("prefix:baz", "qux");
 
-		final iterator = service.keyValueIterator();
+		iterator = Storage.session().keyValueIterator();
 		asserts.assert(iterator.hasNext());
 		asserts.compare({key: "foo", value: "bar"}, iterator.next());
 		asserts.assert(iterator.hasNext());
-		asserts.compare({key: "bar", value: "baz"}, iterator.next());
+		asserts.compare({key: "prefix:baz", value: "qux"}, iterator.next());
+		asserts.assert(!iterator.hasNext());
+
+		// It should handle the key prefix.
+		iterator = Storage.session({keyPrefix: "prefix:"}).keyValueIterator();
+		asserts.assert(iterator.hasNext());
+		asserts.compare({key: "baz", value: "qux"}, iterator.next());
 		asserts.assert(!iterator.hasNext());
 
 		return asserts.done();
-	}*/
+	}
 
 	/** Tests the `putIfAbsent()` method. **/
 	/*
