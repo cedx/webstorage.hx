@@ -1,12 +1,7 @@
 package webstorage;
 
 import js.Browser.window;
-
-#if tink_json
-import tink.Json;
-#else
-import haxe.Json;
-#end
+import #if tink_json tink.Json #else haxe.Json #end;
 
 using StringTools;
 
@@ -59,70 +54,73 @@ using StringTools;
 		return asserts.done();
 	}
 
-	/** Tests the `addEventListener("change")` method. **/
-	/* TODO
-	public function testAddEventListener() {
-		// It should trigger an event when a value is added", public function(done) {
-		final listener = event -> {
-			asserts.equals("foo", event.key);
+	/** Tests the `onChange` property. **/
+	public function testOnChange() {
+		var service = Storage.session();
+
+		// It should trigger an event when a value is added.
+		var subscription = service.onChange.handle(event -> {
+			asserts.assert(event.key == "foo");
 			asserts.assert(event.oldValue == null);
-			asserts.equals("bar", event.newValue);
-			done();
-		};
+			asserts.assert(event.newValue == "bar");
+			asserts.assert(event.storageArea == window.sessionStorage);
+		});
 
-		final service = Storage.session();
-		service.addEventListener("change", listener);
 		service.set("foo", "bar");
-		service.removeEventListener("change", listener);
+		subscription.cancel();
 
-		// It should trigger an event when a value is updated", public function(done) {
-		window.sessionStorage.setItem("foo", "bar");
+		// It should trigger an event when a value is updated.
+		subscription = service.onChange.handle(event -> {
+			asserts.assert(event.key == "foo");
+			asserts.assert(event.oldValue == "bar");
+			asserts.assert(event.newValue == "baz");
+			asserts.assert(event.storageArea == window.sessionStorage);
+		});
 
-		final listener = event -> {
-			asserts.equals("foo", event.key);
-			asserts.equals("bar", event.oldValue);
-			asserts.equals("baz", event.newValue);
-			done();
-		};
-
-		final service = Storage.session();
-		service.addEventListener("change", listener);
 		service.set("foo", "baz");
-		service.removeEventListener("change", listener);
+		subscription.cancel();
 
-		// It should trigger an event when a value is removed", public function(done) {
-		window.sessionStorage.setItem("foo", "bar");
+		// It should not trigger an event when a value is neither added nor updated.
+		subscription = service.onChange.handle(event -> asserts.fail("This event should not have been triggered."));
+		service.putIfAbsent("foo", () -> "qux");
+		subscription.cancel();
 
-		final listener = event -> {
-			asserts.equals("foo", event.key);
-			asserts.equals("bar", event.oldValue);
+		// It should trigger an event when a value is removed.
+		subscription = service.onChange.handle(event -> {
+			asserts.assert(event.key == "foo");
+			asserts.assert(event.oldValue == "baz");
 			asserts.assert(event.newValue == null);
-			done();
-		};
+			asserts.assert(event.storageArea == window.sessionStorage);
+		});
 
-		final service = Storage.session();
-		service.addEventListener("change", listener);
 		service.remove("foo");
-		service.removeEventListener("change", listener);
+		subscription.cancel();
 
-		// It should trigger an event when the storage is cleared", public function(done) {
-		window.sessionStorage.setItem("foo", "bar");
-		window.sessionStorage.setItem("bar", "baz");
-
-		final listener = event -> {
+		// It should trigger an event when the storage is cleared.
+		subscription = service.onChange.handle(event -> {
 			asserts.assert(event.key == null);
 			asserts.assert(event.oldValue == null);
 			asserts.assert(event.newValue == null);
-			done();
-		};
+			asserts.assert(event.storageArea == window.sessionStorage);
+		});
 
-		final service = Storage.session();
-		service.addEventListener("change", listener);
 		service.clear();
-		service.removeEventListener("change", listener);
+		subscription.cancel();
+
+		// It should handle the key prefix.
+		service = Storage.session({keyPrefix: "prefix:"});
+		subscription = service.onChange.handle(event -> {
+			asserts.assert(event.key == "prefix:baz");
+			asserts.assert(event.oldValue == null);
+			asserts.assert(event.newValue == "qux");
+			asserts.assert(event.storageArea == window.sessionStorage);
+		});
+
+		service.set("baz", "qux");
+		subscription.cancel();
 
 		return asserts.done();
-	}*/
+	}
 
 	/** Tests the `clear()` method. **/
 	public function testClear() {
@@ -180,7 +178,7 @@ using StringTools;
 		asserts.assert(service.get("foo", "_Oops_") == "_Oops_");
 
 		// It should handle the key prefix.
-		var service = Storage.session({keyPrefix: "prefix:"});
+		service = Storage.session({keyPrefix: "prefix:"});
 		asserts.assert(service.get("baz") == null);
 
 		window.sessionStorage.setItem("prefix:baz", "qux");
@@ -213,12 +211,12 @@ using StringTools;
 		window.sessionStorage.setItem("foo", "{bar[123]}");
 		asserts.assert(service.getObject("foo") == null);
 
-		final defaultValue = {k: "_Oops_"};
+		var defaultValue = {k: "_Oops_"};
 		window.sessionStorage.removeItem("foo");
 		asserts.assert(service.getObject("foo", defaultValue) == defaultValue);
 
 		// It should handle the key prefix.
-		var service = Storage.session({keyPrefix: "prefix:"});
+		service = Storage.session({keyPrefix: "prefix:"});
 		asserts.assert(service.getObject("baz") == null);
 
 		window.sessionStorage.setItem("prefix:baz", '"qux"');
@@ -233,7 +231,7 @@ using StringTools;
 		window.sessionStorage.setItem("prefix:baz", "{qux[456]}");
 		asserts.assert(service.getObject("baz") == null);
 
-		final defaultValue = {k: "_Oops_"};
+		defaultValue = {k: "_Oops_"};
 		window.sessionStorage.removeItem("prefix:baz");
 		asserts.assert(service.getObject("baz", defaultValue) == defaultValue);
 
@@ -413,8 +411,8 @@ using StringTools;
 
 		// It should handle the key prefix.
 		json = Json.stringify(Storage.session({keyPrefix: "prefix:"}));
-		asserts.assert(json.contains('["baz","qux"]'));
 		asserts.assert(!json.contains('["foo","bar"]'));
+		asserts.assert(json.contains('["baz","qux"]'));
 
 		return asserts.done();
 	}
