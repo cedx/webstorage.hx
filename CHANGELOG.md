@@ -1,8 +1,10 @@
 # Changelog
 
 ## Version [2.0.0](https://bitbucket.org/cedx/webstorage.hx/branches/compare/v2.0.0..v1.0.5)
-- Breaking change: removed the `getObject()`, `putObjectIfAbsent()` and `setObject()` methods.
-- Breaking change: the `WebStorage` class no longer extends from [`EventTarget`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget).
+- Breaking change: renamed the `WebStorage` class to `Storage`.
+- Breaking change: the `Storage` class no longer extends from [`EventTarget`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget).
+- Breaking change: the `Storage` class is now `abstract`.
+- Breaking change: the `LocalStorage` and `SessionStorage` classes are now `final`.
 - Added support for key prefix.
 - Dropped the [npm](https://www.npmjs.com) package.
 - Replaced the build system based on [PowerShell](https://docs.microsoft.com/en-us/powershell) by [lix](https://github.com/lix-pm/lix.client) scripts.
