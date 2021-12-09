@@ -88,10 +88,11 @@ abstract class Storage {
 		Gets the deserialized value associated to the specified `key`.
 		Returns the given `defaultValue` if the `key` does not exist or its value cannot be deserialized.
 	**/
-	public function getObject<T>(key: String, ?defaultValue: T) return try {
-		final value = backend.getItem(buildKey(key));
-		value != null ? (Json.parse(value): T) : defaultValue;
-	} catch (e) defaultValue;
+	public function getObject(key: String, ?defaultValue: Any): Dynamic
+		return try {
+			final value = backend.getItem(buildKey(key));
+			value != null ? Json.parse(value) : defaultValue;
+		} catch (e) defaultValue;
 
 	/** Returns a new iterator that allows iterating the entries of this storage. **/
 	public inline function keyValueIterator(): KeyValueIterator<String, String>
@@ -114,7 +115,7 @@ abstract class Storage {
 		Returns the deserialized value associated to `key`, if there is one.
 		Otherwise calls `ifAbsent` to get a new value, serializes and associates `key` to that value, and then returns the new value.
 	**/
-	public function putObjectIfAbsent<T>(key: String, ifAbsent: () -> T): T {
+	public function putObjectIfAbsent(key: String, ifAbsent: () -> Any): Dynamic {
 		if (!exists(key)) setObject(key, ifAbsent());
 		return getObject(key);
 	}
@@ -139,7 +140,7 @@ abstract class Storage {
 	}
 
 	/** Serializes and associates a given `value` to the specified `key`. **/
-	public inline function setObject<T>(key: String, value: T) return set(key, Json.stringify(value));
+	public inline function setObject(key: String, value: Any) return set(key, Json.stringify(value));
 
 	#if !tink_json
 	/** Converts this storage to a JSON representation. **/
