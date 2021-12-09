@@ -1,16 +1,10 @@
 package webstorage;
 
-import haxe.DynamicAccess;
+import haxe.Json;
 import js.Browser;
 import js.html.Storage as WebStorage;
 import js.html.StorageEvent;
 import tink.core.Signal;
-
-#if tink_json
-import tink.Json;
-#else
-import haxe.Json;
-#end
 
 using Lambda;
 using StringTools;
@@ -33,7 +27,7 @@ abstract class Storage {
 	/** The underlying data store. **/
 	final backend: WebStorage;
 
-	/** The handler of storage events. **/
+	/** The controller of storage events. **/
 	final onChangeTrigger: SignalTrigger<StorageEvent> = Signal.trigger();
 
 	/** Creates a new storage service. **/
@@ -82,22 +76,22 @@ abstract class Storage {
 	public inline function exists(key: String) return backend.getItem(buildKey(key)) != null;
 
 	/**
-		Gets the deserialized value associated to the specified `key`.
-		Returns the given `defaultValue` if the `key` does not exist or its value cannot be deserialized.
-	**/
-	public function get<T>(key: String, ?defaultValue: T) return try {
-		final value = backend.getItem(buildKey(key));
-		value != null ? (Json.parse(value): T) : defaultValue;
-	} catch (e) defaultValue;
-
-	/**
 		Gets the value associated to the specified `key`.
 		Returns the given `defaultValue` if the `key` does not exist.
 	**/
-	public function getString(key: String, ?defaultValue: String) {
+	public function get(key: String, ?defaultValue: String) {
 		final value = backend.getItem(buildKey(key));
 		return value != null ? value : defaultValue;
 	}
+
+	/**
+		Gets the deserialized value associated to the specified `key`.
+		Returns the given `defaultValue` if the `key` does not exist or its value cannot be deserialized.
+	**/
+	public function getObject<T>(key: String, ?defaultValue: T) return try {
+		final value = backend.getItem(buildKey(key));
+		value != null ? (Json.parse(value): T) : defaultValue;
+	} catch (e) defaultValue;
 
 	/** Returns a new iterator that allows iterating the entries of this storage. **/
 	public inline function keyValueIterator(): KeyValueIterator<String, String>
@@ -106,10 +100,10 @@ abstract class Storage {
 	/**
 		Looks up the value of the specified `key`, or add a new value if it isn't there.
 
-		Returns the deserialized value associated to `key`, if there is one.
-		Otherwise calls `ifAbsent` to get a new value, serializes and associates `key` to that value, and then returns the new value.
+		Returns the value associated to `key`, if there is one.
+		Otherwise calls `ifAbsent` to get a new value, associates `key` to that value, and then returns the new value.
 	**/
-	public function putIfAbsent<T>(key: String, ifAbsent: () -> T): T {
+	public function putIfAbsent(key: String, ifAbsent: () -> String): String {
 		if (!exists(key)) set(key, ifAbsent());
 		return get(key);
 	}
@@ -117,12 +111,12 @@ abstract class Storage {
 	/**
 		Looks up the value of the specified `key`, or add a new value if it isn't there.
 
-		Returns the value associated to `key`, if there is one.
-		Otherwise calls `ifAbsent` to get a new value, associates `key` to that value, and then returns the new value.
+		Returns the deserialized value associated to `key`, if there is one.
+		Otherwise calls `ifAbsent` to get a new value, serializes and associates `key` to that value, and then returns the new value.
 	**/
-	public function putStringIfAbsent(key: String, ifAbsent: () -> String): String {
-		if (!exists(key)) setString(key, ifAbsent());
-		return getString(key);
+	public function putObjectIfAbsent<T>(key: String, ifAbsent: () -> T): T {
+		if (!exists(key)) setObject(key, ifAbsent());
+		return getObject(key);
 	}
 
 	/**
@@ -130,46 +124,42 @@ abstract class Storage {
 		Returns the value associated with the `key` before it was removed.
 	**/
 	public function remove(key: String) {
-		final oldValue = getString(key);
+		final oldValue = get(key);
 		backend.removeItem(buildKey(key));
 		trigger(buildKey(key), oldValue);
 		return oldValue;
 	}
 
-	/** Serializes and associates a given `value` to the specified `key`. **/
-	public inline function set<T>(key: String, value: T) return setString(key, Json.stringify(value));
-
 	/** Associates a given `value` to the specified `key`. **/
-	public function setString(key: String, value: String) {
-		final oldValue = getString(key);
+	public function set(key: String, value: String) {
+		final oldValue = get(key);
 		backend.setItem(buildKey(key), value);
 		trigger(buildKey(key), oldValue, value);
 		return this;
 	}
 
-	/** Converts this storage to a JSON representation. **/
+	/** Serializes and associates a given `value` to the specified `key`. **/
+	public inline function setObject<T>(key: String, value: T) return set(key, Json.stringify(value));
+
 	#if !tink_json
-	public function toJSON() {
-		final map: DynamicAccess<String> = {};
-		for (key => value in this) map[key] = value;
-		return map;
-	}
+	/** Converts this storage to a JSON representation. **/
+	public function toJSON() return [for (key => value in this) [key, value]];
 	#end
 
-	/** Builds a normalized cache key from the given `key`. **/
+	/** Builds a normalized storage key from the given `key`. **/
 	inline function buildKey(key: String) return '$keyPrefix$key';
 
 	/** Triggers a new storage event. **/
-	function trigger(key: Null<String>, ?oldValue: String, ?newValue: String, ?url: String) onChangeTrigger.trigger(new StorageEvent("storage", {
+	function trigger(key: Null<String>, ?oldValue: String, ?newValue: String) onChangeTrigger.trigger(new StorageEvent("storage", {
 		key: key,
 		newValue: newValue,
 		oldValue: oldValue,
 		storageArea: backend,
-		url: url != null ? url : Browser.location.href
+		url: Browser.location.href
 	}));
 }
 
-/** Permits iteration over elements of a `Storage` instance. **/
+/** Iterates over the items of a `Storage` instance. **/
 private class StorageIterator {
 
 	/** The current index. **/
@@ -193,7 +183,7 @@ private class StorageIterator {
 	/** Returns the current item of the iterator and advances to the next one. **/
 	public function next(): {key: String, value: String} {
 		final key = keys[index++];
-		return {key: key, value: storage.getString(key)};
+		return {key: key, value: storage.get(key)};
 	}
 }
 
