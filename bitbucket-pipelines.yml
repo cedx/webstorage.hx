@@ -8,8 +8,9 @@ pipelines:
     main:
       - step:
           name: Testing
-          caches: [haxe]
+          caches: [haxe, node]
           image: cedxbelin/haxe.js
           script:
             - lix download
-            - haxe test_js.hxml
+            - npm install
+            - haxe test.hxml
