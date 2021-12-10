@@ -2,7 +2,8 @@
 	"defaultSeverity": "ERROR",
 	"exclude": {
 		"path": "RELATIVE_TO_PROJECT",
-		"ArrowFunction": ["src/webstorage/Storage"]
+		"ArrowFunction": ["src/webstorage/Storage"],
+		"MethodLength": ["test/webstorage/StorageTest"]
 	},
 	"checks": [
 		{"type": "BlockBreakingConditional"},
