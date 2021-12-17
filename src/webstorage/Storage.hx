@@ -9,7 +9,7 @@ import tink.core.Signal;
 using Lambda;
 using StringTools;
 
-/** Provides access to the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage). **/
+/** Provides access to the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API). **/
 abstract class Storage {
 
 	/** The keys of this storage. **/

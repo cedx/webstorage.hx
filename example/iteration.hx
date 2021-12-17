@@ -1,7 +1,6 @@
-import js.Browser;
 import webstorage.Storage;
 
-/** Iterates on the key/value pairs of the local storage. **/
+/** Iterates over the key/value pairs of the local storage. **/
 function main() {
 	// Loop over all entries of the local storage.
 	final localStorage = Storage.local();
