@@ -7,6 +7,7 @@
 - Breaking change: the `LocalStorage` and `SessionStorage` classes are now `final`.
 - Added support for key prefix.
 - Dropped the [npm](https://www.npmjs.com) package.
+- Ported the tests to [Tinberkell](https://haxetink.github.io/tink_unittest).
 - Replaced the build system based on [PowerShell](https://docs.microsoft.com/en-us/powershell) by [lix](https://github.com/lix-pm/lix.client) scripts.
 - Updated the documentation.
 
