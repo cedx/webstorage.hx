@@ -151,7 +151,7 @@ abstract class Storage {
 	inline function buildKey(key: String) return '$keyPrefix$key';
 
 	/** Triggers a new storage event. **/
-	function trigger(key: Null<String>, ?oldValue: String, ?newValue: String) onChangeTrigger.trigger(new StorageEvent("storage", {
+	inline function trigger(key: Null<String>, ?oldValue: String, ?newValue: String) onChangeTrigger.trigger(new StorageEvent("storage", {
 		key: key,
 		newValue: newValue,
 		oldValue: oldValue,
