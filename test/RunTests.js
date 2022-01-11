@@ -1,6 +1,6 @@
-const {writeFile} = require("node:fs/promises");
-const {createServer} = require("node:http");
-const {join} = require("node:path");
+const {writeFile} = require("fs/promises");
+const {createServer} = require("http");
+const {join} = require("path");
 const {chromium} = require("playwright");
 const handler = require("serve-handler");
 
