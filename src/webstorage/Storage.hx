@@ -5,7 +5,6 @@ import js.Browser;
 import js.html.Storage as WebStorage;
 import js.html.StorageEvent;
 import tink.core.Signal;
-
 using Lambda;
 using StringTools;
 

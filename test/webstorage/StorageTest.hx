@@ -2,7 +2,6 @@ package webstorage;
 
 import js.Browser.window;
 import #if tink_json tink.Json #else haxe.Json #end;
-
 using StringTools;
 
 /** Tests the features of the `Storage` class. **/
