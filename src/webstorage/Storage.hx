@@ -36,7 +36,7 @@ abstract class Storage {
 			if (options.listenToGlobalEvents) onChange = onChange.join(Signal.ofClassical(
 				Browser.window.addEventListener.bind("storage"),
 				Browser.window.removeEventListener.bind("storage")
-			).filter((event: StorageEvent) -> event.storageArea == backend));
+			).filter(event -> (event: StorageEvent).storageArea == backend));
 
 			if (options.keyPrefix != null) {
 				keyPrefix = options.keyPrefix;
