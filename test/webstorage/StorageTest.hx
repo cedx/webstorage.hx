@@ -171,72 +171,69 @@ using StringTools;
 		asserts.assert(service.get("foo").match(Some("bar")));
 
 		window.sessionStorage.setItem("foo", "123");
-		asserts.assert(service.get("foo") == "123");
+		asserts.assert(service.get("foo").match(Some("123")));
 
 		window.sessionStorage.removeItem("foo");
-		asserts.assert(service.get("foo", "_Oops_") == "_Oops_");
+		asserts.assert(service.get("foo") == None);
 
 		// It should handle the key prefix.
 		service = Storage.session({keyPrefix: "prefix:"});
 		asserts.assert(service.get("baz") == None);
 
 		window.sessionStorage.setItem("prefix:baz", "qux");
-		asserts.assert(service.get("baz") == "qux");
+		asserts.assert(service.get("baz").match(Some("qux")));
 
 		window.sessionStorage.setItem("prefix:baz", "456");
-		asserts.assert(service.get("baz") == "456");
+		asserts.assert(service.get("baz").match(Some("456")));
 
 		window.sessionStorage.removeItem("prefix:baz");
-		asserts.assert(service.get("baz", "_Oops_") == "_Oops_");
+		asserts.assert(service.get("baz") == None);
 
 		return asserts.done();
 	}
 
 	/** Tests the `getObject()` method. **/
-	/* TODO
 	public function testGetObject() {
 		// It should properly get the deserialized storage entries.
 		var service = Storage.session();
-		asserts.assert(service.getObject("foo") == null);
+		asserts.assert(service.getObject("foo") == None);
 
 		window.sessionStorage.setItem("foo", '"bar"');
-		asserts.assert(service.getObject("foo") == "bar");
+		asserts.assert(service.getObject("foo").match(Some("bar")));
 
 		window.sessionStorage.setItem("foo", "123");
-		asserts.assert(service.getObject("foo") == 123);
+		asserts.assert(service.getObject("foo").match(Some(123)));
 
 		window.sessionStorage.setItem("foo", '{"key": "value"}');
-		asserts.compare({key: "value"}, service.getObject("foo"));
+		asserts.compare({key: "value"}, service.getObject("foo").sure());
 
 		window.sessionStorage.setItem("foo", "{bar[123]}");
-		asserts.assert(service.getObject("foo") == null);
+		asserts.assert(service.getObject("foo") == None);
 
-		var defaultValue = {k: "_Oops_"};
 		window.sessionStorage.removeItem("foo");
-		asserts.assert(service.getObject("foo", defaultValue) == defaultValue);
+		asserts.assert(service.getObject("foo") == None);
 
 		// It should handle the key prefix.
 		service = Storage.session({keyPrefix: "prefix:"});
-		asserts.assert(service.getObject("baz") == null);
+		asserts.assert(service.getObject("baz") == None);
 
 		window.sessionStorage.setItem("prefix:baz", '"qux"');
-		asserts.assert(service.getObject("baz") == "qux");
+		asserts.assert(service.getObject("baz").match(Some("qux")));
 
 		window.sessionStorage.setItem("prefix:baz", "456");
-		asserts.assert(service.getObject("baz") == 456);
+		asserts.assert(service.getObject("baz").match(Some(456)));
 
 		window.sessionStorage.setItem("prefix:baz", '{"key": "value"}');
-		asserts.compare({key: "value"}, service.getObject("baz"));
+		asserts.compare({key: "value"}, service.getObject("baz").sure());
 
 		window.sessionStorage.setItem("prefix:baz", "{qux[456]}");
-		asserts.assert(service.getObject("baz") == null);
+		asserts.assert(service.getObject("baz") == None);
 
-		defaultValue = {k: "_Oops_"};
 		window.sessionStorage.removeItem("prefix:baz");
-		asserts.assert(service.getObject("baz", defaultValue) == defaultValue);
+		asserts.assert(service.getObject("baz") == None);
 
 		return asserts.done();
-	}*/
+	}
 
 	/** Tests the `keyValueIterator()` method. **/
 	public function testKeyValueIterator() {
@@ -267,58 +264,56 @@ using StringTools;
 	}
 
 	/** Tests the `putIfAbsent()` method. **/
-	/* TODO
 	public function testPutIfAbsent() {
 		// It should add a new entry if it does not exist.
 		var service = Storage.session();
 		asserts.assert(window.sessionStorage.getItem("foo") == null);
-		asserts.assert(service.putIfAbsent("foo", () -> "bar") == "bar");
+		asserts.assert(service.putIfAbsent("foo", () -> "bar").match(Success("bar")));
 		asserts.assert(window.sessionStorage.getItem("foo") == "bar");
 
 		// It should not add a new entry if it already exists.
 		window.sessionStorage.setItem("foo", "123");
-		asserts.assert(service.putIfAbsent("foo", () -> "XYZ") == "123");
+		asserts.assert(service.putIfAbsent("foo", () -> "XYZ").match(Success("123")));
 		asserts.assert(window.sessionStorage.getItem("foo") == "123");
 
 		// It should handle the key prefix.
 		service = Storage.session({keyPrefix: "prefix:"});
 		asserts.assert(window.sessionStorage.getItem("prefix:baz") == null);
-		asserts.assert(service.putIfAbsent("baz", () -> "qux") == "qux");
+		asserts.assert(service.putIfAbsent("baz", () -> "qux").match(Success("qux")));
 		asserts.assert(window.sessionStorage.getItem("prefix:baz") == "qux");
 
 		window.sessionStorage.setItem("prefix:baz", "456");
-		asserts.assert(service.putIfAbsent("baz", () -> "XYZ") == "456");
+		asserts.assert(service.putIfAbsent("baz", () -> "XYZ").match(Success("456")));
 		asserts.assert(window.sessionStorage.getItem("prefix:baz") == "456");
 
 		return asserts.done();
-	}*/
+	}
 
 	/** Tests the `putObjectIfAbsent()` method. **/
-	/* TODO
 	public function testPutObjectIfAbsent() {
 		// It should add a new entry if it does not exist.
 		var service = Storage.session();
 		asserts.assert(window.sessionStorage.getItem("foo") == null);
-		asserts.assert(service.putObjectIfAbsent("foo", () -> "bar") == "bar");
+		asserts.assert(service.putObjectIfAbsent("foo", () -> "bar").match(Success("bar")));
 		asserts.assert(window.sessionStorage.getItem("foo") == '"bar"');
 
 		// It should not add a new entry if it already exists.
 		window.sessionStorage.setItem("foo", "123");
-		asserts.assert(service.putObjectIfAbsent("foo", () -> "XYZ") == 123);
+		asserts.assert(service.putObjectIfAbsent("foo", () -> "XYZ").match(Success(123)));
 		asserts.assert(window.sessionStorage.getItem("foo") == "123");
 
 		// It should handle the key prefix.
 		service = Storage.session({keyPrefix: "prefix:"});
 		asserts.assert(window.sessionStorage.getItem("prefix:baz") == null);
-		asserts.assert(service.putObjectIfAbsent("baz", () -> "qux") == "qux");
+		asserts.assert(service.putObjectIfAbsent("baz", () -> "qux").match(Success("qux")));
 		asserts.assert(window.sessionStorage.getItem("prefix:baz") == '"qux"');
 
 		window.sessionStorage.setItem("prefix:baz", "456");
-		asserts.assert(service.putObjectIfAbsent("baz", () -> "XYZ") == 456);
+		asserts.assert(service.putObjectIfAbsent("baz", () -> "XYZ").match(Success(456)));
 		asserts.assert(window.sessionStorage.getItem("prefix:baz") == "456");
 
 		return asserts.done();
-	}*/
+	}
 
 	/** Tests the `remove()` method. **/
 	public function testRemove() {
