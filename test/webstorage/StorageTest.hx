@@ -299,7 +299,7 @@ using StringTools;
 
 		// It should not add a new entry if it already exists.
 		window.sessionStorage.setItem("foo", "123");
-		asserts.assert(service.putObjectIfAbsent("foo", () -> "XYZ").match(Success(123)));
+		asserts.assert(service.putObjectIfAbsent("foo", () -> 999).match(Success(123)));
 		asserts.assert(window.sessionStorage.getItem("foo") == "123");
 
 		// It should handle the key prefix.
@@ -309,7 +309,7 @@ using StringTools;
 		asserts.assert(window.sessionStorage.getItem("prefix:baz") == '"qux"');
 
 		window.sessionStorage.setItem("prefix:baz", "456");
-		asserts.assert(service.putObjectIfAbsent("baz", () -> "XYZ").match(Success(456)));
+		asserts.assert(service.putObjectIfAbsent("baz", () -> 999).match(Success(456)));
 		asserts.assert(window.sessionStorage.getItem("prefix:baz") == "456");
 
 		return asserts.done();

@@ -88,7 +88,7 @@ abstract class Storage {
 		Gets the deserialized value associated to the specified `key`.
 		Returns `None` if the `key` does not exist or its value cannot be deserialized.
 	**/
-	public function getObject(key: String): Option<Dynamic> {
+	public function getObject<T>(key: String): Option<T> {
 		final value = backend.getItem(buildKey(key));
 		return value == null ? None : switch Error.catchExceptions(() -> Json.parse(value)) {
 			case Failure(_): None;
@@ -118,7 +118,7 @@ abstract class Storage {
 		Returns the deserialized value associated to `key`, if there is one.
 		Otherwise calls `ifAbsent` to get a new value, serializes it and associates `key` to that value, and then returns the new value.
 	**/
-	public function putObjectIfAbsent(key: String, ifAbsent: () -> Any): Outcome<Dynamic, Error>
+	public function putObjectIfAbsent<T>(key: String, ifAbsent: () -> T): Outcome<T, Error>
 		return switch exists(key) ? Success(Noise) : setObject(key, ifAbsent()) {
 			case Failure(error): Failure(error);
 			case Success(_): getObject(key).toOutcome();
@@ -147,7 +147,7 @@ abstract class Storage {
 		}, _ -> new Error(InsufficientStorage, "The storage is full."));
 
 	/** Serializes and associates a given `value` to the specified `key`. **/
-	public inline function setObject(key: String, value: Any): Outcome<Noise, Error>
+	public inline function setObject<T>(key: String, value: T): Outcome<Noise, Error>
 		return switch Error.catchExceptions(() -> Json.stringify(value)) {
 			case Failure(_): Failure(new Error(UnprocessableEntity, "Unable to encode the specified value in JSON."));
 			case Success(json): set(key, json);
