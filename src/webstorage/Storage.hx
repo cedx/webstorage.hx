@@ -106,43 +106,52 @@ abstract class Storage {
 		Returns the value associated to `key`, if there is one.
 		Otherwise calls `ifAbsent` to get a new value, associates `key` to that value, and then returns the new value.
 	**/
-	public function putIfAbsent(key: String, ifAbsent: () -> String): String {
-		if (!exists(key)) set(key, ifAbsent());
-		return get(key);
-	}
+	public function putIfAbsent(key: String, ifAbsent: () -> String): Outcome<String, Error>
+		return switch exists(key) ? Success(Noise) : set(key, ifAbsent()) {
+			case Failure(error): Failure(error);
+			case Success(_): get(key).toOutcome();
+		}
 
 	/**
 		Looks up the value of the specified `key`, or add a new value if it isn't there.
 
 		Returns the deserialized value associated to `key`, if there is one.
-		Otherwise calls `ifAbsent` to get a new value, serializes and associates `key` to that value, and then returns the new value.
+		Otherwise calls `ifAbsent` to get a new value, serializes it and associates `key` to that value, and then returns the new value.
 	**/
-	public function putObjectIfAbsent(key: String, ifAbsent: () -> Any): Dynamic {
-		if (!exists(key)) setObject(key, ifAbsent());
-		return getObject(key);
-	}
+	public function putObjectIfAbsent(key: String, ifAbsent: () -> Any): Outcome<Dynamic, Error>
+		return switch exists(key) ? Success(Noise) : setObject(key, ifAbsent()) {
+			case Failure(error): Failure(error);
+			case Success(_): getObject(key).toOutcome();
+		}
 
 	/**
 		Removes the value associated to the specified `key`.
 		Returns the value associated with the `key` before it was removed.
 	**/
-	public function remove(key: String) {
+	public function remove(key: String): Option<String> {
+		final normalizedKey = buildKey(key);
 		final oldValue = get(key);
-		backend.removeItem(buildKey(key));
-		trigger(buildKey(key), oldValue);
+		backend.removeItem(normalizedKey);
+		trigger(normalizedKey, oldValue.orNull());
 		return oldValue;
 	}
 
 	/** Associates a given `value` to the specified `key`. **/
-	public function set(key: String, value: String) {
-		final oldValue = get(key);
-		backend.setItem(buildKey(key), value);
-		trigger(buildKey(key), oldValue, value);
-		return this;
-	}
+	public function set(key: String, value: String): Outcome<Noise, Error>
+		return Error.catchExceptions(() -> {
+			final normalizedKey = buildKey(key);
+			final oldValue = get(key);
+			backend.setItem(normalizedKey, value);
+			trigger(normalizedKey, oldValue.orNull(), value);
+			Noise;
+		}, _ -> new Error(InsufficientStorage, "The storage is full."));
 
 	/** Serializes and associates a given `value` to the specified `key`. **/
-	public inline function setObject(key: String, value: Any) return set(key, Json.stringify(value));
+	public inline function setObject(key: String, value: Any): Outcome<Noise, Error>
+		return switch Error.catchExceptions(() -> Json.stringify(value)) {
+			case Failure(_): Failure(new Error(UnprocessableEntity, "Unable to encode the specified value in JSON."));
+			case Success(json): set(key, json);
+		}
 
 	#if !tink_json
 	/** Converts this storage to a JSON representation. **/
@@ -150,10 +159,10 @@ abstract class Storage {
 	#end
 
 	/** Builds a normalized storage key from the given `key`. **/
-	inline function buildKey(key: String) return '$keyPrefix$key';
+	function buildKey(key: String) return '$keyPrefix$key';
 
 	/** Triggers a new storage event. **/
-	inline function trigger(key: Null<String>, ?oldValue: String, ?newValue: String) onChangeTrigger.trigger(new StorageEvent("storage", {
+	function trigger(key: Null<String>, ?oldValue: String, ?newValue: String) onChangeTrigger.trigger(new StorageEvent("storage", {
 		key: key,
 		newValue: newValue,
 		oldValue: oldValue,
@@ -176,8 +185,8 @@ private class StorageIterator {
 
 	/** Creates a new storage iterator. **/
 	public function new(storage: Storage) {
-		this.storage = storage;
 		keys = storage.keys;
+		this.storage = storage;
 	}
 
 	/** Returns a value indicating whether the iteration is complete. **/
@@ -186,7 +195,7 @@ private class StorageIterator {
 	/** Returns the current item of the iterator and advances to the next one. **/
 	public function next(): {key: String, value: String} {
 		final key = keys[index++];
-		return {key: key, value: storage.get(key)};
+		return {key: key, value: storage.get(key).sure()};
 	}
 }
 
