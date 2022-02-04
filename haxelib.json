@@ -8,5 +8,5 @@
 	"releasenote": "The `Storage` class no longer extends from `EventTarget`, added support for key prefix.",
 	"tags": ["browser", "events", "html", "js", "service", "storage", "tink"],
 	"url": "https://bitbucket.org/cedx/webstorage.hx",
-	"version": "2.0.0"
+	"version": "3.0.0"
 }
