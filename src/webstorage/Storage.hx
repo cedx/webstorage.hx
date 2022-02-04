@@ -1,12 +1,13 @@
 package webstorage;
 
 import haxe.Json;
+import haxe.ds.Option;
 import js.Browser;
 import js.html.Storage as WebStorage;
 import js.html.StorageEvent;
-import tink.core.Signal;
 using Lambda;
 using StringTools;
+using tink.CoreApi;
 
 /** Provides access to the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API). **/
 abstract class Storage {
@@ -49,10 +50,12 @@ abstract class Storage {
 	}
 
 	/** Creates a new local storage service. **/
-	public static inline function local(?options: StorageOptions) return new LocalStorage(options);
+	public static inline function local(?options: StorageOptions)
+		return new LocalStorage(options);
 
 	/** Creates a new session storage service. **/
-	public static inline function session(?options: StorageOptions) return new SessionStorage(options);
+	public static inline function session(?options: StorageOptions)
+		return new SessionStorage(options);
 
 	/** Gets the keys of this storage. **/
 	function get_keys() {
@@ -66,32 +69,32 @@ abstract class Storage {
 	/** Removes all entries from this storage. **/
 	public function clear()
 		if (keyPrefix.length > 0) keys.iter(remove);
-		else {
-			backend.clear();
-			trigger(null);
-		}
+		else { backend.clear(); trigger(null); }
 
 	/** Gets a value indicating whether this storage contains the specified `key`. **/
-	public inline function exists(key: String) return backend.getItem(buildKey(key)) != null;
+	public inline function exists(key: String)
+		return backend.getItem(buildKey(key)) != null;
 
 	/**
 		Gets the value associated to the specified `key`.
-		Returns the given `defaultValue` if the `key` does not exist.
+		Returns `None` if the `key` does not exist.
 	**/
-	public function get(key: String, ?defaultValue: String) {
+	public function get(key: String): Option<String> {
 		final value = backend.getItem(buildKey(key));
-		return value != null ? value : defaultValue;
+		return value == null ? None : Some(value);
 	}
 
 	/**
 		Gets the deserialized value associated to the specified `key`.
-		Returns the given `defaultValue` if the `key` does not exist or its value cannot be deserialized.
+		Returns `None` if the `key` does not exist or its value cannot be deserialized.
 	**/
-	public function getObject(key: String, ?defaultValue: Any): Dynamic
-		return try {
-			final value = backend.getItem(buildKey(key));
-			value != null ? Json.parse(value) : defaultValue;
-		} catch (e) defaultValue;
+	public function getObject(key: String): Option<Dynamic> {
+		final value = backend.getItem(buildKey(key));
+		return value == null ? None : switch Error.catchExceptions(() -> Json.parse(value)) {
+			case Failure(_): None;
+			case Success(json): Some(json);
+		}
+	}
 
 	/** Returns a new iterator that allows iterating the entries of this storage. **/
 	public inline function keyValueIterator(): KeyValueIterator<String, String>
