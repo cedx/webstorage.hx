@@ -1,5 +1,10 @@
 # Changelog
 
+## Version [3.0.0](https://bitbucket.org/cedx/webstorage.hx/branches/compare/v3.0.0..v2.0.0)
+- Breaking change: the getter methods now return `haxe.ds.Option` instances.
+- Breaking change: the setter methods now return `tink.core.Outcome` instances.
+- Breaking change: removed the `defaultValue` parameter from the getter methods.
+
 ## Version [2.0.0](https://bitbucket.org/cedx/webstorage.hx/branches/compare/v2.0.0..v1.0.5)
 - Breaking change: renamed the `WebStorage` class to `Storage`.
 - Breaking change: the `Storage` class no longer extends from [`EventTarget`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget).

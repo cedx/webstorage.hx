@@ -2,6 +2,7 @@
 	"defaultSeverity": "ERROR",
 	"exclude": {
 		"path": "RELATIVE_TO_PROJECT",
+		"ConditionalCompilation": ["src/webstorage/Storage"],
 		"Dynamic": ["src/webstorage/Storage:getObject", "src/webstorage/Storage:putObjectIfAbsent"],
 		"MethodLength": ["test/webstorage/StorageTest"]
 	},
