@@ -14,9 +14,6 @@ abstract class Storage {
 	/** The keys of this storage. **/
 	public var keys(get, never): Array<String>;
 
-	/** A string prefixed to every key so that it is unique globally in the whole storage. **/
-	public final keyPrefix = "";
-
 	/** The number of entries in this storage. **/
 	public var length(get, never): Int;
 
@@ -25,6 +22,9 @@ abstract class Storage {
 
 	/** The underlying data store. **/
 	final backend: WebStorage;
+
+	/** A string prefixed to every key so that it is unique globally in the whole storage. **/
+	final keyPrefix = "";
 
 	/** The controller of storage events. **/
 	final onChangeTrigger: SignalTrigger<StorageEvent> = Signal.trigger();
@@ -192,7 +192,7 @@ private class StorageIterator {
 	public inline function hasNext() return index < keys.length;
 
 	/** Returns the current item of the iterator and advances to the next one. **/
-	public function next(): {key: String, value: String} {
+	public function next() {
 		final key = keys[index++];
 		return {key: key, value: storage.get(key).sure()};
 	}
