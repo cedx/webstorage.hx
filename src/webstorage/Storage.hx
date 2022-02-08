@@ -1,7 +1,6 @@
 package webstorage;
 
 import haxe.Json;
-import haxe.ds.Option;
 import js.Browser;
 import js.html.Storage as WebStorage;
 import js.html.StorageEvent;
