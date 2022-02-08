@@ -144,7 +144,7 @@ abstract class Storage {
 			backend.setItem(normalizedKey, value);
 			trigger(normalizedKey, oldValue.orNull(), value);
 			Noise;
-		}, _ -> new Error(InsufficientStorage, "The storage is full."));
+		}, exception -> Error.withData(InsufficientStorage, "The storage is full.", exception));
 
 	/** Serializes and associates a given `value` to the specified `key`. **/
 	public inline function setObject<T>(key: String, value: T): Outcome<Noise, Error>
