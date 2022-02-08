@@ -203,8 +203,8 @@ private class StorageIterator {
 typedef StorageOptions = {
 
 	/** A string prefixed to every key so that it is unique globally in the whole storage. **/
-	var ?keyPrefix: String;
+	?keyPrefix: String,
 
 	/** Value indicating whether to listen to the global storage events. **/
-	var ?listenToGlobalEvents: Bool;
+	?listenToGlobalEvents: Bool
 }
