@@ -75,7 +75,7 @@ abstract class Storage {
 		return backend.getItem(buildKey(key)) != null;
 
 	/** Gets the value associated to the specified `key`. Returns `None` if the `key` does not exist. **/
-	public function get(key: String): Option<String> {
+	public function get(key: String) {
 		final value = backend.getItem(buildKey(key));
 		return value == null ? None : Some(value);
 	}
@@ -102,11 +102,10 @@ abstract class Storage {
 		Returns the value associated to `key`, if there is one.
 		Otherwise calls `ifAbsent` to get a new value, associates `key` to that value, and then returns the new value.
 	**/
-	public function putIfAbsent(key: String, ifAbsent: () -> String): Outcome<String, Error>
-		return switch exists(key) ? Success(Noise) : set(key, ifAbsent()) {
-			case Failure(error): Failure(error);
-			case Success(_): get(key).toOutcome();
-		}
+	public function putIfAbsent(key: String, ifAbsent: () -> String) return switch get(key) {
+		case Some(value): Success(value);
+		case None: final value = ifAbsent(); set(key, value).map(_ -> value);
+	}
 
 	/**
 		Looks up the value of the specified `key`, or add a new value if it isn't there.
@@ -114,17 +113,16 @@ abstract class Storage {
 		Returns the deserialized value associated to `key`, if there is one.
 		Otherwise calls `ifAbsent` to get a new value, serializes it and associates `key` to that value, and then returns the new value.
 	**/
-	public function putObjectIfAbsent<T>(key: String, ifAbsent: () -> T): Outcome<T, Error>
-		return switch exists(key) ? Success(Noise) : setObject(key, ifAbsent()) {
-			case Failure(error): Failure(error);
-			case Success(_): getObject(key).toOutcome();
-		}
+	public function putObjectIfAbsent<T>(key: String, ifAbsent: () -> T) return switch getObject(key) {
+		case Some(value): Success(value);
+		case None: final value = ifAbsent(); setObject(key, value).map(_ -> value);
+	}
 
 	/**
 		Removes the value associated to the specified `key`.
 		Returns the value associated with the `key` before it was removed.
 	**/
-	public function remove(key: String): Option<String> {
+	public function remove(key: String) {
 		final normalizedKey = buildKey(key);
 		final oldValue = get(key);
 		backend.removeItem(normalizedKey);
