@@ -74,10 +74,7 @@ abstract class Storage {
 	public inline function exists(key: String)
 		return backend.getItem(buildKey(key)) != null;
 
-	/**
-		Gets the value associated to the specified `key`.
-		Returns `None` if the `key` does not exist.
-	**/
+	/** Gets the value associated to the specified `key`. Returns `None` if the `key` does not exist. **/
 	public function get(key: String): Option<String> {
 		final value = backend.getItem(buildKey(key));
 		return value == null ? None : Some(value);
