@@ -3,7 +3,7 @@
 	"exclude": {
 		"path": "RELATIVE_TO_PROJECT",
 		"ConditionalCompilation": ["src/webstorage/Storage"],
-		"MethodLength": ["test/webstorage/StorageTest"]
+		"UnnecessaryConstructor": ["src/webstorage/Storage"]
 	},
 	"checks": [
 		{"type": "BlockBreakingConditional"},

@@ -58,10 +58,9 @@ using StringTools;
 		// It should trigger an event when a value is added.
 		var service = Storage.session();
 		var subscription = service.onChange.handle(event -> {
-			asserts.assert(event.key == "foo");
-			asserts.assert(event.oldValue == null);
-			asserts.assert(event.newValue == "bar");
-			asserts.assert(event.storageArea == window.sessionStorage);
+			asserts.assert(event.key.match(Some("foo")));
+			asserts.assert(event.oldValue == None);
+			asserts.assert(event.newValue.match(Some("bar")));
 		});
 
 		service.set("foo", "bar");
@@ -69,10 +68,9 @@ using StringTools;
 
 		// It should trigger an event when a value is updated.
 		subscription = service.onChange.handle(event -> {
-			asserts.assert(event.key == "foo");
-			asserts.assert(event.oldValue == "bar");
-			asserts.assert(event.newValue == "baz");
-			asserts.assert(event.storageArea == window.sessionStorage);
+			asserts.assert(event.key.match(Some("foo")));
+			asserts.assert(event.oldValue.match(Some("bar")));
+			asserts.assert(event.newValue.match(Some("baz")));
 		});
 
 		service.set("foo", "baz");
@@ -85,10 +83,9 @@ using StringTools;
 
 		// It should trigger an event when a value is removed.
 		subscription = service.onChange.handle(event -> {
-			asserts.assert(event.key == "foo");
-			asserts.assert(event.oldValue == "baz");
-			asserts.assert(event.newValue == null);
-			asserts.assert(event.storageArea == window.sessionStorage);
+			asserts.assert(event.key.match(Some("foo")));
+			asserts.assert(event.oldValue.match(Some("baz")));
+			asserts.assert(event.newValue == None);
 		});
 
 		service.remove("foo");
@@ -96,10 +93,9 @@ using StringTools;
 
 		// It should trigger an event when the storage is cleared.
 		subscription = service.onChange.handle(event -> {
-			asserts.assert(event.key == null);
-			asserts.assert(event.oldValue == null);
-			asserts.assert(event.newValue == null);
-			asserts.assert(event.storageArea == window.sessionStorage);
+			asserts.assert(event.key == None);
+			asserts.assert(event.oldValue == None);
+			asserts.assert(event.newValue == None);
 		});
 
 		service.clear();
@@ -108,10 +104,9 @@ using StringTools;
 		// It should handle the key prefix.
 		service = Storage.session({keyPrefix: "prefix:"});
 		subscription = service.onChange.handle(event -> {
-			asserts.assert(event.key == "prefix:baz");
-			asserts.assert(event.oldValue == null);
-			asserts.assert(event.newValue == "qux");
-			asserts.assert(event.storageArea == window.sessionStorage);
+			asserts.assert(event.key.match(Some("prefix:baz")));
+			asserts.assert(event.oldValue == None);
+			asserts.assert(event.newValue.match(Some("qux")));
 		});
 
 		service.set("baz", "qux");

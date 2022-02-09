@@ -1,9 +1,9 @@
 package webstorage;
 
 import haxe.Json;
-import js.Browser;
-import js.html.Storage as WebStorage;
-import js.html.StorageEvent;
+import js.Browser.window;
+import js.html.Storage as DomStorage;
+import js.html.StorageEvent as DomStorageEvent;
 using Lambda;
 using StringTools;
 using tink.CoreApi;
@@ -21,7 +21,7 @@ abstract class Storage {
 	public final onChange: Signal<StorageEvent>;
 
 	/** The underlying data store. **/
-	final backend: WebStorage;
+	final backend: DomStorage;
 
 	/** A string prefixed to every key so that it is unique globally in the whole storage. **/
 	final keyPrefix = "";
@@ -30,17 +30,20 @@ abstract class Storage {
 	final onChangeTrigger: SignalTrigger<StorageEvent> = Signal.trigger();
 
 	/** Creates a new storage service. **/
-	function new(backend: WebStorage, ?options: StorageOptions) {
+	function new(backend: DomStorage, ?options: StorageOptions) {
 		var onChange = onChangeTrigger.asSignal();
 		if (options != null) {
-			if (options.listenToGlobalEvents) onChange = onChange.join(Signal.ofClassical(
-				Browser.window.addEventListener.bind("storage"),
-				Browser.window.removeEventListener.bind("storage")
-			).filter(event -> (event: StorageEvent).storageArea == backend));
+			if (options.listenToGlobalEvents) {
+				final signal = Signal.ofClassical(window.addEventListener.bind("storage"), window.removeEventListener.bind("storage"));
+				onChange = onChange.join(signal.filter(event -> (event: DomStorageEvent).storageArea == backend).map(StorageEvent.ofDomEvent));
+			}
 
 			if (options.keyPrefix != null) {
 				keyPrefix = options.keyPrefix;
-				onChange = onChange.filter(event -> event.key == null || event.key.startsWith(keyPrefix));
+				onChange = onChange.filter(event -> switch event.key {
+					case None: true;
+					case Some(key): key.startsWith(keyPrefix);
+				});
 			}
 		}
 
@@ -68,10 +71,10 @@ abstract class Storage {
 	/** Removes all entries from this storage. **/
 	public function clear()
 		if (keyPrefix.length > 0) keys.iter(remove);
-		else { backend.clear(); trigger(null); }
+		else { backend.clear(); onChangeTrigger.trigger(new StorageEvent(None)); }
 
 	/** Gets a value indicating whether this storage contains the specified `key`. **/
-	public inline function exists(key: String)
+	public function exists(key: String)
 		return backend.getItem(buildKey(key)) != null;
 
 	/** Gets the value associated to the specified `key`. Returns `None` if the `key` does not exist. **/
@@ -123,25 +126,23 @@ abstract class Storage {
 		Returns the value associated with the `key` before it was removed.
 	**/
 	public function remove(key: String) {
-		final normalizedKey = buildKey(key);
 		final oldValue = get(key);
-		backend.removeItem(normalizedKey);
-		trigger(normalizedKey, oldValue.orNull());
+		backend.removeItem(buildKey(key));
+		onChangeTrigger.trigger(new StorageEvent(Some(key), oldValue));
 		return oldValue;
 	}
 
 	/** Associates a given `value` to the specified `key`. **/
 	public function set(key: String, value: String): Outcome<Noise, Error>
 		return Error.catchExceptions(() -> {
-			final normalizedKey = buildKey(key);
 			final oldValue = get(key);
-			backend.setItem(normalizedKey, value);
-			trigger(normalizedKey, oldValue.orNull(), value);
+			backend.setItem(buildKey(key), value);
+			onChangeTrigger.trigger(new StorageEvent(Some(key), oldValue, Some(value)));
 			Noise;
 		}, exception -> Error.withData(InsufficientStorage, "The storage is full.", exception));
 
 	/** Serializes and associates a given `value` to the specified `key`. **/
-	public inline function setObject<T>(key: String, value: T): Outcome<Noise, Error>
+	public function setObject<T>(key: String, value: T): Outcome<Noise, Error>
 		return switch Error.catchExceptions(() -> Json.stringify(value)) {
 			case Failure(_): Failure(new Error(UnprocessableEntity, "Unable to encode the specified value in JSON."));
 			case Success(json): set(key, json);
@@ -154,15 +155,33 @@ abstract class Storage {
 
 	/** Builds a normalized storage key from the given `key`. **/
 	function buildKey(key: String) return '$keyPrefix$key';
+}
 
-	/** Triggers a new storage event. **/
-	function trigger(key: Null<String>, ?oldValue: String, ?newValue: String) onChangeTrigger.trigger(new StorageEvent("storage", {
-		key: key,
-		newValue: newValue,
-		oldValue: oldValue,
-		storageArea: backend,
-		url: Browser.location.href
-	}));
+/** An event triggered when the storage has been changed. **/
+class StorageEvent {
+
+	/** The changed key. **/
+	public final key: Option<String>;
+
+	/** The new value. **/
+	public final newValue: Option<String>;
+
+	/** The original value. **/
+	public final oldValue: Option<String>;
+
+	/** Creates a new storage event. **/
+	public function new(key: Option<String>, oldValue: Option<String> = None, newValue: Option<String> = None) {
+		this.key = key;
+		this.newValue = newValue;
+		this.oldValue = oldValue;
+	}
+
+	/** Creates a new storage event from the specified native one. **/
+	public static function ofDomEvent(event: DomStorageEvent) return new StorageEvent(
+		event.key == null ? None : Some(event.key),
+		event.oldValue == null ? None : Some(event.oldValue),
+		event.newValue == null ? None : Some(event.newValue)
+	);
 }
 
 /** Iterates over the items of a `Storage` instance. **/
@@ -184,7 +203,7 @@ private class StorageIterator {
 	}
 
 	/** Returns a value indicating whether the iteration is complete. **/
-	public inline function hasNext() return index < keys.length;
+	public function hasNext() return index < keys.length;
 
 	/** Returns the current item of the iterator and advances to the next one. **/
 	public function next() {
