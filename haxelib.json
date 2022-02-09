@@ -5,7 +5,7 @@
 	"description": "Services for interacting with the Web Storage.",
 	"license": "MIT",
 	"name": "webstorage",
-	"releasenote": "The getter methods now return `haxe.ds.Option` instances, the setter methods now return `tink.core.Outcome` instances.",
+	"releasenote": "Optimized the performance of the `putIfAbsent()` methods.",
 	"tags": ["browser", "events", "html", "js", "service", "storage", "tink"],
 	"url": "https://bitbucket.org/cedx/webstorage.hx",
 	"version": "3.1.0"

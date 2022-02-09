@@ -1,5 +1,9 @@
 # Changelog
 
+## Version [3.1.0](https://bitbucket.org/cedx/webstorage.hx/branches/compare/v3.1.0..v3.0.0)
+- Optimized the performance of the `putIfAbsent()` methods.
+- The `keyPrefix` property is now private.
+
 ## Version [3.0.0](https://bitbucket.org/cedx/webstorage.hx/branches/compare/v3.0.0..v2.0.0)
 - Breaking change: the getter methods now return `haxe.ds.Option` instances.
 - Breaking change: the setter methods now return `tink.core.Outcome` instances.
