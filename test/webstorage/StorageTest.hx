@@ -55,9 +55,8 @@ using StringTools;
 
 	/** Tests the `onChange` property. **/
 	public function testOnChange() {
-		var service = Storage.session();
-
 		// It should trigger an event when a value is added.
+		var service = Storage.session();
 		var subscription = service.onChange.handle(event -> {
 			asserts.assert(event.key == "foo");
 			asserts.assert(event.oldValue == null);

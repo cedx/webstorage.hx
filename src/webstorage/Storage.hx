@@ -40,7 +40,7 @@ abstract class Storage {
 
 			if (options.keyPrefix != null) {
 				keyPrefix = options.keyPrefix;
-				onChange = onChange.filter(event -> event.key.startsWith(keyPrefix));
+				onChange = onChange.filter(event -> event.key == null || event.key.startsWith(keyPrefix));
 			}
 		}
 
