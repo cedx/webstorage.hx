@@ -1,5 +1,8 @@
 # Changelog
 
+## Version [4.0.0](https://bitbucket.org/cedx/webstorage.hx/branches/compare/v4.0.0..v3.1.0)
+- Breaking change: reworked the event system by using a custom `StorageEvent` class.
+
 ## Version [3.1.0](https://bitbucket.org/cedx/webstorage.hx/branches/compare/v3.1.0..v3.0.0)
 - Optimized the performance of the `putIfAbsent()` methods.
 - The `keyPrefix` property is now private.
