@@ -1,5 +1,8 @@
 # Changelog
 
+## Version [4.0.1](https://bitbucket.org/cedx/webstorage.hx/branches/compare/v4.0.1..v4.0.0)
+- Fixed the event handling when a key prefix is set.
+
 ## Version [4.0.0](https://bitbucket.org/cedx/webstorage.hx/branches/compare/v4.0.0..v3.1.0)
 - Breaking change: reworked the event system by using a custom `StorageEvent` class.
 
