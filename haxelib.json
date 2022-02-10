@@ -8,5 +8,5 @@
 	"releasenote": "Reworked the event system by using a custom `StorageEvent` class.",
 	"tags": ["browser", "events", "html", "js", "service", "storage", "tink"],
 	"url": "https://bitbucket.org/cedx/webstorage.hx",
-	"version": "4.0.0"
+	"version": "4.0.1"
 }
