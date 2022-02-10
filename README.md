@@ -1,5 +1,5 @@
 # Web Storage for Haxe
-![Haxe](https://flat.badgen.net/badge/haxe/%3E%3D4.2.0/green) ![Haxelib](https://flat.badgen.net/haxelib/v/webstorage) ![Downloads](https://flat.badgen.net/haxelib/d/webstorage)
+![Haxe](https://flat.badgen.net/badge/haxe/%3E%3D4.2.0/green) ![Haxelib](https://flat.badgen.net/haxelib/v/webstorage) ![License](https://flat.badgen.net/haxelib/license/webstorage) ![Downloads](https://flat.badgen.net/haxelib/d/webstorage)
 
 Services for interacting with the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API), in [Haxe](https://haxe.org).
 
