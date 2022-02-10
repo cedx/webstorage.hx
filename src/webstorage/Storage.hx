@@ -33,17 +33,17 @@ abstract class Storage {
 	function new(backend: DomStorage, ?options: StorageOptions) {
 		var onChange = onChangeTrigger.asSignal();
 		if (options != null) {
+			if (options.keyPrefix != null) keyPrefix = options.keyPrefix;
 			if (options.listenToGlobalEvents) {
 				final signal = Signal.ofClassical(window.addEventListener.bind("storage"), window.removeEventListener.bind("storage"));
-				onChange = onChange.join(signal.filter(event -> (event: DomStorageEvent).storageArea == backend).map(StorageEvent.ofDomEvent));
-			}
-
-			if (options.keyPrefix != null) {
-				keyPrefix = options.keyPrefix;
-				onChange = onChange.filter(event -> switch event.key {
-					case None: true;
-					case Some(key): key.startsWith(keyPrefix);
-				});
+				onChange = onChange.join(signal
+					.filter((event: DomStorageEvent) -> event.storageArea == backend && (event.key == null || event.key.startsWith(keyPrefix)))
+					.map(event -> new StorageEvent(
+						event.key == null ? None : Some(event.key.substring(keyPrefix.length)),
+						event.oldValue == null ? None : Some(event.oldValue),
+						event.newValue == null ? None : Some(event.newValue)
+					))
+				);
 			}
 		}
 
@@ -175,13 +175,6 @@ class StorageEvent {
 		this.newValue = newValue;
 		this.oldValue = oldValue;
 	}
-
-	/** Creates a new storage event from the specified native one. **/
-	public static function ofDomEvent(event: DomStorageEvent) return new StorageEvent(
-		event.key == null ? None : Some(event.key),
-		event.oldValue == null ? None : Some(event.oldValue),
-		event.newValue == null ? None : Some(event.newValue)
-	);
 }
 
 /** Iterates over the items of a `Storage` instance. **/

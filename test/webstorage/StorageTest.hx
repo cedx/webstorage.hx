@@ -104,7 +104,7 @@ using StringTools;
 		// It should handle the key prefix.
 		service = Storage.session({keyPrefix: "prefix:"});
 		subscription = service.onChange.handle(event -> {
-			asserts.assert(event.key.match(Some("prefix:baz")));
+			asserts.assert(event.key.match(Some("baz")));
 			asserts.assert(event.oldValue == None);
 			asserts.assert(event.newValue.match(Some("qux")));
 		});
