@@ -6,7 +6,6 @@ import js.html.Storage as DomStorage;
 import js.html.StorageEvent as DomStorageEvent;
 using Lambda;
 using StringTools;
-using tink.CoreApi;
 
 /** Provides access to the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API). **/
 abstract class Storage {
@@ -157,26 +156,6 @@ abstract class Storage {
 	function buildKey(key: String) return '$keyPrefix$key';
 }
 
-/** An event triggered when the storage has been changed. **/
-class StorageEvent {
-
-	/** The changed key. **/
-	public final key: Option<String>;
-
-	/** The new value. **/
-	public final newValue: Option<String>;
-
-	/** The original value. **/
-	public final oldValue: Option<String>;
-
-	/** Creates a new storage event. **/
-	public function new(key: Option<String>, oldValue: Option<String> = None, newValue: Option<String> = None) {
-		this.key = key;
-		this.newValue = newValue;
-		this.oldValue = oldValue;
-	}
-}
-
 /** Iterates over the items of a `Storage` instance. **/
 private class StorageIterator {
 
@@ -191,8 +170,8 @@ private class StorageIterator {
 
 	/** Creates a new storage iterator. **/
 	public function new(storage: Storage) {
-		keys = storage.keys;
 		this.storage = storage;
+		keys = storage.keys;
 	}
 
 	/** Returns a value indicating whether the iteration is complete. **/
