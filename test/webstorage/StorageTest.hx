@@ -328,7 +328,7 @@ using StringTools;
 	}
 
 	/** Tests the `set()` method. **/
-	public function testSetString() {
+	public function testSet() {
 		// It should properly set the storage entries.
 		var service = Storage.session();
 		asserts.assert(window.sessionStorage.getItem("foo") == null);
