@@ -58,9 +58,9 @@ using StringTools;
 		// It should trigger an event when a value is added.
 		var service = Storage.session();
 		var subscription = service.onChange.handle(event -> {
-			asserts.assert(event.key.match(Some("foo")));
+			asserts.assert(event.key.equals("foo"));
 			asserts.assert(event.oldValue == None);
-			asserts.assert(event.newValue.match(Some("bar")));
+			asserts.assert(event.newValue.equals("bar"));
 		});
 
 		service.set("foo", "bar");
@@ -68,9 +68,9 @@ using StringTools;
 
 		// It should trigger an event when a value is updated.
 		subscription = service.onChange.handle(event -> {
-			asserts.assert(event.key.match(Some("foo")));
-			asserts.assert(event.oldValue.match(Some("bar")));
-			asserts.assert(event.newValue.match(Some("baz")));
+			asserts.assert(event.key.equals("foo"));
+			asserts.assert(event.oldValue.equals("bar"));
+			asserts.assert(event.newValue.equals("baz"));
 		});
 
 		service.set("foo", "baz");
@@ -83,8 +83,8 @@ using StringTools;
 
 		// It should trigger an event when a value is removed.
 		subscription = service.onChange.handle(event -> {
-			asserts.assert(event.key.match(Some("foo")));
-			asserts.assert(event.oldValue.match(Some("baz")));
+			asserts.assert(event.key.equals("foo"));
+			asserts.assert(event.oldValue.equals("baz"));
 			asserts.assert(event.newValue == None);
 		});
 
@@ -104,9 +104,9 @@ using StringTools;
 		// It should handle the key prefix.
 		service = Storage.session({keyPrefix: "prefix:"});
 		subscription = service.onChange.handle(event -> {
-			asserts.assert(event.key.match(Some("baz")));
+			asserts.assert(event.key.equals("baz"));
 			asserts.assert(event.oldValue == None);
-			asserts.assert(event.newValue.match(Some("qux")));
+			asserts.assert(event.newValue.equals("qux"));
 		});
 
 		service.set("baz", "qux");
@@ -162,10 +162,10 @@ using StringTools;
 		asserts.assert(service.get("foo") == None);
 
 		window.sessionStorage.setItem("foo", "bar");
-		asserts.assert(service.get("foo").match(Some("bar")));
+		asserts.assert(service.get("foo").equals("bar"));
 
 		window.sessionStorage.setItem("foo", "123");
-		asserts.assert(service.get("foo").match(Some("123")));
+		asserts.assert(service.get("foo").equals("123"));
 
 		window.sessionStorage.removeItem("foo");
 		asserts.assert(service.get("foo") == None);
@@ -175,10 +175,10 @@ using StringTools;
 		asserts.assert(service.get("baz") == None);
 
 		window.sessionStorage.setItem("prefix:baz", "qux");
-		asserts.assert(service.get("baz").match(Some("qux")));
+		asserts.assert(service.get("baz").equals("qux"));
 
 		window.sessionStorage.setItem("prefix:baz", "456");
-		asserts.assert(service.get("baz").match(Some("456")));
+		asserts.assert(service.get("baz").equals("456"));
 
 		window.sessionStorage.removeItem("prefix:baz");
 		asserts.assert(service.get("baz") == None);
@@ -193,10 +193,10 @@ using StringTools;
 		asserts.assert(service.getObject("foo") == None);
 
 		window.sessionStorage.setItem("foo", '"bar"');
-		asserts.assert(service.getObject("foo").match(Some("bar")));
+		asserts.assert(service.getObject("foo").equals("bar"));
 
 		window.sessionStorage.setItem("foo", "123");
-		asserts.assert(service.getObject("foo").match(Some(123)));
+		asserts.assert(service.getObject("foo").equals(123));
 
 		window.sessionStorage.setItem("foo", '{"key": "value"}');
 		asserts.compare({key: "value"}, service.getObject("foo").sure());
@@ -212,10 +212,10 @@ using StringTools;
 		asserts.assert(service.getObject("baz") == None);
 
 		window.sessionStorage.setItem("prefix:baz", '"qux"');
-		asserts.assert(service.getObject("baz").match(Some("qux")));
+		asserts.assert(service.getObject("baz").equals("qux"));
 
 		window.sessionStorage.setItem("prefix:baz", "456");
-		asserts.assert(service.getObject("baz").match(Some(456)));
+		asserts.assert(service.getObject("baz").equals(456));
 
 		window.sessionStorage.setItem("prefix:baz", '{"key": "value"}');
 		asserts.compare({key: "value"}, service.getObject("baz").sure());
@@ -262,22 +262,22 @@ using StringTools;
 		// It should add a new entry if it does not exist.
 		var service = Storage.session();
 		asserts.assert(window.sessionStorage.getItem("foo") == null);
-		asserts.assert(service.putIfAbsent("foo", () -> "bar").match(Success("bar")));
+		asserts.assert(service.putIfAbsent("foo", () -> "bar").equals("bar"));
 		asserts.assert(window.sessionStorage.getItem("foo") == "bar");
 
 		// It should not add a new entry if it already exists.
 		window.sessionStorage.setItem("foo", "123");
-		asserts.assert(service.putIfAbsent("foo", () -> "XYZ").match(Success("123")));
+		asserts.assert(service.putIfAbsent("foo", () -> "XYZ").equals("123"));
 		asserts.assert(window.sessionStorage.getItem("foo") == "123");
 
 		// It should handle the key prefix.
 		service = Storage.session({keyPrefix: "prefix:"});
 		asserts.assert(window.sessionStorage.getItem("prefix:baz") == null);
-		asserts.assert(service.putIfAbsent("baz", () -> "qux").match(Success("qux")));
+		asserts.assert(service.putIfAbsent("baz", () -> "qux").equals("qux"));
 		asserts.assert(window.sessionStorage.getItem("prefix:baz") == "qux");
 
 		window.sessionStorage.setItem("prefix:baz", "456");
-		asserts.assert(service.putIfAbsent("baz", () -> "XYZ").match(Success("456")));
+		asserts.assert(service.putIfAbsent("baz", () -> "XYZ").equals("456"));
 		asserts.assert(window.sessionStorage.getItem("prefix:baz") == "456");
 
 		return asserts.done();
@@ -288,22 +288,22 @@ using StringTools;
 		// It should add a new entry if it does not exist.
 		var service = Storage.session();
 		asserts.assert(window.sessionStorage.getItem("foo") == null);
-		asserts.assert(service.putObjectIfAbsent("foo", () -> "bar").match(Success("bar")));
+		asserts.assert(service.putObjectIfAbsent("foo", () -> "bar").equals("bar"));
 		asserts.assert(window.sessionStorage.getItem("foo") == '"bar"');
 
 		// It should not add a new entry if it already exists.
 		window.sessionStorage.setItem("foo", "123");
-		asserts.assert(service.putObjectIfAbsent("foo", () -> 999).match(Success(123)));
+		asserts.assert(service.putObjectIfAbsent("foo", () -> 999).equals(123));
 		asserts.assert(window.sessionStorage.getItem("foo") == "123");
 
 		// It should handle the key prefix.
 		service = Storage.session({keyPrefix: "prefix:"});
 		asserts.assert(window.sessionStorage.getItem("prefix:baz") == null);
-		asserts.assert(service.putObjectIfAbsent("baz", () -> "qux").match(Success("qux")));
+		asserts.assert(service.putObjectIfAbsent("baz", () -> "qux").equals("qux"));
 		asserts.assert(window.sessionStorage.getItem("prefix:baz") == '"qux"');
 
 		window.sessionStorage.setItem("prefix:baz", "456");
-		asserts.assert(service.putObjectIfAbsent("baz", () -> 999).match(Success(456)));
+		asserts.assert(service.putObjectIfAbsent("baz", () -> 999).equals(456));
 		asserts.assert(window.sessionStorage.getItem("prefix:baz") == "456");
 
 		return asserts.done();
