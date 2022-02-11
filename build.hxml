@@ -4,3 +4,4 @@ share/build.hxml
 webstorage.LocalStorage
 webstorage.SessionStorage
 webstorage.Storage
+webstorage.StorageEvent
