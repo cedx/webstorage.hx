@@ -199,7 +199,7 @@ using StringTools;
 		asserts.assert(service.getObject("foo").equals(123));
 
 		window.sessionStorage.setItem("foo", '{"key": "value"}');
-		asserts.compare({key: "value"}, service.getObject("foo").sure());
+		asserts.compare(Some({key: "value"}), service.getObject("foo"));
 
 		window.sessionStorage.setItem("foo", "{bar[123]}");
 		asserts.assert(service.getObject("foo") == None);
@@ -218,7 +218,7 @@ using StringTools;
 		asserts.assert(service.getObject("baz").equals(456));
 
 		window.sessionStorage.setItem("prefix:baz", '{"key": "value"}');
-		asserts.compare({key: "value"}, service.getObject("baz").sure());
+		asserts.compare(Some({key: "value"}), service.getObject("baz"));
 
 		window.sessionStorage.setItem("prefix:baz", "{qux[456]}");
 		asserts.assert(service.getObject("baz") == None);
