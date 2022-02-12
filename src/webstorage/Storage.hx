@@ -76,14 +76,14 @@ abstract class Storage {
 	public function exists(key: String)
 		return backend.getItem(buildKey(key)) != null;
 
-	/** Gets the value associated to the specified `key`. Returns `None` if the `key` does not exist. **/
+	/** Gets the value associated with the specified `key`. Returns `None` if the `key` does not exist. **/
 	public function get(key: String) {
 		final value = backend.getItem(buildKey(key));
 		return value == null ? None : Some(value);
 	}
 
 	/**
-		Gets the deserialized value associated to the specified `key`.
+		Gets the deserialized value associated with the specified `key`.
 		Returns `None` if the `key` does not exist or its value cannot be deserialized.
 	**/
 	public function getObject<T>(key: String): Option<T> {
@@ -100,8 +100,8 @@ abstract class Storage {
 
 	/**
 		Looks up the value of the specified `key`, or add a new value if it isn't there.
-		Returns the value associated to `key`, if there is one.
-		Otherwise calls `ifAbsent` to get a new value, associates `key` to that value, and then returns the new value.
+		Returns the value associated with `key`, if there is one.
+		Otherwise calls `ifAbsent` to get a new value, associates `key` with that value, and then returns the new value.
 	**/
 	public function putIfAbsent(key: String, ifAbsent: () -> String) return switch get(key) {
 		case Some(value): Success(value);
@@ -110,8 +110,8 @@ abstract class Storage {
 
 	/**
 		Looks up the value of the specified `key`, or add a new value if it isn't there.
-		Returns the deserialized value associated to `key`, if there is one.
-		Otherwise calls `ifAbsent` to get a new value, serializes it and associates `key` to that value, and then returns the new value.
+		Returns the deserialized value associated with `key`, if there is one.
+		Otherwise calls `ifAbsent` to get a new value, serializes it and associates `key` with that value, and then returns the new value.
 	**/
 	public function putObjectIfAbsent<T>(key: String, ifAbsent: () -> T) return switch getObject(key) {
 		case Some(value): Success(value);
@@ -119,7 +119,7 @@ abstract class Storage {
 	}
 
 	/**
-		Removes the value associated to the specified `key`.
+		Removes the value associated with the specified `key`.
 		Returns the value associated with the `key` before it was removed.
 	**/
 	public function remove(key: String) {
@@ -129,7 +129,7 @@ abstract class Storage {
 		return oldValue;
 	}
 
-	/** Associates a given `value` to the specified `key`. **/
+	/** Associates a given `value` with the specified `key`. **/
 	public function set(key: String, value: String): Outcome<Noise, Error>
 		return Error.catchExceptions(() -> {
 			final oldValue = get(key);
@@ -138,7 +138,7 @@ abstract class Storage {
 			Noise;
 		}, exception -> Error.withData(InsufficientStorage, "The storage is full.", exception));
 
-	/** Serializes and associates a given `value` to the specified `key`. **/
+	/** Serializes and associates a given `value` with the specified `key`. **/
 	public function setObject<T>(key: String, value: T): Outcome<Noise, Error>
 		return switch Error.catchExceptions(() -> Json.stringify(value)) {
 			case Failure(_): Failure(new Error(UnprocessableEntity, "Unable to encode the specified value in JSON."));
