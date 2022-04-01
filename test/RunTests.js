@@ -1,7 +1,7 @@
 const {writeFile} = require("node:fs/promises");
 const {createServer} = require("node:http");
 const {join} = require("node:path");
-const {chromium} = require("playwright");
+const puppeteer = require("puppeteer");
 const handler = require("serve-handler");
 
 // Start the application.
@@ -17,7 +17,7 @@ const handler = require("serve-handler");
 	const server = createServer((req, res) => handler(req, res, {public: join(__dirname, "../var")}));
 	server.listen(8080);
 
-	const browser = await chromium.launch();
+	const browser = await puppeteer.launch({args: ["--no-sandbox"]});
 	const page = await browser.newPage();
 	page.on("console", message => console.log(message.text()));
 	page.on("pageerror", error => console.error(error));
