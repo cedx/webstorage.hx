@@ -30,9 +30,6 @@ function main() {
 	trace(localStorage.getObject("baz")); // {qux: 123}
 	trace(localStorage.getObject("baz").qux); // 123
 
-	// Iterate the storage.
-	for (key => value in localStorage) trace('$key => $value');
-
 	// Delete from the storage.
 	localStorage.remove("foo");
 	trace(localStorage.exists("foo")); // false
