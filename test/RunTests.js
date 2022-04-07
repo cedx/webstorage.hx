@@ -17,7 +17,7 @@ const handler = require("serve-handler");
 	const server = createServer((req, res) => handler(req, res, {public: join(__dirname, "../var")}));
 	server.listen(8080);
 
-	const browser = await puppeteer.launch({args: ["--no-sandbox"]});
+	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
 	page.on("console", message => console.log(message.text()));
 	page.on("pageerror", error => console.error(error));
