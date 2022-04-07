@@ -7,6 +7,6 @@
 	"name": "webstorage",
 	"releasenote": "Fixed the event handling when a key prefix is set.",
 	"tags": ["browser", "events", "html", "js", "service", "storage", "tink"],
-	"url": "https://bitbucket.org/cedx/webstorage.hx",
+	"url": "https://github.com/cedx/webstorage.hx",
 	"version": "4.0.1"
 }

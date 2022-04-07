@@ -1,11 +1,11 @@
 {
-	"bugs": "https://bitbucket.org/cedx/webstorage.hx/issues",
+	"bugs": "https://github.com/cedx/webstorage.hx/issues",
 	"description": "Services for interacting with the Web Storage.",
-	"homepage": "https://bitbucket.org/cedx/webstorage.hx",
+	"homepage": "https://github.com/cedx/webstorage.hx",
 	"license": "MIT",
 	"name": "@cedx/webstorage",
 	"private": true,
-	"repository": "bitbucket:cedx/webstorage.hx",
+	"repository": "github:cedx/webstorage.hx",
 	"type": "commonjs",
 	"version": "4.0.1",
 	"author": {

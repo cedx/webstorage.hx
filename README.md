@@ -4,13 +4,13 @@
 Services for interacting with the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API), in [Haxe](https://haxe.org).
 
 ## Documentation
-- [User guide](https://bitbucket.org/cedx/webstorage.hx/wiki)
+- [User guide](https://github.com/cedx/webstorage.hx/wiki)
 - [API reference](https://cedx.github.io/webstorage.hx)
 
 ## Development
-- [Git repository](https://bitbucket.org/cedx/webstorage.hx)
+- [Git repository](https://github.com/cedx/webstorage.hx)
 - [Haxelib package](https://lib.haxe.org/p/webstorage)
-- [Submit an issue](https://bitbucket.org/cedx/webstorage.hx/issues)
+- [Submit an issue](https://github.com/cedx/webstorage.hx/issues)
 
 ## License
-[Web Storage for Haxe](https://bitbucket.org/cedx/webstorage.hx) is distributed under the MIT License.
+[Web Storage for Haxe](https://github.com/cedx/webstorage.hx) is distributed under the MIT License.

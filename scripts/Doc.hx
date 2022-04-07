@@ -10,10 +10,10 @@ function main() {
 	Sys.command("lix", [
 		"run", "dox",
 		"--define", "description", "Services for interacting with the Web Storage, in Haxe.",
-		"--define", "source-path", "https://bitbucket.org/cedx/webstorage.hx/src/main/src",
+		"--define", "source-path", "https://github.com/cedx/webstorage.hx/blob/main/src",
 		"--define", "themeColor", "0xffc105",
 		"--define", "version", Json.parse(File.getContent("haxelib.json")).version,
-		"--define", "website", "https://bitbucket.org/cedx/webstorage.hx",
+		"--define", "website", "https://github.com/cedx/webstorage.hx",
 		"--input-path", "var",
 		"--output-path", "docs",
 		"--title", "Web Storage for Haxe",
