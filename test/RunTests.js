@@ -22,11 +22,10 @@ const handler = require("serve-handler");
 	page.on("console", message => console.log(message.text()));
 	page.on("pageerror", error => console.error(error));
 
-	await page.exposeFunction("exit", code => {
+	await page.exposeFunction("exit", async code => {
 		process.exitCode = code;
 		server.close();
-		try { return browser.close(); }
-		catch { return Promise.resolve(); }
+		try { await browser.close(); } catch {}
 	});
 
 	await page.evaluate(() => console.info(navigator.userAgent));
