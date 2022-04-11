@@ -25,3 +25,9 @@ jobs:
           npm install
       - name: Run tests
         run: haxe test.hxml
+      - name: Collect code coverage
+        if: success()
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          path-to-lcov: var/lcov.info
