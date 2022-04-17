@@ -18,6 +18,9 @@ const handler = require("serve-handler");
 		'</html>'
 	].join("\n"));
 
+	const server = createServer((req, res) => handler(req, res, {public: basePath}));
+	server.listen(8080);
+
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
 	page.on("pageerror", error => console.error(error));
@@ -27,15 +30,13 @@ const handler = require("serve-handler");
 		else console.log(message.text());
 	});
 
-	const server = createServer((req, res) => handler(req, res, {public: basePath}));
-	server.listen(8080);
+	await page.evaluateOnNewDocument(() => console.info(navigator.userAgent));
 	await page.exposeFunction("exit", async code => {
 		process.exitCode = code;
 		server.close();
 		await browser.close();
 	});
 
-	await page.evaluate(() => console.info(navigator.userAgent));
 	await Promise.all([
 		page.waitForNavigation(),
 		page.goto("http://localhost:8080/tests.html")
