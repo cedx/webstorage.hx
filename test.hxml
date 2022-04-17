@@ -7,4 +7,4 @@
 --macro instrument.Instrumentation.coverage(['webstorage'], ['src'])
 --main RunTests
 share/build.hxml
---cmd node test/RunTests.js
+--cmd node test/RunTests.mjs
