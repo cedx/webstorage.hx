@@ -24,6 +24,7 @@ page.on("console", async message => {
 
 await page.evaluateOnNewDocument(() => console.info(navigator.userAgent));
 await page.exposeFunction("exit", async code => {
+	await page.close();
 	await browser.close();
 	server.close();
 	process.exit(code);
@@ -40,6 +41,6 @@ await writeFile(join(basePath, "tests.html"), [
 
 server.listen(8192);
 await Promise.all([
-	page.waitForNavigation(),
-	page.goto("http://localhost:8192/tests.html")
+	page.goto("http://localhost:8192/tests.html"),
+	page.waitForNavigation()
 ]);
