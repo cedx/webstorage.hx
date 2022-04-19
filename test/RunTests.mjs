@@ -1,6 +1,8 @@
+import console from "node:console";
 import {appendFile, rm, writeFile} from "node:fs/promises";
 import {createServer} from "node:http";
 import {join} from "node:path";
+import process from "node:process";
 import {fileURLToPath} from "node:url";
 import puppeteer from "puppeteer";
 import handler from "serve-handler";
