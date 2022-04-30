@@ -1,31 +1,25 @@
 import console from "node:console";
-import {appendFile, rm, writeFile} from "node:fs/promises";
+import {appendFile, writeFile} from "node:fs/promises";
 import {createServer} from "node:http";
-import {join} from "node:path";
 import process from "node:process";
-import {fileURLToPath} from "node:url";
+import del from "del";
 import puppeteer from "puppeteer";
 import handler from "serve-handler";
-
-// Remove the previous artifacts.
-const basePath = fileURLToPath(new URL("../var", import.meta.url));
-const lcovFile = join(basePath, "lcov.info");
-await rm(lcovFile, {force: true});
 
 // Start the browser.
 const browser = await puppeteer.launch();
 const page = await browser.newPage();
-const server = createServer((req, res) => handler(req, res, {public: basePath}));
+const server = createServer((req, res) => handler(req, res, {public: "var"}));
 
 page.on("pageerror", error => console.error(error));
 page.on("console", async message => {
 	const output = message.text().trim();
-	if (output.startsWith("TN:") && output.endsWith("end_of_record")) await appendFile(lcovFile, output);
+	if (output.startsWith("TN:") && output.endsWith("end_of_record")) await appendFile("var/lcov.info", output);
 	else console.log(message.text());
 });
 
 await page.evaluateOnNewDocument(() => console.info(navigator.userAgent));
-await page.exposeFunction("exit", async code => {
+await page.exposeFunction("exit", async (/** @type {number} */ code) => {
 	await page.close();
 	await page.browser().close();
 	server.close();
@@ -33,7 +27,8 @@ await page.exposeFunction("exit", async code => {
 });
 
 // Run the test suite.
-await writeFile(join(basePath, "tests.html"), `
+await del("var/lcov.info");
+await writeFile("var/tests.html", `
 	<!DOCTYPE html>
 	<html dir="ltr" lang="en">
 	<head>
