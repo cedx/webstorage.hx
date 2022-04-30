@@ -1,6 +1,7 @@
 * text=auto
 .* text
 
+*.cjs text
 *.http text
 *.hx text
 *.hxml text
