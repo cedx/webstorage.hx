@@ -1,8 +1,7 @@
 import console from "node:console";
-import {appendFile, writeFile} from "node:fs/promises";
+import {appendFile, rm, writeFile} from "node:fs/promises";
 import {createServer} from "node:http";
 import process from "node:process";
-import del from "del";
 import puppeteer from "puppeteer";
 import handler from "serve-handler";
 
@@ -27,7 +26,7 @@ await page.exposeFunction("exit", async (/** @type {number} */ code) => {
 });
 
 // Run the test suite.
-await del("var/lcov.info");
+await rm("var/lcov.info", {force: true});
 await writeFile("var/tests.html", `
 	<!DOCTYPE html>
 	<html dir="ltr" lang="en">
