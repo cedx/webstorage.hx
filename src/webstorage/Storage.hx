@@ -73,8 +73,7 @@ abstract class Storage {
 		else { backend.clear(); onChangeTrigger.trigger(new StorageEvent(None)); }
 
 	/** Gets a value indicating whether this storage contains the specified `key`. **/
-	public function exists(key: String)
-		return backend.getItem(buildKey(key)) != null;
+	public function exists(key: String) return get(key) != None;
 
 	/** Gets the value associated with the specified `key`. Returns `None` if the `key` does not exist. **/
 	public function get(key: String) {
