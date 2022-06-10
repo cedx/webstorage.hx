@@ -34,15 +34,16 @@ abstract class Storage {
 		if (options != null) {
 			if (options.keyPrefix != null) keyPrefix = options.keyPrefix;
 			if (options.listenToGlobalEvents) {
-				final signal = Signal.ofClassical(window.addEventListener.bind("storage"), window.removeEventListener.bind("storage"));
-				onChange = onChange.join(signal
+				final signal = Signal
+					.ofClassical(window.addEventListener.bind("storage"), window.removeEventListener.bind("storage"))
 					.filter((event: DomStorageEvent) -> event.storageArea == backend && (event.key == null || event.key.startsWith(keyPrefix)))
 					.map(event -> new StorageEvent(
 						event.key == null ? None : Some(event.key.substring(keyPrefix.length)),
 						event.oldValue == null ? None : Some(event.oldValue),
 						event.newValue == null ? None : Some(event.newValue)
-					))
-				);
+					));
+
+				onChange = onChange.join(signal);
 			}
 		}
 
