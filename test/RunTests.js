@@ -2,11 +2,12 @@ import console from "node:console";
 import {appendFile, rm, writeFile} from "node:fs/promises";
 import {createServer} from "node:http";
 import process from "node:process";
-import puppeteer from "puppeteer";
+import getPort from "get-port";
+import {chromium} from "playwright";
 import handler from "serve-handler";
 
 // Start the browser.
-const browser = await puppeteer.launch();
+const browser = await chromium.launch();
 const page = await browser.newPage();
 const server = createServer((req, res) => handler(req, res, {public: "var"}));
 
@@ -17,12 +18,11 @@ page.on("console", async message => {
 	else console.log(message.text());
 });
 
-await page.evaluateOnNewDocument(() => console.info(navigator.userAgent));
-await page.exposeFunction("exit", async (/** @type {number} */ code) => {
-	await page.close();
-	await page.browser().close();
+await page.evaluate(() => console.info(navigator.userAgent));
+await page.exposeFunction("exit", (/** @type {number} */ code) => {
+	process.exitCode = code;
 	server.close();
-	process.exit(code);
+	return browser.close();
 });
 
 // Run the test suite.
@@ -30,16 +30,14 @@ await rm("var/lcov.info", {force: true});
 await writeFile("var/tests.html", `
 	<!DOCTYPE html>
 	<html dir="ltr" lang="en">
-	<head>
-		<meta charset="UTF-8"/>
-		<script defer src="tests.js"></script>
-	</head>
-	<body></body>
+		<head>
+			<meta charset="UTF-8"/>
+			<script defer src="tests.js"></script>
+		</head>
+		<body></body>
 	</html>
 `);
 
-server.listen(8192);
-await Promise.all([
-	page.goto("http://localhost:8192/tests.html"),
-	page.waitForNavigation()
-]);
+const port = await getPort();
+server.listen(port);
+await page.goto(`http://localhost:${port}/tests.html`);
