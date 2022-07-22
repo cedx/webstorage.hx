@@ -4,11 +4,11 @@ import {createServer} from "node:http";
 import {EOL} from "node:os";
 import process from "node:process";
 import getPort from "get-port";
-import {chromium} from "playwright";
+import puppeteer from "puppeteer";
 import handler from "serve-handler";
 
 // Start the browser.
-const browser = await chromium.launch();
+const browser = await puppeteer.launch();
 const coverage = [];
 const page = await browser.newPage();
 const server = createServer((req, res) => handler(req, res, {public: "var"}));
