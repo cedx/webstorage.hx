@@ -22,10 +22,11 @@ page.on("console", async message => {
 
 await page.evaluate(() => console.info(navigator.userAgent));
 await page.exposeFunction("exit", async (/** @type {number} */ code) => {
-	server.close();
-	await browser.close();
+	await page.close();
+	await page.browser().close();
 	await writeFile("var/lcov.info", coverage.join(EOL));
-	process.exitCode = code;
+	server.close();
+	process.exit(code);
 });
 
 // Run the test suite.
@@ -43,4 +44,7 @@ await writeFile("var/tests.html", `
 
 const port = await getPort();
 server.listen(port);
-await page.goto(`http://localhost:${port}/tests.html`);
+await Promise.all([
+	page.goto(`http://localhost:${port}/tests.html`),
+	page.waitForNavigation()
+]);
