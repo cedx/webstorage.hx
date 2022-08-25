@@ -35,7 +35,7 @@ await writeFile("var/tests.html", `
 	<!DOCTYPE html>
 	<html dir="ltr" lang="en">
 		<head>
-			<meta charset="UTF-8"/>
+			<meta charset="utf-8"/>
 			<script defer src="tests.js"></script>
 		</head>
 		<body></body>
