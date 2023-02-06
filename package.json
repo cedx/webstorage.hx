@@ -1,0 +1,25 @@
+{
+	"bugs": "https://github.com/cedx/webstorage.hx/issues",
+	"description": "Services for interacting with the Web Storage.",
+	"files": [],
+	"homepage": "https://github.com/cedx/webstorage.hx",
+	"license": "MIT",
+	"name": "@cedx/webstorage",
+	"private": true,
+	"repository": "github:cedx/webstorage.hx",
+	"type": "module",
+	"version": "4.0.2",
+	"author": {
+		"email": "cedric@belin.io",
+		"name": "Cédric Belin",
+		"url": "https://belin.io"
+	},
+	"devDependencies": {
+		"get-port": "^6.1.2",
+		"playwright": "^1.30.0",
+		"serve-handler": "^6.1.5"
+	},
+	"engines": {
+		"node": ">=18.0.0"
+	}
+}

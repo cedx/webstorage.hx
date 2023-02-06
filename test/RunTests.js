@@ -4,11 +4,11 @@ import {createServer} from "node:http";
 import {EOL} from "node:os";
 import process from "node:process";
 import getPort from "get-port";
-import puppeteer from "puppeteer";
+import {chromium} from "playwright";
 import handler from "serve-handler";
 
 // Start the browser.
-const browser = await puppeteer.launch();
+const browser = await chromium.launch();
 const coverage = [];
 const page = await browser.newPage();
 const server = createServer((req, res) => handler(req, res, {public: "var"}));
@@ -22,8 +22,7 @@ page.on("console", async message => {
 
 await page.evaluate(() => console.info(navigator.userAgent));
 await page.exposeFunction("exit", async (/** @type {number} */ code) => {
-	await page.close();
-	await page.browser().close();
+	await browser.close();
 	await writeFile("var/lcov.info", coverage.join(EOL));
 	server.close();
 	process.exit(code);
@@ -35,7 +34,7 @@ await writeFile("var/tests.html", `
 	<!DOCTYPE html>
 	<html dir="ltr" lang="en">
 		<head>
-			<meta charset="utf-8"/>
+			<meta charset="UTF-8"/>
 			<script defer src="tests.js"></script>
 		</head>
 		<body></body>
@@ -44,7 +43,4 @@ await writeFile("var/tests.html", `
 
 const port = await getPort();
 server.listen(port);
-await Promise.all([
-	page.goto(`http://localhost:${port}/tests.html`),
-	page.waitForNavigation()
-]);
+await page.goto(`http://localhost:${port}/tests.html`);
