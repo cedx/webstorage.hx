@@ -15,6 +15,7 @@ abstract class Storage {
 
 	/** The number of entries in this storage. **/
 	public var length(get, never): Int;
+		function get_length() return keyPrefix.length == 0 ? backend.length : keys.length;
 
 	/** The stream of storage events. **/
 	public final onChange: Signal<StorageEvent>;
@@ -64,9 +65,6 @@ abstract class Storage {
 		final keys = [for (index in 0...backend.length) backend.key(index)];
 		return keyPrefix.length == 0 ? keys : [for (key in keys) if (key.startsWith(keyPrefix)) key.substring(keyPrefix.length)];
 	}
-
-	/** Gets the number of entries in this storage. **/
-	function get_length() return keyPrefix.length == 0 ? backend.length : keys.length;
 
 	/** Removes all entries from this storage. **/
 	public function clear()
