@@ -405,12 +405,12 @@ using StringTools;
 		return asserts.done();
 	}
 
-	/** Gets the value of the cookie with the specified key. **/
+	/** Gets the value associated with the specified storage key. **/
 	inline function getStorage(key: String) return window.sessionStorage.getItem(key);
 
-	/** Removes the cookie with the specified key. **/
+	/** Removes the value associated with the specified storage key. **/
 	inline function removeStorage(key: String) window.sessionStorage.removeItem(key);
 
-	/** Sets a cookie with the specified key and value. **/
+	/** Associates a value with the specified storage key. **/
 	inline function setStorage(key: String, value: String) window.sessionStorage.setItem(key, value);
 }
