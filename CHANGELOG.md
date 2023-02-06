@@ -1,7 +1,7 @@
 # Changelog
 
 ## Version [4.0.3](https://github.com/cedx/webstorage.hx/compare/v4.0.2...v4.0.3)
-- Fixed the handling of global [storage events](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event).
+- Fixed the handling of global [storage events](https://developer.mozilla.org/docs/Web/API/Window/storage_event).
 
 ## Version [4.0.2](https://github.com/cedx/webstorage.hx/compare/v4.0.1...v4.0.2)
 - Updated the project URL.
@@ -23,7 +23,7 @@
 
 ## Version [2.0.0](https://github.com/cedx/webstorage.hx/compare/v1.0.5...v2.0.0)
 - Breaking change: renamed the `WebStorage` class to `Storage`.
-- Breaking change: the `Storage` class no longer extends from [`EventTarget`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget).
+- Breaking change: the `Storage` class no longer extends from [`EventTarget`](https://developer.mozilla.org/docs/Web/API/EventTarget).
 - Breaking change: the `Storage` class is now `abstract`.
 - Breaking change: the `LocalStorage` and `SessionStorage` classes are now `final`.
 - Added support for key prefix.
@@ -33,7 +33,7 @@
 - Updated the documentation.
 
 ## Version [1.0.5](https://github.com/cedx/webstorage.hx/compare/v1.0.4...v1.0.5)
-- Fixed the handling of global [storage events](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event).
+- Fixed the handling of global [storage events](https://developer.mozilla.org/docs/Web/API/Window/storage_event).
 - Ported the documentation to [docsify](https://docsify.js.org).
 
 ## Version [1.0.4](https://github.com/cedx/webstorage.hx/compare/v1.0.3...v1.0.4)
