@@ -5,7 +5,7 @@ import js.Browser.window;
 using StringTools;
 
 /** Tests the features of the `Storage` class. **/
-@:asserts class StorageTest {
+@:asserts final class StorageTest {
 
 	/** Creates a new test. **/
 	public function new() {}
