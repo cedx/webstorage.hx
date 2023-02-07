@@ -41,8 +41,8 @@ const handler = require("serve-handler");
 		</html>
 	`);
 
-	const getPort = await import("get-port");
-	const port = await getPort.default();
+	const {default: getPort} = await import("get-port");
+	const port = await getPort();
 	server.listen(port);
 	await page.goto(`http://localhost:${port}/tests.html`);
 })();
