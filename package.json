@@ -7,7 +7,7 @@
 	"name": "@cedx/webstorage",
 	"private": true,
 	"repository": "github:cedx/webstorage.hx",
-	"type": "module",
+	"type": "commonjs",
 	"version": "4.0.3",
 	"author": {
 		"email": "cedric@belin.io",
