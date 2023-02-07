@@ -6,7 +6,7 @@ const process = require("node:process");
 const {chromium} = require("playwright");
 const handler = require("serve-handler");
 
-(async () => {
+(async function() {
 	// Start the browser.
 	const browser = await chromium.launch();
 	const coverage = [];
