@@ -4,6 +4,7 @@
 	"files.encoding": "utf8",
 	"files.insertFinalNewline": true,
 	"files.trimTrailingWhitespace": true,
+	"javascript.suggestionActions.enabled": false,
 	"[markdown]": {"files.trimTrailingWhitespace": false},
 	"[yaml]": {"editor.insertSpaces": true}
 }
