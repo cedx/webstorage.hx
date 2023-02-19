@@ -20,7 +20,7 @@ const handler = require("serve-handler");
 		else console.log(message.text());
 	});
 
-	await page.evaluate(() => console.info(navigator.userAgent));
+	await page.evaluate(() => console.log(navigator.userAgent));
 	await page.exposeFunction("exit", async (/** @type {number} */ code) => {
 		await browser.close();
 		await writeFile("var/lcov.info", coverage.join(EOL));
