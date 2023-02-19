@@ -12,6 +12,10 @@ abstract class Storage {
 
 	/** The keys of this storage. **/
 	public var keys(get, never): Array<String>;
+		function get_keys() {
+			final keys = [for (index in 0...backend.length) backend.key(index)];
+			return keyPrefix.length == 0 ? keys : [for (key in keys) if (key.startsWith(keyPrefix)) key.substring(keyPrefix.length)];
+		}
 
 	/** The number of entries in this storage. **/
 	public var length(get, never): Int;
@@ -59,12 +63,6 @@ abstract class Storage {
 	/** Creates a new session storage service. **/
 	public static inline function session(?options: StorageOptions)
 		return new SessionStorage(options);
-
-	/** Gets the keys of this storage. **/
-	function get_keys() {
-		final keys = [for (index in 0...backend.length) backend.key(index)];
-		return keyPrefix.length == 0 ? keys : [for (key in keys) if (key.startsWith(keyPrefix)) key.substring(keyPrefix.length)];
-	}
 
 	/** Removes all entries from this storage. **/
 	public function clear()
