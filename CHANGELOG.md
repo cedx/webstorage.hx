@@ -1,5 +1,9 @@
 # Changelog
 
+## Version [5.0.0](https://github.com/cedx/webstorage.hx/compare/v4.0.3...v5.0.0)
+- Breaking change: removed the `LocalStorage` and `SessionStorage` classes.
+- Fixed the typings.
+
 ## Version [4.0.3](https://github.com/cedx/webstorage.hx/compare/v4.0.2...v4.0.3)
 - Fixed the handling of global [storage events](https://developer.mozilla.org/docs/Web/API/Window/storage_event).
 
