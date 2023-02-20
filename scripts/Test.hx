@@ -1,4 +1,4 @@
-/** Runs the script. **/
+/** Runs the test suite. **/
 function main() {
 	Sys.println("> Testing with `haxe.Json` serializer...");
 	Sys.command("haxe test.hxml");

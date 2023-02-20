@@ -1,7 +1,7 @@
 //! --class-path src --library tink_core
 import webstorage.Version;
 
-/** Runs the script. **/
+/** Publishes the package. **/
 function main() {
 	Tools.compress(["CHANGELOG.md", "LICENSE.md", "README.md", "haxelib.json", "src"], "var/haxelib.zip");
 	Sys.command("haxelib submit var/haxelib.zip");
