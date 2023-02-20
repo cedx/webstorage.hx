@@ -8,7 +8,8 @@ using Lambda;
 using StringTools;
 
 /** Provides access to the [Web Storage](https://developer.mozilla.org/docs/Web/API/Web_Storage_API). **/
-abstract class Storage {
+@:jsonStringify(storage -> [for (key => value in storage) key => value])
+class Storage {
 
 	/** The keys of this storage. **/
 	public var keys(get, never): Array<String>;
@@ -58,11 +59,11 @@ abstract class Storage {
 
 	/** Creates a new local storage service. **/
 	public static inline function local(?options: StorageOptions)
-		return new LocalStorage(options);
+		return new Storage(window.localStorage, options);
 
 	/** Creates a new session storage service. **/
 	public static inline function session(?options: StorageOptions)
-		return new SessionStorage(options);
+		return new Storage(window.sessionStorage, options);
 
 	/** Removes all entries from this storage. **/
 	public function clear()
