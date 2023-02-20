@@ -9,7 +9,7 @@ function main() {
 
 	Sys.command("haxe --define doc-gen --no-output --xml var/api.xml build.hxml");
 	Sys.command("lix", ["run", "dox",
-		"--define", "description", "Services for interacting with the Web Storage, in Haxe.",
+		"--define", "description", "Service for interacting with the Web Storage, in Haxe.",
 		"--define", "source-path", "https://github.com/cedx/webstorage.hx/blob/main/src",
 		"--define", "themeColor", "0xffc105",
 		"--define", "version", Version.packageVersion,

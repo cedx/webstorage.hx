@@ -1,6 +1,6 @@
 {
 	"bugs": "https://github.com/cedx/webstorage.hx/issues",
-	"description": "Services for interacting with the Web Storage.",
+	"description": "Service for interacting with the Web Storage.",
 	"files": [],
 	"homepage": "https://github.com/cedx/webstorage.hx",
 	"license": "MIT",

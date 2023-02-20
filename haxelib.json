@@ -2,7 +2,7 @@
 	"classPath": "src/",
 	"contributors": ["cedx"],
 	"dependencies": {"tink_core": ""},
-	"description": "Services for interacting with the Web Storage.",
+	"description": "Service for interacting with the Web Storage.",
 	"license": "MIT",
 	"name": "webstorage",
 	"releasenote": "Fixed the typings, removed the `LocalStorage` and `SessionStorage` classes.",
