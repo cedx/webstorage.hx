@@ -1,4 +1,4 @@
---js var/bundle.js
+--js var/build.js
 share/build.hxml
 
 webstorage.Storage
