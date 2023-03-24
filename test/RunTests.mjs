@@ -3,6 +3,7 @@ import {rm, writeFile} from "node:fs/promises";
 import {createServer} from "node:http";
 import {EOL} from "node:os";
 import process from "node:process";
+import getPort from "get-port";
 import {chromium} from "playwright";
 import handler from "serve-handler";
 
@@ -40,7 +41,6 @@ await writeFile("var/tests.html", `
 	</html>
 `);
 
-const {default: getPort} = await import("get-port");
 const port = await getPort();
 server.listen(port);
 await page.goto(`http://localhost:${port}/tests.html`);
