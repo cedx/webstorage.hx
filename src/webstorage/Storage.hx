@@ -8,6 +8,7 @@ using Lambda;
 using StringTools;
 
 /** Provides access to the [Web Storage](https://developer.mozilla.org/docs/Web/API/Web_Storage_API). **/
+@:ignoreInstrument
 @:jsonStringify(storage -> [for (key => value in storage) key => value])
 class Storage {
 
@@ -29,7 +30,7 @@ class Storage {
 	final backend: DomStorage;
 
 	/** A string prefixed to every key so that it is unique globally in the whole storage. **/
-	final keyPrefix = "";
+	final keyPrefix: String;
 
 	/** The controller of storage events. **/
 	final onChangeTrigger: SignalTrigger<StorageEvent> = Signal.trigger();
@@ -37,24 +38,22 @@ class Storage {
 	/** Creates a new storage service. **/
 	function new(backend: DomStorage, ?options: StorageOptions) {
 		var onChange = onChangeTrigger.asSignal();
-		if (options != null) {
-			if (options.keyPrefix != null) keyPrefix = options.keyPrefix;
-			if (options.listenToGlobalEvents) {
-				final signal = Signal
-					.ofClassical(window.addEventListener.bind("storage"), window.removeEventListener.bind("storage"))
-					.filter((event: DomStorageEvent) -> event.storageArea == backend && (event.key == null || event.key.startsWith(keyPrefix)))
-					.map(event -> new StorageEvent(
-						event.key == null ? None : Some(event.key.substring(keyPrefix.length)),
-						event.oldValue == null ? None : Some(event.oldValue),
-						event.newValue == null ? None : Some(event.newValue)
-					));
+		if (options?.listenToGlobalEvents ?? false) {
+			final signal = Signal
+				.ofClassical(window.addEventListener.bind("storage"), window.removeEventListener.bind("storage"))
+				.filter((event: DomStorageEvent) -> event.storageArea == backend && (event.key == null || event.key.startsWith(keyPrefix)))
+				.map(event -> new StorageEvent(
+					event.key == null ? None : Some(event.key.substring(keyPrefix.length)),
+					event.oldValue == null ? None : Some(event.oldValue),
+					event.newValue == null ? None : Some(event.newValue)
+				));
 
-				onChange = onChange.join(signal);
-			}
+			onChange = onChange.join(signal);
 		}
 
 		this.backend = backend;
 		this.onChange = onChange;
+		keyPrefix = options?.keyPrefix ?? "";
 	}
 
 	/** Creates a new local storage service. **/
