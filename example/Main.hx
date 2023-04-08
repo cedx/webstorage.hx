@@ -23,10 +23,10 @@ function main() {
 	trace(localStorage.keys); // ["foo", "baz"]
 
 	// Read the storage.
-	trace(Std.isOfType(localStorage.get("foo"), String)); // true
+	trace(localStorage.get("foo") is String); // true
 	trace(localStorage.get("foo")); // "bar"
 
-	trace(Std.isOfType(localStorage.getObject("baz"), Object)); // true
+	trace(localStorage.getObject("baz") is Object); // true
 	trace(localStorage.getObject("baz")); // {qux: 123}
 	trace(localStorage.getObject("baz").qux); // 123
 
