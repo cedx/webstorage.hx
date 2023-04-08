@@ -1,5 +1,10 @@
 # Changelog
 
+## Version [5.1.0](https://github.com/cedx/webstorage.hx/compare/v5.0.0...v5.1.0)
+- Made `final` the `StorageEvent` class.
+- Updated the dependencies.
+- Use the null coalescing operator.
+
 ## Version [5.0.0](https://github.com/cedx/webstorage.hx/compare/v4.0.3...v5.0.0)
 - Breaking change: removed the `LocalStorage` and `SessionStorage` classes.
 - Fixed the typings.
