@@ -5,7 +5,7 @@ Service for interacting with the [Web Storage](https://developer.mozilla.org/doc
 
 ## Documentation
 - [User guide](https://github.com/cedx/webstorage.hx/wiki)
-- [API reference](https://cedx.github.io/webstorage.hx)
+- [API reference](https://docs.belin.io/webstorage.hx)
 
 ## Development
 - [Git repository](https://github.com/cedx/webstorage.hx)
