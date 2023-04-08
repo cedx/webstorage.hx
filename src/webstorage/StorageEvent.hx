@@ -1,7 +1,7 @@
 package webstorage;
 
 /** An event triggered when the storage has been changed. **/
-class StorageEvent {
+final class StorageEvent {
 
 	/** The changed key. **/
 	public final key: Option<String>;
