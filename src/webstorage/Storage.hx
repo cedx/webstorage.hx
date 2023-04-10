@@ -8,7 +8,6 @@ using Lambda;
 using StringTools;
 
 /** Provides access to the [Web Storage](https://developer.mozilla.org/docs/Web/API/Web_Storage_API). **/
-@:ignoreInstrument
 @:jsonStringify(storage -> [for (key => value in storage) key => value])
 class Storage {
 
@@ -36,6 +35,7 @@ class Storage {
 	final onChangeTrigger: SignalTrigger<StorageEvent> = Signal.trigger();
 
 	/** Creates a new storage service. **/
+	@:ignoreInstrument
 	function new(backend: DomStorage, ?options: StorageOptions) {
 		var onChange = onChangeTrigger.asSignal();
 		if (options?.listenToGlobalEvents ?? false) {
