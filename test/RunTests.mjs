@@ -3,7 +3,6 @@ import {rm, writeFile} from "node:fs/promises";
 import {createServer} from "node:http";
 import {EOL} from "node:os";
 import process from "node:process";
-import getPort from "get-port";
 import {firefox} from "playwright";
 import handler from "serve-handler";
 
@@ -41,6 +40,7 @@ await writeFile("var/tests.html", `
 	</html>
 `);
 
-const port = await getPort();
-server.listen(port);
-await page.goto(`http://localhost:${port}/tests.html`);
+server.listen(0, "127.0.0.1", async () => {
+	const {address, port} = server.address();
+	await page.goto(`http://${address}:${port}/tests.html`);
+});
