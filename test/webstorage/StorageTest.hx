@@ -32,7 +32,7 @@ using StringTools;
 
 		// It should handle the key prefix.
 		keys = Storage.session({keyPrefix: "prefix:"}).keys;
-		asserts.assert(keys.length == 1 && keys[0] == "baz");
+		asserts.assert(keys.length == 1 && keys.pop() == "baz");
 
 		return asserts.done();
 	}
