@@ -15,7 +15,7 @@
 		"url": "https://belin.io"
 	},
 	"devDependencies": {
-		"playwright": "^1.33.0",
+		"playwright": "^1.34.0",
 		"serve-handler": "^6.1.5"
 	},
 	"engines": {
