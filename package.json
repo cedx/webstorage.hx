@@ -2,7 +2,7 @@
 	"bugs": "https://github.com/cedx/webstorage.hx/issues",
 	"description": "Service for interacting with the Web Storage.",
 	"files": [],
-	"homepage": "https://github.com/cedx/webstorage.hx",
+	"homepage": "https://docs.belin.io/webstorage.hx",
 	"license": "MIT",
 	"name": "@cedx/webstorage",
 	"private": true,
