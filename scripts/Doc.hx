@@ -13,7 +13,7 @@ function main() {
 		"--define", "source-path", "https://github.com/cedx/webstorage.hx/blob/main/src",
 		"--define", "themeColor", "0xea8220",
 		"--define", "version", Version.packageVersion,
-		"--define", "website", "https://github.com/cedx/webstorage.hx",
+		"--define", "website", "https://docs.belin.io/webstorage.hx",
 		"--input-path", "var",
 		"--output-path", "docs",
 		"--title", "Web Storage for Haxe",
