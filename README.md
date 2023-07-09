@@ -4,8 +4,8 @@
 Service for interacting with the [Web Storage](https://developer.mozilla.org/docs/Web/API/Web_Storage_API), in [Haxe](https://haxe.org).
 
 ## Documentation
-- [User guide](https://github.com/cedx/webstorage.hx/wiki)
-- [API reference](https://docs.belin.io/webstorage.hx)
+- [User guide](https://docs.belin.io/webstorage.hx)
+- [API reference](https://docs.belin.io/webstorage.hx/api)
 
 ## Development
 - [Git repository](https://github.com/cedx/webstorage.hx)
@@ -13,4 +13,4 @@ Service for interacting with the [Web Storage](https://developer.mozilla.org/doc
 - [Submit an issue](https://github.com/cedx/webstorage.hx/issues)
 
 ## License
-[Web Storage for Haxe](https://github.com/cedx/webstorage.hx) is distributed under the MIT License.
+[Web Storage for Haxe](https://docs.belin.io/webstorage.hx) is distributed under the MIT License.
