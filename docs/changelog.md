@@ -1,5 +1,8 @@
 # Changelog
 
+## Version [5.2.0](https://github.com/cedx/webstorage.hx/compare/v5.1.0...v5.2.0)
+- Use generics for the signature of the `getObject()`, `putObjectIfAbsent()` and `setObject()` methods of the `Storage` class.
+
 ## Version [5.1.0](https://github.com/cedx/webstorage.hx/compare/v5.0.0...v5.1.0)
 - Made `final` the `StorageEvent` class.
 - Updated the dependencies.
