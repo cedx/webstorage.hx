@@ -3,8 +3,7 @@
 	"exclude": {
 		"path": "RELATIVE_TO_PROJECT",
 		"ArrowFunction": ["src/webstorage/Storage"],
-		"ConditionalCompilation": ["src/webstorage/Storage"],
-		"Dynamic": ["src/webstorage/Storage"]
+		"ConditionalCompilation": ["src/webstorage/Storage"]
 	},
 	"checks": [
 		{"type": "BlockBreakingConditional"},
