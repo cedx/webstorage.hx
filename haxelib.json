@@ -5,7 +5,7 @@
 	"description": "Service for interacting with the Web Storage.",
 	"license": "MIT",
 	"name": "webstorage",
-	"releasenote": "Made `final` the `StorageEvent` class, updated the dependencies, use the null coalescing operator.",
+	"releasenote": "Use generics for the signature of the `getObject()`, `putObjectIfAbsent()` and `setObject()` methods of the `CookieStore` class.",
 	"tags": ["browser", "events", "html", "js", "service", "storage", "tink"],
 	"url": "https://docs.belin.io/webstorage.hx",
 	"version": "5.2.0"
