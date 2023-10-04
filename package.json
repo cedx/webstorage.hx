@@ -6,7 +6,7 @@
 	"license": "MIT",
 	"name": "@cedx/webstorage",
 	"private": true,
-	"repository": "github:cedx/webstorage.hx",
+	"repository": "cedx/webstorage.hx",
 	"type": "commonjs",
 	"version": "5.2.0",
 	"author": {
