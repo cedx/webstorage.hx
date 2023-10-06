@@ -2,12 +2,10 @@
 	"defaultSeverity": "ERROR",
 	"exclude": {
 		"path": "RELATIVE_TO_PROJECT",
-		"ArrowFunction": ["src/webstorage/Storage"],
-		"ConditionalCompilation": ["src/webstorage/Storage"]
+		"ArrowFunction": ["src/webstorage/Storage"]
 	},
 	"checks": [
 		{"type": "BlockBreakingConditional"},
-		{"type": "ConditionalCompilation"},
 		{"type": "EmptyBlock"},
 
 		{"type": "ArrowFunction", "props": {"allowCurlyBody": true}},
