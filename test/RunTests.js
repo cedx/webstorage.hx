@@ -4,12 +4,12 @@ const {rm, writeFile} = require("node:fs/promises");
 const {createServer} = require("node:http");
 const {EOL} = require("node:os");
 const process = require("node:process");
-const {firefox} = require("playwright");
+const {chromium} = require("playwright");
 const handler = require("serve-handler");
 
 (async function() {
 	// Start the browser.
-	const browser = await firefox.launch();
+	const browser = await chromium.launch();
 	const coverage = [];
 	const page = await browser.newPage();
 	const server = createServer((req, res) => handler(req, res, {public: "var"}));
