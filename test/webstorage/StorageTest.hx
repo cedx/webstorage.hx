@@ -10,7 +10,7 @@ using StringTools;
 	/** Creates a new test. **/
 	public function new() {}
 
-	/** This method is invoked before each test. **/
+	/** Method invoked before each test. **/
 	@:before public function before() {
 		window.sessionStorage.clear();
 		return Noise;
