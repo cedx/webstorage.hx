@@ -42,8 +42,8 @@ const handler = require("serve-handler");
 		</html>
 	`);
 
-	server.listen(0, "127.0.0.1", async () => {
+	server.listen(0, "127.0.0.1", () => {
 		const {address, port} = server.address();
-		await page.goto(`http://${address}:${port}/tests.html`);
+		page.goto(`http://${address}:${port}/tests.html`);
 	});
 })();

@@ -142,11 +142,6 @@ class Storage {
 			case Success(json): set(key, json);
 		}
 
-	#if !tink_json
-	/** Converts this storage to a JSON representation. **/
-	public function toJSON() return [for (key => value in this) [key, value]];
-	#end
-
 	/** Builds a normalized storage key from the given `key`. **/
 	function buildKey(key: String) return '$keyPrefix$key';
 }
