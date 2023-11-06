@@ -15,7 +15,7 @@ class Storage {
 	public var keys(get, never): Array<String>;
 		function get_keys() {
 			final keys = [for (index in 0...backend.length) backend.key(index)];
-			return keyPrefix.length == 0 ? keys : [for (key in keys) if (key.startsWith(keyPrefix)) key.substring(keyPrefix.length)];
+			return keyPrefix.length == 0 ? keys : [for (key in keys) if (key.startsWith(keyPrefix)) key.substr(keyPrefix.length)];
 		}
 
 	/** The number of entries in this storage. **/
@@ -43,7 +43,7 @@ class Storage {
 				.ofClassical(window.addEventListener.bind("storage"), window.removeEventListener.bind("storage"))
 				.filter((event: DomStorageEvent) -> event.storageArea == backend && (event.key == null || event.key.startsWith(keyPrefix)))
 				.map(event -> new StorageEvent(
-					event.key == null ? None : Some(event.key.substring(keyPrefix.length)),
+					event.key == null ? None : Some(event.key.substr(keyPrefix.length)),
 					event.oldValue == null ? None : Some(event.oldValue),
 					event.newValue == null ? None : Some(event.newValue)
 				));
