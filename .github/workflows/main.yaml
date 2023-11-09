@@ -13,8 +13,6 @@ jobs:
         with:
           cache: npm
           node-version: 20
-      - name: Set up Playwright
-        run: npx playwright install --with-deps
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
