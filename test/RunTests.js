@@ -15,7 +15,7 @@ const handler = require("serve-handler");
 	const server = createServer((req, res) => handler(req, res, {public: "var"}));
 
 	page.on("pageerror", error => console.error(error));
-	page.on("console", async message => {
+	page.on("console", message => {
 		const output = message.text().trim();
 		if (output.startsWith("TN:") && output.endsWith("end_of_record")) coverage.push(output);
 		else console.log(message.text());
