@@ -13,4 +13,4 @@ Service for interacting with the [Web Storage](https://developer.mozilla.org/doc
 - [Submit an issue](https://github.com/cedx/webstorage.hx/issues)
 
 ## License
-[Web Storage for Haxe](https://cedx.github.io/webstorage.hx) is distributed under the MIT License.
+[Web Storage for Haxe](https://github.com/cedx/webstorage.hx) is distributed under the MIT License.

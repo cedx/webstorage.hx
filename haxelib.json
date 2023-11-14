@@ -7,6 +7,6 @@
 	"name": "webstorage",
 	"releasenote": "Use generics for the signature of the `getObject()`, `putObjectIfAbsent()` and `setObject()` methods of the `Storage` class.",
 	"tags": ["browser", "events", "html", "js", "service", "storage", "tink"],
-	"url": "https://cedx.github.io/webstorage.hx",
+	"url": "https://github.com/cedx/webstorage.hx",
 	"version": "5.2.0"
 }
