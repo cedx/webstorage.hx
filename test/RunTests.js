@@ -11,9 +11,9 @@ const handler = require("serve-handler");
 	// Start the browser.
 	const browser = await puppeteer.launch({headless: "new"});
 	const coverage = [];
-	const page = await browser.newPage();
 	const server = createServer((req, res) => handler(req, res, {public: "var"}));
 
+	const page = await browser.newPage();
 	page.on("pageerror", error => console.error(error));
 	page.on("console", message => {
 		const output = message.text().trim();
@@ -22,7 +22,7 @@ const handler = require("serve-handler");
 	});
 
 	await page.evaluate(() => console.log(navigator.userAgent));
-	await page.exposeFunction("exit", async (/** @type {number} */ code) => {
+	await page.exposeFunction("exit", async code => {
 		await browser.close();
 		await writeFile("var/lcov.info", coverage.join(EOL));
 		server.close();
