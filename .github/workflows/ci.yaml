@@ -1,0 +1,28 @@
+name: continuous-integration
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch sources
+        uses: actions/checkout@v4
+      - name: Set up Lix
+        uses: lix-pm/setup-lix@master
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: npm
+          node-version: 22
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/haxe
+          key: haxe-${{runner.os}}-lix-${{hashFiles('.haxerc', 'haxe_libraries/*.hxml')}}
+          restore-keys: haxe-${{runner.os}}-lix-
+      - name: Install dependencies
+        run: |
+          lix download
+          npm ci
+      - name: Run tests
+        run: haxe test.hxml
