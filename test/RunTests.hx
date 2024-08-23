@@ -1,4 +1,3 @@
-import instrument.coverage.Coverage;
 import js.Syntax;
 import tink.testrunner.Reporter.AnsiFormatter;
 import tink.testrunner.Reporter.BasicReporter;

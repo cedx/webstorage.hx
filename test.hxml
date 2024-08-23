@@ -2,10 +2,8 @@
 --define coverage-lcov-reporter=var/lcov.info
 --js var/tests.js
 --library deep_equal
---library instrument
 --library tink_json
 --library tink_unittest
---macro instrument.Instrumentation.coverage(["webstorage"], ["src"])
 --main RunTests
 share/build.hxml
 --cmd node test/RunTests.js
