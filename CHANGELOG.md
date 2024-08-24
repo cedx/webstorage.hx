@@ -1,11 +1,15 @@
 # Changelog
 
+## Version [6.0.0](https://github.com/cedx/webstorage.hx/compare/v5.2.0...v6.0.0)
+- Breaking change: removed the `putIfAbsent()` and `putObjectIfAbsent()` methods from the `Storage` class.
+- Updated the package dependencies.
+
 ## Version [5.2.0](https://github.com/cedx/webstorage.hx/compare/v5.1.0...v5.2.0)
 - Use generics for the signature of the `getObject()`, `putObjectIfAbsent()` and `setObject()` methods of the `Storage` class.
 
 ## Version [5.1.0](https://github.com/cedx/webstorage.hx/compare/v5.0.0...v5.1.0)
 - Made `final` the `StorageEvent` class.
-- Updated the dependencies.
+- Updated the package dependencies.
 - Use the null coalescing operator.
 
 ## Version [5.0.0](https://github.com/cedx/webstorage.hx/compare/v4.0.3...v5.0.0)
