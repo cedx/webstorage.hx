@@ -1,7 +1,8 @@
 /**/.DS_Store
-/.idea/
+/lib/
 /node_modules/
 /npm-debug.log
 /res/
 /run.n
 /var/
+/wiki/

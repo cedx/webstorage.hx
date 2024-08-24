@@ -1,5 +1,4 @@
 --class-path test
---define coverage-lcov-reporter=var/lcov.info
 --js var/tests.js
 --library deep_equal
 --library tink_json
