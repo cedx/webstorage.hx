@@ -95,27 +95,6 @@ class Storage {
 		return new StorageIterator(this);
 
 	/**
-		Looks up the value of the specified `key`, or add a new value if it isn't there.
-		Returns the value associated with `key`, if there is one.
-		Otherwise calls `ifAbsent` to get a new value, associates `key` with that value, and then returns the new value.
-	**/
-	public function putIfAbsent(key: String, ifAbsent: () -> String) return switch get(key) {
-		case Some(value): Success(value);
-		case None: final value = ifAbsent(); set(key, value).map(_ -> value);
-	}
-
-	/**
-		Looks up the value of the specified `key`, or add a new value if it isn't there.
-		Returns the deserialized value associated with `key`, if there is one.
-		Otherwise calls `ifAbsent` to get a new value, serializes it and associates `key` with that value, and then returns the new value.
-	**/
-	public function putObjectIfAbsent<T>(key: String, ifAbsent: () -> T): Outcome<T, Error>
-		return switch getObject(key) {
-			case Some(value): Success(value);
-			case None: final value = ifAbsent(); setObject(key, value).map(_ -> value);
-		}
-
-	/**
 		Removes the value associated with the specified `key`.
 		Returns the value associated with the `key` before it was removed.
 	**/

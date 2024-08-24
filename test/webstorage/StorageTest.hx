@@ -257,58 +257,6 @@ using StringTools;
 		return asserts.done();
 	}
 
-	/** Tests the `putIfAbsent()` method. **/
-	public function putIfAbsent() {
-		// It should add a new entry if it does not exist.
-		var service = Storage.session();
-		asserts.assert(getStorage("foo") == null);
-		asserts.assert(service.putIfAbsent("foo", () -> "bar").equals("bar"));
-		asserts.assert(getStorage("foo") == "bar");
-
-		// It should not add a new entry if it already exists.
-		setStorage("foo", "123");
-		asserts.assert(service.putIfAbsent("foo", () -> "XYZ").equals("123"));
-		asserts.assert(getStorage("foo") == "123");
-
-		// It should handle the key prefix.
-		service = Storage.session({keyPrefix: "prefix:"});
-		asserts.assert(getStorage("prefix:baz") == null);
-		asserts.assert(service.putIfAbsent("baz", () -> "qux").equals("qux"));
-		asserts.assert(getStorage("prefix:baz") == "qux");
-
-		setStorage("prefix:baz", "456");
-		asserts.assert(service.putIfAbsent("baz", () -> "XYZ").equals("456"));
-		asserts.assert(getStorage("prefix:baz") == "456");
-
-		return asserts.done();
-	}
-
-	/** Tests the `putObjectIfAbsent()` method. **/
-	public function putObjectIfAbsent() {
-		// It should add a new entry if it does not exist.
-		var service = Storage.session();
-		asserts.assert(getStorage("foo") == null);
-		asserts.assert(service.putObjectIfAbsent("foo", () -> "bar").equals("bar"));
-		asserts.assert(getStorage("foo") == '"bar"');
-
-		// It should not add a new entry if it already exists.
-		setStorage("foo", "123");
-		asserts.assert(service.putObjectIfAbsent("foo", () -> 999).equals(123));
-		asserts.assert(getStorage("foo") == "123");
-
-		// It should handle the key prefix.
-		service = Storage.session({keyPrefix: "prefix:"});
-		asserts.assert(getStorage("prefix:baz") == null);
-		asserts.assert(service.putObjectIfAbsent("baz", () -> "qux").equals("qux"));
-		asserts.assert(getStorage("prefix:baz") == '"qux"');
-
-		setStorage("prefix:baz", "456");
-		asserts.assert(service.putObjectIfAbsent("baz", () -> 999).equals(456));
-		asserts.assert(getStorage("prefix:baz") == "456");
-
-		return asserts.done();
-	}
-
 	/** Tests the `remove()` method. **/
 	public function remove() {
 		setStorage("foo", "bar");
