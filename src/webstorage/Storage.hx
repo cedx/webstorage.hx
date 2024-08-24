@@ -57,23 +57,24 @@ class Storage {
 	}
 
 	/** Creates a new local storage service. **/
-	public static inline function local(?options: StorageOptions)
+	public static inline function local(?options: StorageOptions): Storage
 		return new Storage(window.localStorage, options);
 
 	/** Creates a new session storage service. **/
-	public static inline function session(?options: StorageOptions)
+	public static inline function session(?options: StorageOptions): Storage
 		return new Storage(window.sessionStorage, options);
 
 	/** Removes all entries from this storage. **/
-	public function clear()
+	public function clear(): Void
 		if (keyPrefix.length > 0) keys.iter(remove);
 		else { backend.clear(); onChangeTrigger.trigger(new StorageEvent(None)); }
 
 	/** Gets a value indicating whether this storage contains the specified `key`. **/
-	public function exists(key: String) return get(key) != None;
+	public function exists(key: String): Bool
+		return get(key) != None;
 
 	/** Gets the value associated with the specified `key`. Returns `None` if the `key` does not exist. **/
-	public function get(key: String) {
+	public function get(key: String): Option<String> {
 		final value = backend.getItem(buildKey(key));
 		return value == null ? None : Some(value);
 	}
@@ -98,7 +99,7 @@ class Storage {
 		Removes the value associated with the specified `key`.
 		Returns the value associated with the `key` before it was removed.
 	**/
-	public function remove(key: String) {
+	public function remove(key: String): Option<String> {
 		final oldValue = get(key);
 		backend.removeItem(buildKey(key));
 		onChangeTrigger.trigger(new StorageEvent(Some(key), oldValue));
@@ -122,7 +123,8 @@ class Storage {
 		}
 
 	/** Builds a normalized storage key from the given `key`. **/
-	function buildKey(key: String) return '$keyPrefix$key';
+	function buildKey(key: String): String
+		return '$keyPrefix$key';
 }
 
 /** Iterates over the items of a `Storage` instance. **/
@@ -144,10 +146,11 @@ private class StorageIterator {
 	}
 
 	/** Returns a value indicating whether the iteration is complete. **/
-	public function hasNext() return index < keys.length;
+	public function hasNext(): Bool
+		return index < keys.length;
 
 	/** Returns the current item of the iterator and advances to the next one. **/
-	public function next() {
+	public function next(): {key: String, value: String} {
 		final key = keys[index++];
 		return {key: key, value: storage.get(key).sure()};
 	}

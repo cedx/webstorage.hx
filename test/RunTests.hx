@@ -11,8 +11,7 @@ function main() {
 	]);
 
 	ANSI.stripIfUnavailable = false;
-	Runner.run(tests, new BasicReporter(new AnsiFormatter())).handle(outcome -> {
-		Coverage.endCoverage();
-		Syntax.code("exit({0})", outcome.summary().failures.length);
-	});
+	Runner
+		.run(tests, new BasicReporter(new AnsiFormatter()))
+		.handle(outcome -> Syntax.code("exit({0})", outcome.summary().failures.length));
 }
