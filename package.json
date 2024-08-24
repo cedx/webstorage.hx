@@ -6,7 +6,7 @@
 	"private": true,
 	"repository": "cedx/webstorage.hx",
 	"type": "commonjs",
-	"version": "5.2.0",
+	"version": "6.0.0",
 	"author": {
 		"email": "cedric@belin.io",
 		"name": "Cédric Belin",

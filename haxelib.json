@@ -8,5 +8,5 @@
 	"releasenote": "Removed the `putIfAbsent()` and `putObjectIfAbsent()` methods from the `Storage` class, updated the package dependencies.",
 	"tags": ["browser", "events", "html", "js", "service", "storage", "tink"],
 	"url": "https://github.com/cedx/webstorage.hx",
-	"version": "5.2.0"
+	"version": "6.0.0"
 }
