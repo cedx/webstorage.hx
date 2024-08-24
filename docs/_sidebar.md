@@ -1,9 +1,0 @@
-- [Installation](installation.md)
-- Usage
-	- [Programming interface](usage/api.md)
-	- [Key prefix](usage/key_prefix.md)
-	- [Iteration](usage/iteration.md)
-	- [Events](usage/events.md)
-- [API reference](api/)
-- [Changelog](changelog.md)
-- [License](license.md)
