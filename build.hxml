@@ -1,5 +1,2 @@
 --js var/build.js
 share/build.hxml
-
-webstorage.Storage
-webstorage.StorageEvent
