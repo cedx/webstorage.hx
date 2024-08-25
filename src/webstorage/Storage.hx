@@ -35,7 +35,6 @@ class Storage {
 	final onChangeTrigger: SignalTrigger<StorageEvent> = Signal.trigger();
 
 	/** Creates a new storage service. **/
-	@:ignoreInstrument
 	function new(backend: DomStorage, ?options: StorageOptions) {
 		var onChange = onChangeTrigger.asSignal();
 		if (options?.listenToGlobalEvents ?? false) {
