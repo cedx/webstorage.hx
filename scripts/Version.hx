@@ -1,6 +1,11 @@
 //! --class-path src --library tink_core
+import sys.io.File;
 import webstorage.Platform;
 
 /** Updates the version number in the sources. **/
 function main()
-	Tools.replaceInFile("package.json", ~/"version": "\d+(\.\d+){2}"/, '"version": "${Platform.packageVersion}"');
+	replaceInFile("package.json", ~/"version": "\d+(\.\d+){2}"/, '"version": "${Platform.packageVersion}"');
+
+/** Replaces in the specified `file` the substring which the `pattern` matches with the given `replacement`. **/
+private function replaceInFile(file: String, pattern: EReg, replacement: String)
+	File.saveContent(file, pattern.replace(File.getContent(file), replacement));
