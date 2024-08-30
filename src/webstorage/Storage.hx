@@ -37,18 +37,14 @@ class Storage {
 	/** Creates a new storage service. **/
 	function new(backend: DomStorage, ?options: StorageOptions) {
 		var onChange = onChangeTrigger.asSignal();
-		if (options?.listenToGlobalEvents ?? false) {
-			final signal = Signal
-				.ofClassical(window.addEventListener.bind("storage"), window.removeEventListener.bind("storage"))
-				.filter((event: DomStorageEvent) -> event.storageArea == backend && (event.key == null || event.key.startsWith(keyPrefix)))
-				.map(event -> new StorageEvent(
-					event.key == null ? None : Some(event.key.substr(keyPrefix.length)),
-					event.oldValue == null ? None : Some(event.oldValue),
-					event.newValue == null ? None : Some(event.newValue)
-				));
-
-			onChange = onChange.join(signal);
-		}
+		if (options?.listenToGlobalEvents ?? false) onChange = onChange.join(Signal
+			.ofClassical(window.addEventListener.bind("storage"), window.removeEventListener.bind("storage"))
+			.filter((event: DomStorageEvent) -> event.storageArea == backend && (event.key == null || event.key.startsWith(keyPrefix)))
+			.map(event -> new StorageEvent(
+				event.key == null ? None : Some(event.key.substr(keyPrefix.length)),
+				event.oldValue == null ? None : Some(event.oldValue),
+				event.newValue == null ? None : Some(event.newValue)
+			)));
 
 		this.backend = backend;
 		this.onChange = onChange;
