@@ -6,12 +6,8 @@ import tink.unit.TestBatch;
 
 /** Runs the test suite. **/
 function main() {
-	final tests = TestBatch.make([
-		new webstorage.StorageTest()
-	]);
-
 	ANSI.stripIfUnavailable = false;
 	Runner
-		.run(tests, new BasicReporter(new AnsiFormatter()))
+		.run(TestBatch.make([new webstorage.StorageTest()]), new BasicReporter(new AnsiFormatter()))
 		.handle(outcome -> Syntax.code("exit({0})", outcome.summary().failures.length));
 }
