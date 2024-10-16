@@ -15,7 +15,7 @@
 	"devDependencies": {
 		"@types/serve-handler": "^6.1.4",
 		"playwright": "^1.48.0",
-		"serve-handler": "^6.1.5"
+		"serve-handler": "^6.1.6"
 	},
 	"engines": {
 		"node": ">=22.0.0"
