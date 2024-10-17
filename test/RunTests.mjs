@@ -2,11 +2,11 @@ import console from "node:console";
 import {writeFile} from "node:fs/promises";
 import {createServer} from "node:http";
 import process from "node:process";
-import {chromium} from "playwright";
+import puppeteer from "puppeteer";
 import handler from "serve-handler";
 
 // Start the browser.
-const browser = await chromium.launch();
+const browser = await puppeteer.launch();
 const server = createServer((req, res) => handler(req, res, {public: "var"}));
 
 const page = await browser.newPage();
