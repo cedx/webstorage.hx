@@ -9,7 +9,8 @@ const handler = require("serve-handler");
 // Run the test suite.
 (async function main() {
 	const browser = await puppeteer.launch();
-	const server = createServer((req, res) => handler(req, res, {public: join(__dirname, "../var")}));
+	const directory = join(__dirname, "../var");
+	const server = createServer((req, res) => handler(req, res, {public: directory}));
 
 	const page = await browser.newPage();
 	page.on("console", message => console.log(message.text()));
@@ -22,7 +23,7 @@ const handler = require("serve-handler");
 		process.exit(code);
 	});
 
-	await writeFile(join(__dirname, "../var/tests.html"), `
+	await writeFile(join(directory, "tests.html"), `
 		<!DOCTYPE html>
 		<html dir="ltr" lang="en">
 			<head>
