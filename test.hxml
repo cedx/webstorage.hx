@@ -5,4 +5,4 @@
 --library tink_unittest
 --main RunTests
 share/build.hxml
---cmd node test/RunTests.mjs
+--cmd node test/Puppeteer.mjs
