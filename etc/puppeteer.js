@@ -1,3 +1,4 @@
+"use strict";
 const console = require("node:console");
 const {writeFile} = require("node:fs/promises");
 const {createServer} = require("node:http");
