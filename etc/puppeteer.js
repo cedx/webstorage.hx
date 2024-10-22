@@ -28,9 +28,10 @@ const handler = require("serve-handler");
 		<html dir="ltr" lang="en">
 			<head>
 				<meta charset="utf-8">
-				<script defer src="tests.js"></script>
 			</head>
-			<body></body>
+			<body>
+				<script src="tests.js"></script>
+			</body>
 		</html>
 	`);
 
