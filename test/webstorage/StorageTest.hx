@@ -349,11 +349,14 @@ using StringTools;
 	}
 
 	/** Gets the value associated with the specified storage key. **/
-	inline function getStorage(key: String) return window.sessionStorage.getItem(key);
+	inline function getStorage(key: String): Null<String>
+		return window.sessionStorage.getItem(key);
 
 	/** Removes the value associated with the specified storage key. **/
-	inline function removeStorage(key: String) window.sessionStorage.removeItem(key);
+	inline function removeStorage(key: String): Void
+		window.sessionStorage.removeItem(key);
 
 	/** Associates a value with the specified storage key. **/
-	inline function setStorage(key: String, value: String) window.sessionStorage.setItem(key, value);
+	inline function setStorage(key: String, value: String): Void
+		window.sessionStorage.setItem(key, value);
 }
