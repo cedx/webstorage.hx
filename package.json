@@ -14,7 +14,7 @@
 	},
 	"devDependencies": {
 		"@types/serve-handler": "^6.1.4",
-		"puppeteer": "^23.7.1",
+		"puppeteer": "^24.1.1",
 		"serve-handler": "^6.1.6"
 	},
 	"engines": {
