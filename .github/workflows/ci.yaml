@@ -25,4 +25,4 @@ jobs:
           lix download
           npm ci
       - name: Run tests
-        run: lix Test
+        run: aa-exec --profile=chrome -- lix Test
